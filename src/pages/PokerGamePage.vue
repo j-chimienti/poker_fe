@@ -1,9 +1,9 @@
 <template>
   <div v-if="table">
     <BlackJackTableV2 />
-    <q-btn @click="join(table.id)" label="join"/>
-    <q-btn @click="leave(table.id)" label="leave"/>
-    <q-btn @click="bet(table.id, 1000)" label="bet"/>
+    <q-btn @click="join(table.id)" color="green" label="join"/>
+    <q-btn @click="leave(table.id)" color="red" label="leave"/>
+    <q-btn @click="bet(table.id, 1000)" color="orange" label="bet"/>
     <q-btn @click="navigateToLobby" label="lobby"/>
 
   </div>

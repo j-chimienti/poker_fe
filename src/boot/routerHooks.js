@@ -63,8 +63,9 @@ export default boot(({ router, store }) => {
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()
-        next()
+
       } else getTables()
+      next()
     } else if (to.path === "/callback") {
       if (to.query.code && to.query.state) {
         Loading.show(Object.assign({}, options, {

@@ -2,7 +2,7 @@
 <q-list>
   <q-item v-for="table in tables" :key="table" >
     players={{Object.keys(table.pokerPlayers).length}}
-    <q-btn @click="$router.push({name: 'table', params: {id: table.id}})" :label="table.title"/>
+    <q-btn color="red" @click="$router.push({name: 'table', params: {id: table.id}})" :label="table.title"/>
 
     {{table}}
   </q-item>
