@@ -4,7 +4,7 @@
     <q-btn @click="join(table.id)" label="join"/>
     <q-btn @click="leave(table.id)" label="leave"/>
     <q-btn @click="bet(table.id, 1000)" label="bet"/>
-    <q-btn @click="navigateToLobby" label="lobby" icon="back_arrow"/>
+    <q-btn @click="navigateToLobby" label="lobby"/>
 
   </div>
   <p>
