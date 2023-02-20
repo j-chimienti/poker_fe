@@ -1,0 +1,7 @@
+{
+  "appId": "com.bjack.space",
+  "appName": "BlackJack",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www"
+}

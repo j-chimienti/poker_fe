@@ -1,0 +1,27 @@
+name: cypress e2e specs
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 7 * * *" # 7am
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.16.0'
+      - name: install dependencies
+        run: yarn install
+      - name: npm run cypress:prod
+        run: npm run cypress:prod
+      - name: send telegram message on push
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            failed to run bjack.space specs

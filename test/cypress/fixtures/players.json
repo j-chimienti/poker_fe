@@ -1,0 +1,13 @@
+{
+  "players": {
+    "TEST_USER_ZERO_BALANCE": {
+      "username": "tester@tester.com",
+      "password": "tester@tester.com"
+    },
+    "TEST_USER_WITH_BALANCE": {
+      "username": "glar@gmail.coms",
+      "password": "glar@gmail.coms",
+      "balance": 2445
+    }
+  }
+}

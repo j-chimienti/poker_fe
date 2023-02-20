@@ -1,0 +1,18 @@
+[
+  {
+  "playerAccount" : {
+    "email" : "session-IEryuxTzgktQUPk2o3eg9A==",
+    "createdAt" : "2023-01-04T13:20:24.220Z",
+    "picture" : null,
+    "sessionId" : "IEryuxTzgktQUPk2o3eg9A=="
+  }
+},
+  {
+    "playerAccount" : {
+      "email" : "jchimien@gmail.com",
+      "createdAt" : "2021-11-21T17:45:07.483Z",
+      "picture" : "https://lh3.googleusercontent.com/a-/AFdZucriwE0jW4-oCoOj0QTpdQ405zYUZ-v766x3XHiNRA=s96-c",
+      "sessionId" : "kU-oCHxBmx4xeFMCTUoralW7A_WXvo6cqIKCqDH3iUI="
+    }
+  }
+]
