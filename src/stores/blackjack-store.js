@@ -2,7 +2,7 @@
 
 import {get as _get} from "lodash"
 
-import {BET, GAME_STATES, GameResults, PLAYING_FOR} from "../constants"
+import {BET, GAME_STATES, GameResults, PLAYING_FOR} from "../services/constants"
 import Card, {FaceDownCard} from "../models/Card"
 import {getEmoji} from "../services/emojiService"
 import {defineStore} from "pinia"

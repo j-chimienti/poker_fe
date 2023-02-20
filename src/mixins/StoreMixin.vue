@@ -1,11 +1,11 @@
 <script>
 import {mapActions, mapState} from "pinia"
-import {BLACKJACK_DECISIONS, GAME_STATES} from "../constants.js"
+import {BLACKJACK_DECISIONS, GAME_STATES} from "../services/constants.js"
 import DialogMixin from "./DialogMixin.vue"
 import {useAuthStore} from "stores/auth-store"
 import {useBlackjackStore} from "stores/blackjack-store"
 import {useLightningStore} from "stores/lightning-store"
-import {BET} from "../constants"
+import {BET} from "../services/constants"
 export default {
   name: "StoreMixin",
   mixins: [DialogMixin],

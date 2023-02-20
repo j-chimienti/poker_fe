@@ -1,8 +1,9 @@
 import { boot } from "quasar/wrappers"
 import axios from "axios"
 
-const baseURL = process.env.NODE_ENV === "development" ? "" :
+const baseURL = process.env.USE_PROXY_URL === "true"  ?
   `${process.env.API_PROXY_URL}/api/?apiurl=${process.env.API_BASE_URL}`
+   : process.env.API_BASE_URL
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;

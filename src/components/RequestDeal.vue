@@ -14,7 +14,7 @@
 
 <script>
 import { mapActions, mapGetters } from "pinia"
-import { GAME_STATES } from "../constants"
+import { GAME_STATES } from "../services/constants"
 import { REQUEST_BET } from "../store/actions"
 
 export default {

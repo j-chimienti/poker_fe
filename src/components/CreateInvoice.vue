@@ -35,7 +35,7 @@
 
 <script>
 import StoreMixin from "../mixins/StoreMixin.vue"
-import {INVOICE_FORM} from "src/constants";
+import {INVOICE_FORM} from "src/services/constants";
 
 export default {
   name: "CreateInvoice",

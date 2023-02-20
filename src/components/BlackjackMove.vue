@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { GAME_STATES } from "../constants"
+import { GAME_STATES } from "../services/constants"
 import StoreMixin from "src/mixins/StoreMixin.vue"
 
 export default {

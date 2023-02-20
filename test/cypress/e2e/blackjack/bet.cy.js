@@ -1,7 +1,7 @@
 import { newSession } from "./login"
 import { handleErrors } from "./handleErrors"
 
-import {BET} from "../../../../src/constants"
+import {BET} from "src/services/constants"
 
 handleErrors()
 

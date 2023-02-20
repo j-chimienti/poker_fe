@@ -2,6 +2,7 @@ import {useAuthStore} from "stores/auth-store";
 import {Dialog, Loading, Notify, QSpinnerFacebook} from "quasar";
 import { boot } from "quasar/wrappers"
 import {getSessionId} from "src/services/localStorageService";
+import {getTable, getTables} from "src/services/apiService";
 
 
 export function confirmRefreshPage () {
@@ -35,13 +36,35 @@ const options = {
 }
 
 export default boot(({ router, store }) => {
+
+
   router.beforeEach(async (to, from, next) => {
-    if (to.name === "home" && !useAuthStore().playerAccount) {
+
+    async function session() {
       Loading.show(options)
       const playerOpt = await useAuthStore(store).resumeSession(getSessionId())
       Loading.hide()
-      if (!playerOpt) confirmRefreshPage()
-      else return next()
+      return playerOpt
+    }
+
+    if (to.name === "table") {
+      const id = to.params.id
+      if (!useAuthStore().connectedToWebsocket) {
+        const playerOpt = await session()
+        if (!playerOpt) confirmRefreshPage()
+        else getTable(id)
+        next()
+      } else {
+        getTable(id)
+        next()
+      }
+    }
+    else if (to.name === "home") {
+      if (!useAuthStore().connectedToWebsocket) {
+        const playerOpt = await session()
+        if (!playerOpt) confirmRefreshPage()
+        next()
+      } else getTables()
     } else if (to.path === "/callback") {
       if (to.query.code && to.query.state) {
         Loading.show(Object.assign({}, options, {

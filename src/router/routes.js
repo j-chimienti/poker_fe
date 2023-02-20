@@ -6,7 +6,7 @@ const routes = [
       {
         path: "",
         name: "home",
-        component: () => import("pages/GamePageV2.vue"),
+        component: () => import("pages/PokerGameLobby.vue"),
       },
     ],
   },
@@ -14,6 +14,11 @@ const routes = [
     name: "splash",
     path: "/splash",
     component: () => import("components/SplashScreen.vue"),
+  },
+  {
+    name: "table",
+    path: "/table/:id",
+    component: () => import("pages/PokerGamePage.vue"),
   },
 
   // Always leave this as last one,

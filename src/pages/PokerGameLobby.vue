@@ -1,11 +1,11 @@
 <template>
-    <BlackJackTableV2 />
+    <TexasHoldEmLobby/>
 </template>
 
 <script>
 import {cardImages} from "../services/cardImageService"
-import BlackJackTableV2 from "components/BlackJackTableV2.vue"
 import StoreMixin from "src/mixins/StoreMixin.vue"
+import TexasHoldEmLobby from "components/TexasHoldEmLobby.vue";
 
 export default {
   name: "GamePageV2",
@@ -14,7 +14,7 @@ export default {
     return { cardImages }
   },
   components: {
-    BlackJackTableV2,
+    TexasHoldEmLobby,
   },
 }
 </script>

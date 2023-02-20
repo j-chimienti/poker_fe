@@ -5,6 +5,7 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+
     <q-footer>
       <BottomNav3 v-if="authenticated"/>
     </q-footer>

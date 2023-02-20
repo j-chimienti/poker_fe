@@ -6,7 +6,7 @@
 
 <script>
 import Login from "./LoginForm.vue"
-import DialogMixin from "../mixins/DialogMixin.vue";
+import DialogMixin from "../../mixins/DialogMixin.vue";
 
 export default {
   name: "LoginModal",

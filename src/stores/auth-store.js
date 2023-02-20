@@ -3,7 +3,7 @@
 import {get as _get} from "lodash"
 import {Loading, Notify, QSpinnerFacebook} from "quasar"
 
-import * as apiService from "../auth/apiService"
+import * as apiService from "../services/apiService"
 
 import {defineStore} from "pinia"
 import {useBlackjackStore} from "stores/blackjack-store"

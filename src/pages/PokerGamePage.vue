@@ -1,0 +1,46 @@
+<template>
+  <div v-if="table">
+    <BlackJackTableV2 />
+    <q-btn @click="join(table.id)" label="join"/>
+    <q-btn @click="leave(table.id)" label="leave"/>
+    <q-btn @click="navigateToLobby" label="lobby" icon="back_arrow"/>
+
+  </div>
+  <p>
+    {{JSON.stringify(table, null, 4)}}
+  </p>
+</template>
+
+<script>
+import BlackJackTableV2 from "components/BlackJackTableV2.vue"
+import {usePokerStore} from "stores/poker-store";
+import {join, leave} from "src/services/apiService";
+
+export default {
+  computed: {
+    table() { return usePokerStore().table }
+  },
+  methods: {
+    navigateToLobby() {
+      leave(this.table.id)
+      this.$router.push({name: 'home'})
+    }
+  },
+  setup() {
+    return {
+      join,
+      leave
+
+    }
+  },
+  components: {
+    BlackJackTableV2
+  }
+}
+</script>
+
+<style scoped>
+
+
+
+</style>

@@ -1,9 +1,10 @@
-import {GAME_STATES, LIGHTNING_INVOICES_STATUS} from "src/constants"
+import {GAME_STATES, LIGHTNING_INVOICES_STATUS} from "src/services/constants"
 import {Notify} from "quasar"
 import {useBlackjackStore} from "stores/blackjack-store"
 import {useLightningStore} from "stores/lightning-store"
 import {useAuthStore} from "stores/auth-store"
 import {get as _get} from 'lodash'
+import {usePokerStore} from "stores/poker-store";
 
 export async function messageFactory(res) {
   const {
@@ -22,12 +23,15 @@ export async function messageFactory(res) {
     placeBet = null,
     addPlayerSuccess = null,
     yourTurn = null,
-    moveRequest = null
+    moveRequest = null,
+    tables = null,
+    table = null
   } = res
 
   const bjStore = useBlackjackStore()
   const lightingStore = useLightningStore()
   const authStore = useAuthStore()
+  const pokerStore = usePokerStore()
 
   if (msg) {
     if (msg.startsWith("DealerConfig")) {
@@ -39,6 +43,10 @@ export async function messageFactory(res) {
         message: msg,
       })
   }
+  if (table) {
+    pokerStore.setTable(table)
+  }
+  if (tables) pokerStore.tables = tables
   if (btcusd) lightingStore.setBitcoinPrice(btcusd)
   if (invoice) {
     lightingStore.setInvoice(invoice)

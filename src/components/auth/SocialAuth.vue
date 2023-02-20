@@ -2,7 +2,7 @@
   <div class="social-auth">
     <q-btn color="primary" @click="onSubmit('google')" text-color="white">
       <div class="btn-icon">
-        <img src="../assets/google.png" width="32" />
+        <img src="../../assets/google.png" width="32" />
       </div>
       <div class="btn-text">LOGIN WITH GOOGLE</div>
     </q-btn>
@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import StoreMixin from "../mixins/StoreMixin.vue"
-import { authorize } from "./apiService"
+import StoreMixin from "../../mixins/StoreMixin.vue"
+import { authorize } from "../../services/apiService"
 
 export default {
   name: "SocialAuth",

@@ -22,7 +22,7 @@ import {cardImages} from "./services/cardImageService.js"
 import InvoiceModal from "components/InvoiceModal.vue";
 import DebitModal from "components/DebitModal.vue";
 import TestData from "components/TestData.vue";
-import LoginModal from "./auth/LoginModal.vue";
+import LoginModal from "./components/auth/LoginModal.vue";
 
 export default defineComponent({
   name: "App",
