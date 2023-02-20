@@ -1,0 +1,56 @@
+{
+  "name": "poker",
+  "version": "0.0.1",
+  "description": "Poker Game",
+  "productName": "Poker",
+  "author": "~~~~",
+  "private": true,
+  "scripts": {
+    "start": "quasar dev",
+    "build": "quasar build",
+    "build:ios": "quasar build -m capacitor -T ios --ide",
+    "run:ios": "quasar dev -m capacitor -T ios",
+    "lint": "eslint --ext .js,.vue ./",
+    "cypress": "CYPRESS_BASE_URL=http://localhost:8080 cypress open",
+    "cypress:run": "CYPRESS_BASE_URL=http://localhost:8080 cypress run --spec test/cypress/e2e/blackjack",
+    "cypress:prod": "CYPRESS_BASE_URL=https://bjack.space cypress run --spec test/cypress/e2e/blackjack",
+    "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"See package.json => scripts for available tests.\" && exit 0",
+    "test:e2e": "cross-env NODE_ENV=test start-test \"quasar dev\" http-get://localhost:9000 \"cypress open --e2e\"",
+    "test:e2e:ci": "cross-env NODE_ENV=test start-test \"quasar dev\" http-get://localhost:9000 \"cypress run --e2e\"",
+    "test:component": "cross-env NODE_ENV=test cypress open --component",
+    "test:component:ci": "cross-env NODE_ENV=test cypress run --component"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.0.0",
+    "@capacitor/core": "^2.0.0",
+    "axios": "^0.21.1",
+    "gsap": "^3.9.1",
+    "lodash": "^4.17.21",
+    "pinia": "^2.0.11",
+    "vue-qr": "^4.0.9",
+    "quasar": "^2.6.0",
+    "vue": "^3.0.0",
+    "vue-i18n": "^9.0.0",
+    "vue-router": "^4.0.0"
+  },
+  "devDependencies": {
+    "@intlify/vite-plugin-vue-i18n": "^3.3.1",
+    "@quasar/app-vite": "^1.0.0",
+    "@quasar/quasar-app-extension-testing-e2e-cypress": "^5.0.0-beta.11",
+    "autoprefixer": "^10.4.2",
+    "cypress": "^12.2.0",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.10.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "postcss": "^8.4.14",
+    "prettier": "^2.5.1",
+    "eslint-plugin-cypress": "^2.12.1"
+  },
+  "engines": {
+    "node": "^18 || ^16 || ^14.19",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
