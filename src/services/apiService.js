@@ -28,8 +28,8 @@ export function fold(id) {
 export function call(id) {
   return useAuthStore().sendWebsocketMessage({action: actions.CALL, tableId: id})
 }
-export function bet(id) {
-  return useAuthStore().sendWebsocketMessage({action: actions.BET, tableId: id})
+export function bet(id, amount) {
+  return useAuthStore().sendWebsocketMessage({action: actions.BET, tableId: id, amount})
 }
 export function deal(id) {
   return useAuthStore().sendWebsocketMessage({action: actions.DEAL, tableId: id})
