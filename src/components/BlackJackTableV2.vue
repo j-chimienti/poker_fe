@@ -1,10 +1,6 @@
 <template>
   <div class="row justify-center table-wrapper" style="height: 90vh">
     <div class="table-v2">
-      <div class="row flex justify-center dealer-hand-container">
-        <DealerHand />
-      </div>
-
       <div class="row flex justify-center player-hand-container">
         <BlackjackHand />
       </div>
@@ -14,17 +10,13 @@
 
 <script>
 import BlackjackHand from "./BlackjackHand.vue"
-
-import DealerHand from "./DealerHand.vue"
-import { GAME_STATES } from "../services/constants"
+import {GAME_STATES} from "../services/constants"
 import StoreMixin from "src/mixins/StoreMixin.vue";
 
 export default {
   name: "BlackJackTableV2",
   mixins: [StoreMixin],
-  // eslint-disable-next-line vue/no-unused-components
   components: {
-    DealerHand,
     BlackjackHand,
   },
   data() {

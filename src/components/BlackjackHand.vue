@@ -16,10 +16,15 @@
 <script>
 import PlayingCard from "./PlayingCard.vue"
 import StoreMixin from "src/mixins/StoreMixin.vue";
+import {usePokerStore} from "stores/poker-store";
 
 export default {
   name: "BlackjackHand",
-  mixins: [StoreMixin],
+  computed: {
+    cards() {
+      return usePokerStore().table.cards
+    }
+  },
   components: { PlayingCard },
   methods: {
     beforeEnter(el) {

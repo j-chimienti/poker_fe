@@ -4,6 +4,7 @@
     <q-btn @click="join(table.id)" color="green" label="join"/>
     <q-btn @click="leave(table.id)" color="red" label="leave"/>
     <q-btn @click="bet(table.id, 1000)" color="orange" label="bet"/>
+    <q-btn @click="fold(table.id)" color="red" label="fold"/>
     <q-btn @click="navigateToLobby" label="lobby"/>
 
   </div>
@@ -15,7 +16,7 @@
 <script>
 import BlackJackTableV2 from "components/BlackJackTableV2.vue"
 import {usePokerStore} from "stores/poker-store";
-import {join, leave, bet} from "src/services/apiService";
+import {join, leave, bet, fold} from "src/services/apiService";
 
 export default {
   computed: {
@@ -30,6 +31,7 @@ export default {
   setup() {
     return {
       join,
+      fold,
       leave,
       bet
 
