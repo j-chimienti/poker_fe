@@ -27,6 +27,7 @@ export const useAuthStore = defineStore("auth", {
     sessionUserNoBalance: (state) => {
       return state.isSessionUser && useBlackjackStore().balance
     },
+    playerId: (state) => _get(state.playerAccount, "id", null),
     email: (state) => _get(state.playerAccount, "email", "N/A"),
     sessionId: (state) => _get(state.playerAccount, "sessionId", null),
     picture: (state) => _get(state.playerAccount, "picture", null),

@@ -5,7 +5,7 @@
     @leave="onLeave"
   >
      <PlayingCard
-       v-for="(card, idx) in cards"
+       v-for="(card, idx) in myCards"
        :key="card.id"
        :data-index="idx"
        :card="card"
@@ -20,9 +20,9 @@ import {usePokerStore} from "stores/poker-store";
 import {mapState} from "pinia";
 
 export default {
-  name: "BlackjackHand",
+  name: "MyPokerHand",
   computed: {
-    ...mapState(usePokerStore, ['cards'])
+    ...mapState(usePokerStore, ['myCards'])
   },
   components: { PlayingCard },
   methods: {
@@ -31,7 +31,7 @@ export default {
         el.style.transform = 'translate(-100px, -100vh)'
     },
     onEnter(el, done) {
-      const delay = this.cards.length > 2 ? 0 : el.dataset.index * 1
+      const delay = this.myCards.length > 2 ? 0 : el.dataset.index * 1
       this.$gsap.to(el, {
         y: 0,
         x: 0,

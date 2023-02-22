@@ -4,6 +4,9 @@
       <div class="row flex justify-center player-hand-container">
         <BlackjackHand />
       </div>
+      <div class="row flex justify-center player-hand-container">
+        <MyPokerHand/>
+        </div>
     </div>
   </div>
 </template>
@@ -12,11 +15,13 @@
 import BlackjackHand from "./BlackjackHand.vue"
 import {GAME_STATES} from "../services/constants"
 import StoreMixin from "src/mixins/StoreMixin.vue";
+import MyPokerHand from "components/MyPokerHand.vue";
 
 export default {
   name: "BlackJackTableV2",
   mixins: [StoreMixin],
   components: {
+    MyPokerHand,
     BlackjackHand,
   },
   data() {
