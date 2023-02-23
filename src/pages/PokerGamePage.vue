@@ -1,6 +1,6 @@
 <template>
   <div v-if="table">
-<!--    <h5>{{round}}</h5>-->
+    <h5>{{round}}</h5>
     <BlackJackTableV2 />
     <div v-if="joinedTable">
       <q-btn @click="leave(table.id)" color="red" label="leave"/>

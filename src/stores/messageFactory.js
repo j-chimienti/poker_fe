@@ -16,7 +16,8 @@ export async function messageFactory(res) {
     yourTurn = null,
     tables = null,
     table = null,
-    placeBet = null
+    placeBet = null,
+    failedToJoinTable = null
   } = res
 
   const bjStore = useBlackjackStore()
@@ -32,6 +33,10 @@ export async function messageFactory(res) {
   }
   if (table) {
     pokerStore.setTable(table)
+  }
+  if (failedToJoinTable) {
+    const {table, message = ''} = failedToJoinTable
+    Notify.create(message)
   }
   if (placeBet) {
     const {timeoutSeconds, tableId} = placeBet
