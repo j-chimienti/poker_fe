@@ -110,7 +110,6 @@ export const usePokerStore = defineStore("poker", {
         return [idx, updatedP]
       })
       const pokerPlayers = Object.fromEntries(playerCards)
-      console.log(pokerPlayers)
       this.table = Object.assign({}, t, {cards, pokerPlayers})
       this.router.push({name: "table", params: {id: t.id}})
     }
@@ -120,12 +119,14 @@ export const usePokerStore = defineStore("poker", {
       const playerOpt = this.joinedTable
       return _get(playerOpt, "cards", [])
     },
-    pokerPlayers() { return _get(this.table, "pokerPlayers", {})},
+    pokerPlayers() { return Object.values(_get(this.table, "pokerPlayers", {})) },
     round() { return _get(this.table, "round", null)},
     cards() { return _get(this.table, "cards", [])},
-    joinedTable() {
-      const players = Object.values(this.pokerPlayers).map(p => p.player)
-      return players.find(p => p.playerAccountId === useAuthStore().playerId)
+    joinedTable() { return Boolean(this.playerOpt) },
+    playerOpt() {
+      const players = this.pokerPlayers.map(p => p.player)
+      const playerId = useAuthStore().playerId;
+      return players.find(p => p.playerAccountId === playerId)
     }
   },
   state: () => {

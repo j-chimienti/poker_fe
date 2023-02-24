@@ -8,6 +8,7 @@
         <MyPokerHand/>
         </div>
     </div>
+    <PokerPlayers/>
   </div>
 </template>
 
@@ -16,11 +17,13 @@ import BlackjackHand from "./BlackjackHand.vue"
 import {GAME_STATES} from "../services/constants"
 import StoreMixin from "src/mixins/StoreMixin.vue";
 import MyPokerHand from "components/MyPokerHand.vue";
+import PokerPlayers from "components/PokerPlayers.vue";
 
 export default {
   name: "BlackJackTableV2",
   mixins: [StoreMixin],
   components: {
+    PokerPlayers,
     MyPokerHand,
     BlackjackHand,
   },
