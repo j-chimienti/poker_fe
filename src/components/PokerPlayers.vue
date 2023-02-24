@@ -2,7 +2,7 @@
 <div>
   <div class="row flex-center">
     <div v-for="player in players" :key="player">
-      <q-chip :class="{'bg-green': player.talked, 'bg-dark': player.leaving}">
+      <q-chip :class="getKlass(player)">
         <q-avatar>
           <img :src="img(player.playerAccountId)">
         </q-avatar>
@@ -27,6 +27,10 @@ export default {
   name: "PokerPlayers",
   components: {FaceDownCard},
   methods: {
+    getKlass(player) {
+      if (!player.active || player.leaving) return "bg-gray"
+      else return "bg-green"
+    },
     img(id) {
       return id === this.playerId ? "https://cdn.quasar.dev/img/boy-avatar.png" : "https://cdn.quasar.dev/img/avatar.png"
     }
