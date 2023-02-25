@@ -6,13 +6,21 @@
         <q-avatar>
           <img :src="img(player.playerAccountId)">
         </q-avatar>
-        {{player.name.slice(0, 10)}}
+        {{player.playerAccountId}}
       </q-chip>
       <q-chip>
         {{player.bet}}
       </q-chip>
-      <FaceUpCard v-if="playerIsMe(player.playerAccount)" v-for="card in player.cards" :key="card.id"/>
-      <FaceDownCard v-else v-for="card in player.cards" :key="card.id"/>
+      <q-chip>{{player.state}}</q-chip>
+      <q-chip :class="{'bg-green': player.playerAccountId === playerTurn}">
+        {{player.playerAccountId === playerTurn ? 'my turn' : 'not my turn'}}
+      </q-chip>
+      <div v-if="playerIsMe(player.playerAccountId)" >
+        <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
+      </div>
+      <div v-else>
+        <FaceDownCard  v-for="card in player.cards" :key="card.id"/>
+      </div>
     </div>
   </div>
 </div>
@@ -41,7 +49,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(usePokerStore, ['pokerPlayers']),
+    ...mapState(usePokerStore, ['pokerPlayers', 'playerTurn']),
     ...mapState(useAuthStore, ['playerId']),
     players() {
       return this.pokerPlayers.map(p => p.player)

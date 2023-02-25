@@ -115,6 +115,16 @@ export const usePokerStore = defineStore("poker", {
     }
   },
   getters: {
+
+    //playersWithActions
+    // playerTurn
+    // playerTurnTimeout
+    myTurn() {
+      return useAuthStore().playerId === this.playerTurn
+    },
+    playerTurn() {
+      return _get(this.table, 'playerTurn', "")
+    },
     myCards() {
       const playerOpt = this.joinedTable
       return _get(playerOpt, "cards", [])

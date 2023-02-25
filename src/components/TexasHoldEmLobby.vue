@@ -1,10 +1,10 @@
 <template>
 <q-list>
-  <q-item v-for="table in tables" :key="table" >
-    players={{Object.keys(table.pokerPlayers).length}}
-    <q-btn color="red" @click="$router.push({name: 'table', params: {id: table.id}})" :label="table.title"/>
-
-    {{table}}
+  <q-item v-for="table in tables" :key="table">
+    <q-btn  @click="$router.push({name: 'table', params: {id: table.id}})">
+    <q-chip>{{table.title}}</q-chip>
+    <q-chip>{{Object.keys(table.pokerPlayers).length}} players</q-chip>
+    </q-btn>
   </q-item>
 </q-list>
 </template>

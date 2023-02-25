@@ -1,5 +1,5 @@
 <template>
-  <PlayingCard :card="faceUp" klass="card-dealer-face-up" />
+  <PlayingCard :card="card" klass="card-dealer-face-up" />
 </template>
 
 <script>
@@ -10,9 +10,7 @@ import {useBlackjackStore} from "stores/blackjack-store"
 export default {
   name: "FaceUpCard",
   components: { PlayingCard },
-  computed: {
-    ...mapState(useBlackjackStore, ["faceUp"]),
-  },
+  props: ['card']
 }
 </script>
 

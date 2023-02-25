@@ -1,10 +1,17 @@
 <template>
   <div v-if="table">
-    <h5>{{round}}</h5>
+    <div>
+      <q-chip>{{table.title}}</q-chip>
+      <q-chip>{{table.round}}</q-chip>
+      <q-chip>hand:{{table.hand}}</q-chip>
+      <q-chip>players:{{Object.keys(table.pokerPlayers).length}}</q-chip>
+    </div>
     <BlackJackTableV2 />
     <div v-if="joinedTable">
       <q-btn @click="leave(table.id)" color="red" label="leave"/>
       <q-btn @click="bet(table.id, 1000)" color="orange" label="bet"/>
+      <q-btn @click="call(table.id)" color="orange" label="call"/>
+      <q-btn @click="bet(table.id, 2000)" color="orange" label="raise"/>
       <q-btn @click="fold(table.id)" color="red" label="fold"/>
     </div>
     <div v-else>
@@ -14,15 +21,12 @@
     <q-btn @click="navigateToLobby" label="lobby" icon="arrow_left" dense/>
 
   </div>
-  <p>
-    {{JSON.stringify(table, null, 4)}}
-  </p>
 </template>
 
 <script>
 import BlackJackTableV2 from "components/BlackJackTableV2.vue"
 import {usePokerStore} from "stores/poker-store";
-import {join, leave, bet, fold} from "src/services/apiService";
+import {join, leave, bet, fold, call} from "src/services/apiService";
 import {mapState} from "pinia";
 
 export default {
@@ -40,6 +44,7 @@ export default {
       join,
       fold,
       leave,
+      call,
       bet
 
     }
