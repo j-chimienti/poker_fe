@@ -7,12 +7,12 @@
       <q-chip>players:{{Object.keys(table.pokerPlayers).length}}</q-chip>
     </div>
     <BlackJackTableV2 />
-    <div v-if="joinedTable">
+    <div v-if="joinedTable" class="row justify-center">
       <q-btn @click="leave(table.id)" color="red" label="leave"/>
       <q-btn @click="bet(table.id, 1000)" color="orange" label="bet"/>
-      <q-btn @click="call(table.id)" color="orange" label="call"/>
-      <q-btn @click="bet(table.id, 2000)" color="orange" label="raise"/>
-      <q-btn @click="fold(table.id)" color="red" label="fold"/>
+<!--      <q-btn @click="call(table.id)" color="orange" label="call"/>-->
+<!--      <q-btn @click="bet(table.id, 2000)" color="orange" label="raise"/>-->
+<!--      <q-btn @click="fold(table.id)" color="red" label="fold"/>-->
     </div>
     <div v-else>
 

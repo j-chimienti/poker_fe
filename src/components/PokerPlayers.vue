@@ -1,18 +1,17 @@
 <template>
 <div>
-  <div class="row flex-center">
-    <div v-for="player in players" :key="player">
+  <div class="row flex-center" >
+    <div v-for="player in players" :key="player" :class="{'bg-green': player.playerAccountId === playerTurn}">
       <q-chip :class="getKlass(player)">
         <q-avatar>
           <img :src="img(player.playerAccountId)">
         </q-avatar>
         {{player.playerAccountId}}
       </q-chip>
-      <q-chip>
-        {{player.bet}}
-      </q-chip>
+      <q-chip>bet={{player.bet}}</q-chip>
+      <q-chip>balance={{player.balance}}</q-chip>
       <q-chip>{{player.state}}</q-chip>
-      <q-chip :class="{'bg-green': player.playerAccountId === playerTurn}">
+      <q-chip>
         {{player.playerAccountId === playerTurn ? 'my turn' : 'not my turn'}}
       </q-chip>
       <div v-if="playerIsMe(player.playerAccountId)" >
