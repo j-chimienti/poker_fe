@@ -9,6 +9,10 @@ export function getTable(id) {
   return useAuthStore().sendWebsocketMessage({WsGetTable: null, id})
 }
 
+export function subscribeTable(id) {
+  return useAuthStore().sendWebsocketMessage({WsSubscribeTable: null, id})
+}
+
 export function getTables() {
   return useAuthStore().sendWebsocketMessage({WsGetTables: null, onlyPublic: false})
 }

@@ -38,23 +38,13 @@ export default {
       if (this.table) leave(this.table.id)
       this.$router.push({name: 'home'})
     },
-    getTableStateIfNotPlaying() {
-      const id = this.$route.params.id
-      if (!this.joinedTable) {
-        getTable(id)
-      }
-    },
     join,
     fold,
     leave,
     call,
     bet
   },
-  mounted() {
-    // todo: put interval in backend code
-    setInterval(this.getTableStateIfNotPlaying, 1000)
 
-  },
   components: {
     BlackJackTableV2
   }

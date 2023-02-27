@@ -2,7 +2,7 @@ import {useAuthStore} from "stores/auth-store";
 import {Dialog, Loading, Notify, QSpinnerFacebook} from "quasar";
 import { boot } from "quasar/wrappers"
 import {getSessionId} from "src/services/localStorageService";
-import {getTable, getTables} from "src/services/apiService";
+import {getTable, getTables, subscribeTable} from "src/services/apiService";
 
 
 export function confirmRefreshPage () {
@@ -52,10 +52,10 @@ export default boot(({ router, store }) => {
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()
-        else getTable(id)
+        else subscribeTable(id)
         next()
       } else {
-        getTable(id)
+        subscribeTable(id)
         next()
       }
     }
