@@ -101,7 +101,7 @@ Object.values(table_example.pokerPlayers)
 export const usePokerStore = defineStore("poker", {
   actions: {
     setTable(t) {
-      const cards = t.cards.map(c => new Card(c))
+      const cardsMapped = t.cards.map(c => new Card(c))
       const playerCards = Object.entries(t.pokerPlayers).map((res) => {
         const [idx, p]= res;
         const playerCards = p.player.cards.map(c => new Card(c))
@@ -110,7 +110,7 @@ export const usePokerStore = defineStore("poker", {
         return [idx, updatedP]
       })
       const pokerPlayers = Object.fromEntries(playerCards)
-      this.table = Object.assign({}, t, {cards, pokerPlayers})
+      this.table = Object.assign({}, t, {cards: cardsMapped, pokerPlayers})
       this.router.push({name: "table", params: {id: t.id}})
     }
   },
@@ -119,6 +119,9 @@ export const usePokerStore = defineStore("poker", {
     //playersWithActions
     // playerTurn
     // playerTurnTimeout
+    hand() {
+      return _get(this.table, "hand", -1)
+    },
     myTurn() {
       return useAuthStore().playerId === this.playerTurn
     },
@@ -143,8 +146,6 @@ export const usePokerStore = defineStore("poker", {
     return {
       tables: [],
       table: null
-
-    }
-  },
+  }}
 
 })

@@ -1,7 +1,9 @@
 <template>
 <div>
   <div class="row flex-center" >
-    <div v-for="player in players" :key="player" :class="{'bg-green': player.playerAccountId === playerTurn}">
+    <div v-for="player in players" :key="player"
+         :class="getKlass(player)"
+    >
       <q-chip :class="getKlass(player)">
         <q-avatar>
           <img :src="img(player.playerAccountId)">
@@ -18,7 +20,8 @@
         <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
       </div>
       <div v-else>
-        <FaceDownCard  v-for="card in player.cards" :key="card.id"/>
+        <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
+<!--        <FaceDownCard  v-for="card in player.cards" :key="card.id"/>-->
       </div>
     </div>
   </div>
@@ -28,17 +31,17 @@
 <script>
 import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
-import FaceDownCard from "components/FaceDownCard.vue";
 import {useAuthStore} from "stores/auth-store";
 import FaceUpCard from "components/FaceUpCard.vue";
 
 export default {
   name: "PokerPlayers",
-  components: {FaceUpCard, FaceDownCard},
+  components: {FaceUpCard},
   methods: {
     getKlass(player) {
-      if (!player.active || player.leaving) return "bg-gray"
-      else return "bg-green"
+      if (player.playerAccountId === this.playerTurn) return "bg-green"
+      else if (player.leaving || player.state === "FOLDED") return "bg-gray"
+      else return ""
     },
     playerIsMe(id) {
       return id === this.playerId

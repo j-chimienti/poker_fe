@@ -12,7 +12,7 @@
       <q-btn @click="bet(table.id, 1000)" color="orange" label="bet"/>
 <!--      <q-btn @click="call(table.id)" color="orange" label="call"/>-->
 <!--      <q-btn @click="bet(table.id, 2000)" color="orange" label="raise"/>-->
-<!--      <q-btn @click="fold(table.id)" color="red" label="fold"/>-->
+      <q-btn @click="fold(table.id)" color="red" label="fold"/>
     </div>
     <div v-else>
 
@@ -26,7 +26,7 @@
 <script>
 import BlackJackTableV2 from "components/BlackJackTableV2.vue"
 import {usePokerStore} from "stores/poker-store";
-import {join, leave, bet, fold, call} from "src/services/apiService";
+import {join, leave, bet, fold, call, getTable} from "src/services/apiService";
 import {mapState} from "pinia";
 
 export default {
@@ -37,17 +37,23 @@ export default {
     navigateToLobby() {
       if (this.table) leave(this.table.id)
       this.$router.push({name: 'home'})
-    }
+    },
+    getTableStateIfNotPlaying() {
+      const id = this.$route.params.id
+      if (!this.joinedTable) {
+        getTable(id)
+      }
+    },
+    join,
+    fold,
+    leave,
+    call,
+    bet
   },
-  setup() {
-    return {
-      join,
-      fold,
-      leave,
-      call,
-      bet
+  mounted() {
+    // todo: put interval in backend code
+    setInterval(this.getTableStateIfNotPlaying, 1000)
 
-    }
   },
   components: {
     BlackJackTableV2
