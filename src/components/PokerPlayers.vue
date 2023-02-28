@@ -13,6 +13,8 @@
       <q-chip>bet={{player.bet}}</q-chip>
       <q-chip>balance={{player.balance}}</q-chip>
       <q-chip>{{player.state}}</q-chip>
+      <q-chip v-if="player.sb">SMALL_BLIND</q-chip>
+      <q-chip v-if="player.bb">BIG_BLIND</q-chip>
       <q-chip>
         {{player.playerAccountId === playerTurn ? 'my turn' : 'not my turn'}}
       </q-chip>

@@ -98,20 +98,27 @@ const table_example = {
 
 Object.values(table_example.pokerPlayers)
 
+function mapToTable(t) {
+  const cardsMapped = t.cards.map(c => new Card(c))
+  const playerCards = Object.entries(t.pokerPlayers).map((res) => {
+    const [idx, p]= res;
+    const playerCards = p.player.cards.map(c => new Card(c))
+    const updatedPlayer = Object.assign({}, p.player, {cards: playerCards})
+    const updatedP =  Object.assign({}, p, {player: updatedPlayer})
+    return [idx, updatedP]
+  })
+  const pokerPlayers = Object.fromEntries(playerCards)
+  return Object.assign({}, t, {cards: cardsMapped, pokerPlayers})
+}
+
 export const usePokerStore = defineStore("poker", {
   actions: {
-    setTable(t) {
-      const cardsMapped = t.cards.map(c => new Card(c))
-      const playerCards = Object.entries(t.pokerPlayers).map((res) => {
-        const [idx, p]= res;
-        const playerCards = p.player.cards.map(c => new Card(c))
-        const updatedPlayer = Object.assign({}, p.player, {cards: playerCards})
-        const updatedP =  Object.assign({}, p, {player: updatedPlayer})
-        return [idx, updatedP]
-      })
-      const pokerPlayers = Object.fromEntries(playerCards)
-      this.table = Object.assign({}, t, {cards: cardsMapped, pokerPlayers})
-      this.router.push({name: "table", params: {id: t.id}})
+    setTables(tables) {
+      this.tables = tables.map(mapToTable)
+    },
+    setTable(t, navigateToPage = true) {
+      this.table = mapToTable(t)
+      if (navigateToPage) this.router.push({name: "table", params: {id: t.id}})
     }
   },
   getters: {

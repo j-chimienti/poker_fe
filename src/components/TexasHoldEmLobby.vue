@@ -13,12 +13,18 @@
 
 <script>
 import {usePokerStore} from "stores/poker-store";
-import {join} from "src/services/apiService";
+import {getTables, join} from "src/services/apiService";
 import {mapState} from "pinia";
 
 export default {
   computed: {
     ...mapState(usePokerStore, ['tables'])
+  },
+  mounted() {
+    this.interval = setInterval(getTables, 5000)
+  },
+  unmounted() {
+    clearInterval(this.interval)
   }
 }
 </script>

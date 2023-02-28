@@ -3,6 +3,7 @@ import {Dialog, Loading, Notify, QSpinnerFacebook} from "quasar";
 import { boot } from "quasar/wrappers"
 import {getSessionId} from "src/services/localStorageService";
 import {getTable, getTables, subscribeTable} from "src/services/apiService";
+import {usePokerStore} from "stores/poker-store";
 
 
 export function confirmRefreshPage () {
@@ -49,13 +50,17 @@ export default boot(({ router, store }) => {
 
     if (to.name === "table") {
       const id = to.params.id
+      if (!usePokerStore().table) {
+        const tableOpt = usePokerStore().tables.find(t => t.id === id)
+        if (tableOpt) usePokerStore().table = tableOpt
+      }
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()
-        else subscribeTable(id)
+        else getTable(id)
         next()
       } else {
-        subscribeTable(id)
+        getTable(id)
         next()
       }
     }

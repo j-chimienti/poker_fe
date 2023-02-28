@@ -21,6 +21,9 @@
     <q-btn @click="navigateToLobby" label="lobby" icon="arrow_left" dense/>
 
   </div>
+  <div v-else>
+    no table
+  </div>
 </template>
 
 <script>
@@ -33,10 +36,23 @@ export default {
   computed: {
     ...mapState(usePokerStore, ['table', 'joinedTable', 'round'])
   },
+  data() {
+    return { interval: null }
+  },
+  mounted() {
+    this.interval = setInterval(this.updateStatus, 3000)
+  },
+  unmounted() { clearInterval(this.interval) },
   methods: {
     navigateToLobby() {
       if (this.table) leave(this.table.id)
       this.$router.push({name: 'home'})
+    },
+    updateStatus() {
+      if (!this.joinedTable) {
+        const id = this.$route.params.id
+        if (id) getTable(id)
+      }
     },
     join,
     fold,
