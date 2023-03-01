@@ -3,7 +3,7 @@ import {useAuthStore} from "stores/auth-store";
 
 
 
-const actions = {JOIN: "JOIN", LEAVE: "LEAVE", FOLD: "FOLD", CALL: "CALL", BET: "BET", DEAL: "DEAL", NEW_ROUND: "NEW_ROUND"}
+const actions = {JOIN: "JOIN", LEAVE: "LEAVE", FOLD: "FOLD", CALL: "CALL", RAISE: "RAISE", DEAL: "DEAL", NEW_ROUND: "NEW_ROUND"}
 
 export function getTable(id) {
   return useAuthStore().sendWebsocketMessage({WsGetTable: null, id})
@@ -32,8 +32,8 @@ export function fold(id) {
 export function call(id) {
   return useAuthStore().sendWebsocketMessage({action: actions.CALL, tableId: id})
 }
-export function bet(id, amount) {
-  return useAuthStore().sendWebsocketMessage({action: actions.BET, tableId: id, amount})
+export function raise(id, amount) {
+  return useAuthStore().sendWebsocketMessage({action: actions.RAISE, tableId: id, amount})
 }
 export function deal(id) {
   return useAuthStore().sendWebsocketMessage({action: actions.DEAL, tableId: id})

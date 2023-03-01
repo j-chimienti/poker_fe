@@ -1,8 +1,9 @@
 <template>
 <div>
   <div class="row flex-center" >
-    <div v-for="player in players" :key="player"
+    <q-card v-for="player in players" :key="player"
          :class="getKlass(player)"
+            class="q-pa-md q-ma-md"
     >
       <q-chip :class="getKlass(player)">
         <q-avatar>
@@ -10,11 +11,12 @@
         </q-avatar>
         {{player.playerAccountId}}
       </q-chip>
+      <q-chip>position={{player.position}}</q-chip>
       <q-chip>bet={{player.bet}}</q-chip>
       <q-chip>balance={{player.balance}}</q-chip>
       <q-chip>{{player.state}}</q-chip>
       <q-chip v-if="player.sb">SMALL_BLIND</q-chip>
-      <q-chip v-if="player.bb">BIG_BLIND</q-chip>
+      <q-chip v-else-if="player.bb">BIG_BLIND</q-chip>
       <q-chip>
         {{player.playerAccountId === playerTurn ? 'my turn' : 'not my turn'}}
       </q-chip>
@@ -25,7 +27,7 @@
         <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
 <!--        <FaceDownCard  v-for="card in player.cards" :key="card.id"/>-->
       </div>
-    </div>
+    </q-card>
   </div>
 </div>
 </template>
@@ -42,7 +44,7 @@ export default {
   methods: {
     getKlass(player) {
       if (player.playerAccountId === this.playerTurn) return "bg-green"
-      else if (player.leaving || player.state === "FOLDED") return "bg-gray"
+      else if (player.leaving || player.state === "FOLDED") return "bg-grey"
       else return ""
     },
     playerIsMe(id) {
