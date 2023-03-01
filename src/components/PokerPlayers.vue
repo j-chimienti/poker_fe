@@ -17,9 +17,6 @@
       <q-chip>{{player.state}}</q-chip>
       <q-chip v-if="player.sb">SMALL_BLIND</q-chip>
       <q-chip v-else-if="player.bb">BIG_BLIND</q-chip>
-      <q-chip>
-        {{player.playerAccountId === playerTurn ? 'my turn' : 'not my turn'}}
-      </q-chip>
       <div v-if="playerIsMe(player.playerAccountId)" >
         <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
       </div>
@@ -58,7 +55,7 @@ export default {
     ...mapState(usePokerStore, ['pokerPlayers', 'playerTurn']),
     ...mapState(useAuthStore, ['playerId']),
     players() {
-      return this.pokerPlayers.map(p => p.player)
+      return this.pokerPlayers.map(p => p.player).sort((a, b) => a.position - b.position)
     },
 
   }
