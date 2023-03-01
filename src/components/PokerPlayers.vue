@@ -14,6 +14,7 @@
       <q-chip>position={{player.position}}</q-chip>
       <q-chip>bet={{player.bet}}</q-chip>
       <q-chip>balance={{player.balance}}</q-chip>
+      <q-chip v-if="player.winner" class="bg-purple">winner!!</q-chip>
       <q-chip>{{player.state}}</q-chip>
       <q-chip v-if="player.sb">SMALL_BLIND</q-chip>
       <q-chip v-else-if="player.bb">BIG_BLIND</q-chip>
