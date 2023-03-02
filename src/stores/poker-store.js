@@ -114,15 +114,23 @@ export const usePokerStore = defineStore("poker", {
       } else tableCards = cardsMapped
       const playerCards = Object.entries(t.pokerPlayers).map((res) => {
         const [idx, p]= res;
-        const playerCards = p.player.cards.map(c => new Card(c))
+        const playerCardsMapped = p.player.cards.map(c => new Card(c))
         const stateCards = _get(this.table, `pokerPlayers.${idx}.player.cards`, [])
         let pc;
         if (tableHand === t.hand) {
-          if (playerCards.length === stateCards.length) pc = stateCards
-          else {
-            pc = playerCards
+          if (playerCardsMapped.length === stateCards.length) {
+
+            console.log("no update needed")
+            pc = stateCards
           }
-        } else pc = stateCards
+          else {
+            console.log("equal hands inequal cards player, state", playerCardsMapped.length, stateCards.length)
+            pc = playerCardsMapped
+          }
+        } else {
+          console.log('new hand', tableHand , t.hand)
+          pc = playerCardsMapped
+        }
         const updatedPlayer = Object.assign({}, p.player, {cards: pc})
         const updatedP =  Object.assign({}, p, {player: updatedPlayer})
         return [idx, updatedP]
@@ -139,7 +147,9 @@ export const usePokerStore = defineStore("poker", {
     }
   },
   getters: {
-
+    pokerPlayersByPosition() {
+      return this.pokerPlayers.map(p => p.player).sort((a, b) => a.position - b.position)
+    },
     hand() {
       return _get(this.table, "hand", -1)
     },

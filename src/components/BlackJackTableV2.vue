@@ -4,19 +4,14 @@
       <div class="row flex justify-center player-hand-container">
         <BlackjackHand />
       </div>
-      <div class="row flex justify-center player-hand-container">
-        <MyPokerHand/>
-        </div>
-    </div>
     <PokerPlayers/>
+  </div>
   </div>
 </template>
 
 <script>
 import BlackjackHand from "./BlackjackHand.vue"
-import {GAME_STATES} from "../services/constants"
 import StoreMixin from "src/mixins/StoreMixin.vue";
-import MyPokerHand from "components/MyPokerHand.vue";
 import PokerPlayers from "components/PokerPlayers.vue";
 
 export default {
@@ -24,11 +19,7 @@ export default {
   mixins: [StoreMixin],
   components: {
     PokerPlayers,
-    MyPokerHand,
     BlackjackHand,
-  },
-  data() {
-    return { GAME_STATES }
   },
 }
 </script>

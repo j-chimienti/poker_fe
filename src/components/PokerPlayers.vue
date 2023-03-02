@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="row flex-center" >
-    <q-card v-for="player in players" :key="player"
+    <q-card v-for="player in pokerPlayersByPosition" :key="player.playerAccountId"
          :class="getKlass(player)"
             class="q-pa-md q-ma-md"
     >
@@ -53,11 +53,9 @@ export default {
     }
   },
   computed: {
-    ...mapState(usePokerStore, ['pokerPlayers', 'playerTurn']),
+    ...mapState(usePokerStore, ['pokerPlayers', 'playerTurn', 'pokerPlayersByPosition']),
     ...mapState(useAuthStore, ['playerId']),
-    players() {
-      return this.pokerPlayers.map(p => p.player).sort((a, b) => a.position - b.position)
-    },
+
 
   }
 }
