@@ -119,16 +119,12 @@ export const usePokerStore = defineStore("poker", {
         let pc;
         if (tableHand === t.hand) {
           if (playerCardsMapped.length === stateCards.length) {
-
-            console.log("no update needed")
             pc = stateCards
           }
           else {
-            console.log("equal hands inequal cards player, state", playerCardsMapped.length, stateCards.length)
             pc = playerCardsMapped
           }
         } else {
-          console.log('new hand', tableHand , t.hand)
           pc = playerCardsMapped
         }
         const updatedPlayer = Object.assign({}, p.player, {cards: pc})
