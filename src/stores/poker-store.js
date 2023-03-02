@@ -98,34 +98,48 @@ const table_example = {
 
 Object.values(table_example.pokerPlayers)
 
-function mapToTable(t) {
-  const cardsMapped = t.cards.map(c => new Card(c))
-  const playerCards = Object.entries(t.pokerPlayers).map((res) => {
-    const [idx, p]= res;
-    const playerCards = p.player.cards.map(c => new Card(c))
-    const updatedPlayer = Object.assign({}, p.player, {cards: playerCards})
-    const updatedP =  Object.assign({}, p, {player: updatedPlayer})
-    return [idx, updatedP]
-  })
-  const pokerPlayers = Object.fromEntries(playerCards)
-  return Object.assign({}, t, {cards: cardsMapped, pokerPlayers})
-}
 
 export const usePokerStore = defineStore("poker", {
   actions: {
+    mapToTable(t) {
+      const cardsMapped = t.cards.map(c => new Card(c))
+      const tableHand = _get(this.table, 'hand', -1)
+      let tableCards;
+      if (tableHand === t.hand) {
+        if (t.cards.length === this.table.cards.length) {
+          tableCards = this.table.cards
+        } else {
+          tableCards = this.table.cards.concat(cardsMapped.slice(this.table.cards.length))
+        }
+      } else tableCards = cardsMapped
+      const playerCards = Object.entries(t.pokerPlayers).map((res) => {
+        const [idx, p]= res;
+        const playerCards = p.player.cards.map(c => new Card(c))
+        const stateCards = _get(this.table, `pokerPlayers.${idx}.player.cards`, [])
+        let pc;
+        if (tableHand === t.hand) {
+          if (playerCards.length === stateCards.length) pc = stateCards
+          else {
+            pc = playerCards
+          }
+        } else pc = stateCards
+        const updatedPlayer = Object.assign({}, p.player, {cards: pc})
+        const updatedP =  Object.assign({}, p, {player: updatedPlayer})
+        return [idx, updatedP]
+      })
+      const pokerPlayers = Object.fromEntries(playerCards)
+      return Object.assign({}, t, {cards: tableCards, pokerPlayers})
+    },
     setTables(tables) {
-      this.tables = tables.map(mapToTable)
+      this.tables = tables
     },
     setTable(t, navigateToPage = true) {
-      this.table = mapToTable(t)
+      this.table = this.mapToTable(t)
       if (navigateToPage) this.router.push({name: "table", params: {id: t.id}})
     }
   },
   getters: {
 
-    //playersWithActions
-    // playerTurn
-    // playerTurnTimeout
     hand() {
       return _get(this.table, "hand", -1)
     },
