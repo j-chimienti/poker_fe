@@ -4,6 +4,7 @@
       <q-chip>{{table.title}}</q-chip>
       <q-chip>{{table.round}}</q-chip>
       <q-chip>hand:{{table.hand}}</q-chip>
+      <q-chip>pot:{{table.pot}}</q-chip>
       <q-chip>players:{{Object.keys(table.pokerPlayers).length}}</q-chip>
     </div>
     <BlackJackTableV2 />
