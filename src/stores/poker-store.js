@@ -164,9 +164,9 @@ export const usePokerStore = defineStore("poker", {
     cards() { return _get(this.table, "cards", [])},
     joinedTable() { return Boolean(this.playerOpt) },
     playerOpt() {
-      const players = this.pokerPlayers.map(p => p.player)
       const playerId = useAuthStore().playerId;
-      return players.find(p => p.playerAccountId === playerId)
+      console.log(_get(this.table, `pokerPlayers.${playerId}.player`))
+      return _get(this.table, `pokerPlayers.${playerId}.player`)
     }
   },
   state: () => {

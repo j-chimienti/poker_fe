@@ -18,9 +18,11 @@
     <div v-else>
 
     <q-btn v-if="joinedTable" @click="leave(table.id)" color="red" label="leave"/>
-    <q-btn v-if="!joinedTable" size="lg" @click="join(table.id)" color="green" label="join"/>
+    <q-btn v-else size="lg" @click="join(table.id)" color="green" label="join"/>
     </div>
-    <q-btn @click="navigateToLobby" label="lobby" icon="arrow_left" dense/>
+    <div class="row justify-center q-my-lg">
+      <q-btn @click="navigateToLobby" label="lobby" icon="arrow_left" color="secondary" />
+    </div>
 
   </div>
   <div v-else>

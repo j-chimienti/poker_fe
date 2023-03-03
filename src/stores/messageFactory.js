@@ -10,7 +10,8 @@ export async function messageFactory(res) {
     tables = null,
     table = null,
     placeBet = null,
-    failedToJoinTable = null
+    failedToJoinTable = null,
+    gameResult = null
   } = res
 
   // const lightingStore = useLightningStore()
@@ -21,6 +22,15 @@ export async function messageFactory(res) {
         type: status === "failed" ? "negative" : "info",
         message: msg,
       })
+  }
+  if (gameResult) {
+    const {winner, hands, table} = gameResult
+    Notify.create("winner= " + winner)
+    Notify.create({
+      message: hands.map(h => h.hand.message),
+      timeout: 10000
+    })
+    pokerStore.setTable(table)
   }
   if (table) pokerStore.setTable(table)
   if (failedToJoinTable) {
