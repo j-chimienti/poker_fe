@@ -47,7 +47,7 @@ export default {
       return this.playerIsMe ? "https://cdn.quasar.dev/img/boy-avatar.png" : "https://cdn.quasar.dev/img/avatar.png"
     },
     playerIsMe() {
-      return this.player.id === this.playerId
+      return this.player.playerAccountId === this.playerId
     },
     ...mapState(usePokerStore, ['pokerPlayers', 'playerTurn', 'pokerPlayersByPosition']),
     ...mapState(useAuthStore, ['playerId']),
