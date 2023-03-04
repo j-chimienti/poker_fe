@@ -10,12 +10,15 @@
       </q-avatar>
       {{player.playerAccountId}}
     </q-chip>
-    <q-chip>position={{player.position}}</q-chip>
+    <q-chip>
+      <span>position={{player.position}}</span>
+      <span v-if="player.sb">SMALL_BLIND</span>
+      <span v-else-if="player.bb">BIG_BLIND</span>
+    </q-chip>
     <q-chip>bet={{player.bet}}</q-chip>
     <q-chip>balance={{player.balance}}</q-chip>
-    <q-chip>{{player.state}}</q-chip>
-    <q-chip v-if="player.sb">SMALL_BLIND</q-chip>
-    <q-chip v-else-if="player.bb">BIG_BLIND</q-chip>
+    <q-chip class="bg-purple" v-if="player.winner">winner</q-chip>
+    <q-chip v-else>{{player.state}}</q-chip>
     <div v-if="playerIsMe">
       <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
     </div>
@@ -24,7 +27,6 @@
       <!--        <FaceDownCard  v-for="card in player.cards" :key="card.id"/>-->
     </div>
     <q-chip v-if="showing">move:{{player.state}}</q-chip>
-    <q-chip v-if="player.winner" size="lg" class="bg-purple">winner!!</q-chip>
     <q-chip v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
   </q-card>
 </template>
@@ -40,8 +42,8 @@ export default {
   data() { return {showing: false}},
   computed: {
     getKlass() {
-      if (this.player.playerAccountId === this.playerTurn) return "bg-green"
-      else if (this.player.leaving || this.player.state === "FOLDED") return "bg-grey"
+      if (this.isMyTurn) return "bg-green"
+      else if (this.player.state ===  "SITTING" || this.player.state === "FOLDED") return "bg-grey"
       else return ""
     },
     img() {
@@ -50,11 +52,12 @@ export default {
     playerIsMe() {
       return this.player.playerAccountId === this.playerId
     },
+    isMyTurn() {
+      return this.player.playerAccountId === this.playerTurn
+    },
     ...mapState(usePokerStore, ['pokerPlayers', 'playerTurn', 'pokerPlayersByPosition']),
     ...mapState(useAuthStore, ['playerId']),
-    playerState() {
-      return _get(this.player, 'state', null)
-    }
+
 
   },
   watch: {
