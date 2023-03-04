@@ -135,7 +135,7 @@ export const usePokerStore = defineStore("poker", {
       return Object.assign({}, t, {cards: tableCards, pokerPlayers})
     },
     setTables(tables) {
-      this.tables = tables
+      this.tables = tables // todo: map??
     },
     setTable(t) {
       const navigateToPage = !this.table && t

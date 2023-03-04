@@ -17,7 +17,7 @@
     <q-btn-group >
       <q-btn @click="raise(table.id, 1000)" color="red" label="raise"/>
       <q-btn @click="call(table.id)" color="blue" label="call"/>
-      <q-btn @click="fold(table.id)" color="purple" label="fold"/>
+      <q-btn @click="fold(table.id)" color="grey" label="fold"/>
     </q-btn-group>
     </div>
   </div>

@@ -3,7 +3,7 @@
           class="q-pa-md q-ma-md"
           style="min-height: 240px"
   >
-    <q-chip :class="getKlass">
+    <q-chip>
       <q-avatar>
         <img :src="img">
         <q-chip v-if="playerIsMe" label="star"/>
@@ -17,8 +17,6 @@
     </q-chip>
     <q-chip>bet={{player.bet}}</q-chip>
     <q-chip>balance={{player.balance}}</q-chip>
-    <q-chip class="bg-purple" v-if="player.winner">winner</q-chip>
-    <q-chip v-else>{{player.state}}</q-chip>
     <div v-if="playerIsMe">
       <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
     </div>
@@ -26,8 +24,11 @@
       <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
       <!--        <FaceDownCard  v-for="card in player.cards" :key="card.id"/>-->
     </div>
-    <q-chip v-if="showing">move:{{player.state}}</q-chip>
-    <q-chip v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
+    <q-card-actions>
+      <q-chip v-if="showing">move:{{player.state}}</q-chip>
+      <q-chip class="bg-yellow" v-if="player.winner">winner</q-chip>
+      <q-chip v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
+    </q-card-actions>
   </q-card>
 </template>
 <script>
@@ -35,14 +36,15 @@ import FaceUpCard from "components/FaceUpCard.vue"
 import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
 import {useAuthStore} from "stores/auth-store";
-import {get as _get} from 'lodash'
+
 export default {
   name: 'PokerPlayer',
   components: {FaceUpCard},
   data() { return {showing: false}},
   computed: {
     getKlass() {
-      if (this.isMyTurn) return "bg-green"
+      if (this.player.winner) return "bg-purple"
+      else if (this.isMyTurn) return "bg-green"
       else if (this.player.state ===  "SITTING" || this.player.state === "FOLDED") return "bg-grey"
       else return ""
     },
@@ -61,8 +63,8 @@ export default {
 
   },
   watch: {
-    playerState(n, o) {
-      if (n && n !== o) {
+    'player.state'(n, o) {
+      if (n && n!== 'READY' && n !== o) {
         this.showing = true
         setTimeout(() => this.showing = false, 2000)
       }
