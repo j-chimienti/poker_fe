@@ -12,7 +12,7 @@
         />
         <img :src="logoSrc" style="width: 220px;" class="q-mr-lg" />
       </div>
-      <WebsocketConnectionStatus/>
+<!--      <WebsocketConnectionStatus/>-->
     </q-toolbar>
   </q-header>
 </template>
