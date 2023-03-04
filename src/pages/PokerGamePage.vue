@@ -13,7 +13,7 @@
   </div>
   <div v-if="table">
     <BlackJackTableV2 />
-    <div class="row justify-center" v-if="joinedTable" >
+    <div class="row justify-center" v-if="joinedTable && table && table.hand && table.hand !== 'WAITING'" >
     <q-btn-group >
       <q-btn @click="raise(table.id, 1000)" color="red" label="raise"/>
       <q-btn @click="call(table.id)" color="blue" label="call"/>
@@ -21,14 +21,14 @@
     </q-btn-group>
     </div>
   </div>
-  <q-btn v-if="joinedTable" @click="leave(table.id)" color="red" label="leave"/>
+  <q-btn v-if="joinedTable" @click="onLeave(table.id)" color="red" label="leave"/>
   <q-btn v-else size="lg" @click="join(table.id)" color="green" label="join"/>
 </template>
 
 <script>
 import BlackJackTableV2 from "components/BlackJackTableV2.vue"
 import {usePokerStore} from "stores/poker-store";
-import {join, leave, raise, fold, call, getTable} from "src/services/apiService";
+import {join, leave, raise, fold, call, getTable, subscribeTable} from "src/services/apiService";
 import {mapState} from "pinia";
 
 export default {
@@ -38,9 +38,6 @@ export default {
   data() {
     return { interval: null }
   },
-  mounted() {
-    this.interval = setInterval(this.updateStatus, 3000)
-  },
   unmounted() { clearInterval(this.interval) },
   methods: {
     async navigateToLobby() {
@@ -48,17 +45,15 @@ export default {
         try {
           leave(this.table.id)
         } catch (e) {
-
         }
       }
       return this.$router.push({name: 'home'})
     },
-    updateStatus() {
-      if (!this.joinedTable) {
-        const id = this.$route.params.id
-        if (id) getTable(id)
-      }
+    onLeave(id) {
+      leave(id)
+      subscribeTable(id)
     },
+
     join,
     fold,
     leave,

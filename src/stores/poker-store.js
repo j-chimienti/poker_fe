@@ -167,7 +167,6 @@ export const usePokerStore = defineStore("poker", {
     joinedTable() { return Boolean(this.playerOpt) },
     playerOpt() {
       const playerId = useAuthStore().playerId;
-      console.log(_get(this.table, `pokerPlayers.${playerId}.player`))
       return _get(this.table, `pokerPlayers.${playerId}.player`)
     }
   },
