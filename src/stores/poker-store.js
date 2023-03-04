@@ -137,7 +137,8 @@ export const usePokerStore = defineStore("poker", {
     setTables(tables) {
       this.tables = tables
     },
-    setTable(t, navigateToPage = true) {
+    setTable(t) {
+      const navigateToPage = !this.table && t
       this.table = this.mapToTable(t)
       if (navigateToPage) this.router.push({name: "table", params: {id: t.id}})
     }

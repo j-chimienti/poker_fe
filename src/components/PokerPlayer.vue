@@ -1,6 +1,7 @@
 <template>
   <q-card :class="getKlass"
           class="q-pa-md q-ma-md"
+          style="min-height: 240px"
   >
     <q-chip :class="getKlass">
       <q-avatar>

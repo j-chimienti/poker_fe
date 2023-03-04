@@ -58,6 +58,7 @@ export const useAuthStore = defineStore("auth", {
           console.log("websocket closed", url)
           this.websocket = null
           setTimeout(async () => {
+            console.log("reopen ws")
             await this.openWebsocket(sessionId)
           }, 3000)
         }

@@ -39,7 +39,7 @@ const options = {
 export default boot(({ router, store }) => {
 
 
-  router.beforeEach(async (to, from, next) => {
+  router.beforeEach(async (to, from) => {
 
     async function session() {
       Loading.show(options)
@@ -57,20 +57,22 @@ export default boot(({ router, store }) => {
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()
-        else getTable(id)
-        next()
+        else {
+          getTable(id)
+          subscribeTable(id)
+        }
       } else {
         getTable(id)
-        next()
+        subscribeTable(id)
       }
+        return true
     }
     else if (to.name === "home") {
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()
-
       } else getTables()
-      next()
+      return true
     } else if (to.path === "/callback") {
       if (to.query.code && to.query.state) {
         Loading.show(Object.assign({}, options, {
@@ -83,11 +85,11 @@ export default boot(({ router, store }) => {
         } else {
           Notify.create("failed to login")
         }
-        return next({name: "home"})
+        return true
       } else {
         Notify.create("missing query params code or state")
-        return next({name: "home"})
+        return true
       }
-    } else next()
+    } else return true
   })
 })
