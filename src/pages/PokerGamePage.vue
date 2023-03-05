@@ -25,7 +25,7 @@
     </div>
   </div>
   <div v-if="table">
-    <BlackJackTableV2 />
+    <PokerTable />
     <div class="row justify-center" v-if="joinedTable && table && table.hand && table.hand !== 'WAITING'" >
     <q-btn-group >
       <q-btn @click="raise(table.id, 1000)" color="red" label="raise"/>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import BlackJackTableV2 from "components/BlackJackTableV2.vue"
+import PokerTable from "components/PokerTable.vue"
 import {usePokerStore} from "stores/poker-store";
 import {join, leave, raise, fold, call, getTable, subscribeTable} from "src/services/apiService";
 import {mapState} from "pinia";
@@ -113,7 +113,7 @@ export default {
   },
 
   components: {
-    BlackJackTableV2
+    PokerTable
   }
 }
 </script>

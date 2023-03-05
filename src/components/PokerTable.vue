@@ -15,7 +15,7 @@ import StoreMixin from "src/mixins/StoreMixin.vue";
 import PokerPlayers from "components/PokerPlayers.vue";
 
 export default {
-  name: "BlackJackTableV2",
+  name: "PokerTable",
   mixins: [StoreMixin],
   components: {
     PokerPlayers,
