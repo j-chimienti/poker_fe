@@ -36,17 +36,19 @@ const options = {
   messageColor: 'warning'
 }
 
+async function session(store) {
+  Loading.show(options)
+  const playerOpt = await useAuthStore(store).resumeSession(getSessionId())
+  Loading.hide()
+  return playerOpt
+}
+
+
 export default boot(({ router, store }) => {
 
 
   router.beforeEach(async (to, from) => {
 
-    async function session() {
-      Loading.show(options)
-      const playerOpt = await useAuthStore(store).resumeSession(getSessionId())
-      Loading.hide()
-      return playerOpt
-    }
 
     if (to.name === "table") {
       const id = to.params.id
@@ -55,7 +57,7 @@ export default boot(({ router, store }) => {
         if (tableOpt) usePokerStore().table = tableOpt
       }
       if (!useAuthStore().connectedToWebsocket) {
-        const playerOpt = await session()
+        const playerOpt = await session(store)
         if (!playerOpt) confirmRefreshPage()
         else {
           getTable(id)
@@ -65,14 +67,12 @@ export default boot(({ router, store }) => {
         getTable(id)
         subscribeTable(id)
       }
-        return true
     }
     else if (to.name === "home") {
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()
       } else getTables()
-      return true
     } else if (to.path === "/callback") {
       if (to.query.code && to.query.state) {
         Loading.show(Object.assign({}, options, {
@@ -80,16 +80,12 @@ export default boot(({ router, store }) => {
         }))
         const playerOpt = await useAuthStore().oauthCallback({code: to.query.code, state: to.query.state})
         Loading.hide()
-        if (playerOpt) {
-          Notify.create("logged in " + playerOpt.email)
-        } else {
-          Notify.create("failed to login")
-        }
-        return true
+        if (playerOpt) Notify.create("logged in " + playerOpt.email)
+        else Notify.create("failed to login")
       } else {
         Notify.create("missing query params code or state")
-        return true
       }
-    } else return true
+    }
+    return true
   })
 })

@@ -1,6 +1,6 @@
 import Card from "src/models/Card"
 
-import BlackjackHand from "components/BlackjackHand.vue"
+import BlackjackHand from "components/PokerHand.vue"
 
 describe("BlackjackHand", () => {
   it("renders hand", () => {

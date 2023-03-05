@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import BlackjackHand from "./BlackjackHand.vue"
+import BlackjackHand from "./PokerHand.vue"
 import StoreMixin from "src/mixins/StoreMixin.vue";
 import PokerPlayers from "components/PokerPlayers.vue";
 
