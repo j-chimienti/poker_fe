@@ -25,11 +25,11 @@ export async function messageFactory(res) {
   }
   if (gameResult) {
     const {winner, hands, table} = gameResult
-    Notify.create("winner= " + winner)
-    Notify.create({
-      message: hands.map(h => h.hand.message),
-      timeout: 10000
-    })
+    //Notify.create("winner= " + winner)
+    // Notify.create({
+    //   message: hands.map(h => h.hand.message),
+    //   timeout: 10000
+    // })
     pokerStore.setTable(table)
   }
   if (table) pokerStore.setTable(table)
@@ -38,13 +38,15 @@ export async function messageFactory(res) {
     Notify.create(message)
   }
   if (placeBet) {
-    const {timeoutSeconds, tableId} = placeBet
-    Notify.create({
-      message: `place bet in ${timeoutSeconds}s`,
-      timeout: timeoutSeconds * 1000,
-      progress: true
-    })
+    // todo: remove
   }
+  //   const {timeoutSeconds, tableId} = placeBet
+  //   Notify.create({
+  //     message: `place bet in ${timeoutSeconds}s`,
+  //     timeout: timeoutSeconds * 1000,
+  //     progress: true
+  //   })
+  // }
   if (tables) pokerStore.setTables(tables)
   // if (btcusd) lightingStore.setBitcoinPrice(btcusd)
   // if (invoice) {
