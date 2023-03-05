@@ -144,6 +144,7 @@ export const usePokerStore = defineStore("poker", {
     }
   },
   getters: {
+
     pokerPlayersByPosition() {
       return this.pokerPlayers.map(p => p.player).sort((a, b) => a.position - b.position)
     },
