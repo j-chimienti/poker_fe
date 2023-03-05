@@ -8,7 +8,19 @@
         <q-chip>hand:{{table.hand}}</q-chip>
         <q-chip>pot:{{table.pot}}</q-chip>
         <q-chip>players:{{Object.keys(table.pokerPlayers).length}}</q-chip>
-        <q-chip color="yellow" v-if="countdownText">nextHandStart:{{countdownText}}</q-chip>
+        <div  v-if="countdownText > 0">
+          next game starts:
+          <q-knob
+            :min="0"
+            :max="15"
+            v-model="countdownText"
+            size="50px"
+            :thickness="0.22"
+            class="q-ma-md"
+            show-value
+          />
+        </div>
+
       </div>
     </div>
   </div>
@@ -76,7 +88,7 @@ export default {
 
         // If the count down is finished, write some text
         if (distance <= 0) return null
-        else return timeDisplay
+        else return seconds
       }
     },
     async navigateToLobby() {
