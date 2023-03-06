@@ -21,6 +21,7 @@
           />
         </div>
 
+
       </div>
     </div>
   </div>
@@ -41,55 +42,24 @@
 <script>
 import PokerTable from "components/PokerTable.vue"
 import {usePokerStore} from "stores/poker-store";
-import {join, leave, raise, fold, call, getTable, subscribeTable} from "src/services/apiService";
+import {call, fold, join, leave, raise, subscribeTable} from "src/services/apiService";
 import {mapState} from "pinia";
+import {secondsUntil} from "src/services/dateService";
 
 export default {
   computed: {
     ...mapState(usePokerStore, ['table', 'joinedTable', 'round'])
   },
   data() {
-    return { interval: null, countdownText: '' }
+    return { interval: null, countdownText: '', countdownBetTimeoutText: '', }
   },
   unmounted() { clearInterval(this.interval) },
  mounted() {
-   this.interval = setInterval(this.handleCountdown, 1000)
+   this.interval = setInterval(this.handleCountdowns, 1000)
  },
   methods: {
-    handleCountdown() {
-      const r = this.nextGameCountdown()
-      this.countdownText = r
-    },
-    nextGameCountdown() {
-      const table = this.table
-      if (!(table && table.nextHandStart)) return null
-      else {
-        // Set the date we're counting down to
-        var countDownDate = new Date(table.nextHandStart).getTime();
-// Update the count down every 1 second
-
-        // Get today's date and time
-        var now = new Date().getTime();
-
-        // Find the distance between now and the count down date
-        var distance = countDownDate - now;
-
-        // Time calculations for days, hours, minutes and seconds
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Display the result in the element with id="demo"
-        // const dateTimeDisplay = days + "d " + hours + "h "
-        //   + minutes + "m " + seconds + "s ";
-
-        const timeDisplay = `${seconds}s`
-
-        // If the count down is finished, write some text
-        if (distance <= 0) return null
-        else return seconds
-      }
+    handleCountdowns() {
+      this.countdownText = this.table && this.table.nextHandStart ? secondsUntil(this.table.nextHandStart) : -1
     },
     async navigateToLobby() {
       if (this.table) {
