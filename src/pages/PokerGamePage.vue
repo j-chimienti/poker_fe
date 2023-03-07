@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-center">
     <q-btn @click="navigateToLobby" label="lobby" icon="arrow_left" color="secondary" />
-    <div v-if="table">
+    <div>
       <div>
         <q-chip>{{table.title}}</q-chip>
         <q-chip>{{table.round}}</q-chip>
@@ -25,11 +25,15 @@
       </div>
     </div>
   </div>
-  <div v-if="table">
+  <div>
     <PokerTable />
     <div class="row justify-center" v-if="joinedTable && table && table.hand && table.hand !== 'WAITING'" >
-    <q-btn-group >
-      <q-btn @click="raise(table.id, 1000)" color="red" label="raise"/>
+      <q-form @submit="onRaise">
+        <q-input type="number" v-model.number="raiseAmount"/>
+        <q-btn type="submit"  color="red" label="raise"/>
+      </q-form>
+    <q-btn-group>
+
       <q-btn @click="call(table.id)" color="blue" label="call"/>
       <q-btn @click="fold(table.id)" color="grey" label="fold"/>
     </q-btn-group>
@@ -51,13 +55,17 @@ export default {
     ...mapState(usePokerStore, ['table', 'joinedTable', 'round'])
   },
   data() {
-    return { interval: null, countdownText: '', countdownBetTimeoutText: '', }
+    return { interval: null, countdownText: '', countdownBetTimeoutText: '', raiseAmount: 100 }
   },
   unmounted() { clearInterval(this.interval) },
  mounted() {
    this.interval = setInterval(this.handleCountdowns, 1000)
  },
   methods: {
+    onRaise() {
+
+      raise(this.table.id, this.raiseAmount)
+    },
     handleCountdowns() {
       this.countdownText = this.table && this.table.nextHandStart ? secondsUntil(this.table.nextHandStart) : -1
     },

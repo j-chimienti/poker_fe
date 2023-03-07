@@ -6,7 +6,7 @@
     <q-card-section>
       <q-chip v-if="showing">move:{{player.state}}</q-chip>
       <q-chip class="bg-yellow" v-if="player.winner">winner</q-chip>
-      <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
+<!--      <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>-->
 
       <q-chip>
         <span>position={{player.position}}</span>
@@ -56,7 +56,7 @@ import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
 import {useAuthStore} from "stores/auth-store";
 import {secondsUntil} from "src/services/dateService";
-import PlayerAccountBalance from "components/PlayerAccountBalance";
+import PlayerAccountBalance from "components/PlayerAccountBalance.vue";
 
 export default {
   name: 'PokerPlayer',

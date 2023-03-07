@@ -2,7 +2,7 @@
   <div class="row justify-center table-wrapper" style="height: 90vh">
     <div class="table-v2">
       <div class="row flex justify-center player-hand-container">
-        <BlackjackHand />
+        <PokerHand />
       </div>
     <PokerPlayers/>
   </div>
@@ -10,16 +10,14 @@
 </template>
 
 <script>
-import BlackjackHand from "./PokerHand.vue"
-import StoreMixin from "src/mixins/StoreMixin.vue";
+import PokerHand from "./PokerHand.vue"
 import PokerPlayers from "components/PokerPlayers.vue";
 
 export default {
   name: "PokerTable",
-  mixins: [StoreMixin],
   components: {
     PokerPlayers,
-    BlackjackHand,
+    PokerHand,
   },
 }
 </script>

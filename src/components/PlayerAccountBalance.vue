@@ -1,7 +1,5 @@
 <template>
-    <q-badge>
       <span v-if="balance !== null" :class="balanceKlass">{{balanceDisplay.toLocaleString()}}</span>
-    </q-badge>
 </template>
 
 <script>
@@ -9,7 +7,9 @@ import gsap from "gsap"
 export default {
   name: "PlayerAccountBalance",
   props: {
-    balance: 0
+    balance: {
+      type: Number,
+    }
   },
   mounted() {
     this.balanceDisplay = this.balance || 0
