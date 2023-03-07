@@ -13,7 +13,9 @@
         <span v-else-if="player.bb">BIG_BLIND</span>
       </q-chip>
       <q-chip>bet={{player.bet}}</q-chip>
-      <q-chip>balance={{player.balance}}</q-chip>
+      <q-chip>
+        <PlayerAccountBalance :balance="player.balance"/>
+      </q-chip>
     </q-card-section>
   <q-card-section>
       <q-chip>
@@ -53,10 +55,11 @@ import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
 import {useAuthStore} from "stores/auth-store";
 import {secondsUntil} from "src/services/dateService";
+import PlayerAccountBalance from "components/PlayerAccountBalance";
 
 export default {
   name: 'PokerPlayer',
-  components: {FaceUpCard},
+  components: {PlayerAccountBalance, FaceUpCard},
   data() { return {showing: false, countdownBetTimeoutText: 0 }},
   mounted() {
     setInterval(this.checkIf, 1000)

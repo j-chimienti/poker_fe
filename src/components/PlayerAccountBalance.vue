@@ -1,19 +1,16 @@
 <template>
-  <div>
     <q-badge>
-      <q-icon name="img:/btc.svg"/>
       <span v-if="balance !== null" :class="balanceKlass">{{balanceDisplay.toLocaleString()}}</span>
     </q-badge>
-  </div>
 </template>
 
 <script>
 import gsap from "gsap"
-import StoreMixin from "../mixins/StoreMixin.vue"
-
 export default {
   name: "PlayerAccountBalance",
-  mixins: [StoreMixin],
+  props: {
+    balance: 0
+  },
   mounted() {
     this.balanceDisplay = this.balance || 0
   },
