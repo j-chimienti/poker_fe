@@ -11,11 +11,6 @@ const routes = [
     ],
   },
   {
-    name: "splash",
-    path: "/splash",
-    component: () => import("components/SplashScreen.vue"),
-  },
-  {
     name: "table",
     path: "/table/:id",
     component: () => import("pages/PokerGamePage.vue"),
