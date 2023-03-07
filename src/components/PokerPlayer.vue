@@ -6,6 +6,7 @@
     <q-card-section>
       <q-chip v-if="showing">move:{{player.state}}</q-chip>
       <q-chip class="bg-yellow" v-if="player.winner">winner</q-chip>
+      <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
 
       <q-chip>
         <span>position={{player.position}}</span>
