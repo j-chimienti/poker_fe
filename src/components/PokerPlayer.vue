@@ -35,7 +35,7 @@
         <!--        <FaceDownCard  v-for="card in player.cards" :key="card.id"/>-->
       </div>
     </q-card-section>
-    <q-card-actions>
+    <q-card-actions style="min-height: 50px;">
 
       <q-knob
         v-if="isMyTurn && countdownBetTimeoutText > 0"
