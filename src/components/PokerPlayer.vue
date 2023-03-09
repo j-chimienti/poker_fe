@@ -4,28 +4,44 @@
           style="min-height: 240px"
   >
     <q-card-section>
-      <q-chip v-if="showing">move:{{player.state}}</q-chip>
-      <q-chip class="bg-yellow" v-if="player.winner">winner</q-chip>
-<!--      <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>-->
-
-      <q-chip>
-        <span>position={{player.position}}</span>
-        <span v-if="player.sb">SMALL_BLIND</span>
-        <span v-else-if="player.bb">BIG_BLIND</span>
-      </q-chip>
-      <q-chip>bet={{player.bet}}</q-chip>
-      <q-chip>
-        <PlayerAccountBalance :balance="player.balance"/>
-      </q-chip>
+      <div class="row justify-start wrap">
+        <q-chip>
+          <q-avatar>
+            <img :src="img">
+            <q-chip v-if="playerIsMe" label="star"/>
+          </q-avatar>
+          {{playerName(player)}}
+        </q-chip>
+        <q-chip v-if="showing">move:{{player.state}}</q-chip>
+        <q-chip class="bg-yellow" v-if="player.winner">winner</q-chip>
+        <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
+        <q-chip v-if="player.sb || player.bb">
+          <span v-if="player.sb">SB</span>
+          <span v-else-if="player.bb">bb</span>
+        </q-chip>
+        <q-chip>bet=<PlayerAccountBalance :balance="player.bet"/></q-chip>
+        <q-chip>
+          <PlayerAccountBalance :balance="player.balance"/>
+        </q-chip>
+      <q-circular-progress
+        show-value
+        class="text-white q-ma-md"
+        :value="countdownBetTimeoutText"
+        size="50px"
+        :thickness="0.2"
+        color="orange"
+        :min="0"
+        :max="30"
+        track-color="transparent"
+        v-if="isMyTurn && countdownBetTimeoutText > 0"
+      >
+        <q-icon name="timer" />
+      </q-circular-progress>
+        <div v-else style="width: 50px"></div>
+      </div>
     </q-card-section>
   <q-card-section>
-      <q-chip>
-        <q-avatar>
-          <img :src="img">
-          <q-chip v-if="playerIsMe" label="star"/>
-        </q-avatar>
-        {{player.name}}
-      </q-chip>
+
 
       <div v-if="playerIsMe">
         <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
@@ -37,15 +53,7 @@
     </q-card-section>
     <q-card-actions style="min-height: 50px;">
 
-      <q-knob
-        v-if="isMyTurn && countdownBetTimeoutText > 0"
-        :min="0"
-        :max="30"
-        v-model="countdownBetTimeoutText"
-        size="40px"
-        :thickness="0.22"
-        show-value
-      />
+
       <q-chip v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
     </q-card-actions>
   </q-card>
@@ -57,7 +65,7 @@ import {usePokerStore} from "stores/poker-store";
 import {useAuthStore} from "stores/auth-store";
 import {secondsUntil} from "src/services/dateService";
 import PlayerAccountBalance from "components/PlayerAccountBalance.vue";
-
+import {playerName} from "src/services/playerService";
 export default {
   name: 'PokerPlayer',
   components: {PlayerAccountBalance, FaceUpCard},
@@ -66,6 +74,7 @@ export default {
     setInterval(this.checkIf, 1000)
   },
   methods: {
+    playerName,
     checkIf() {
       this.countdownBetTimeoutText = this.table && this.table.betTimeout ? secondsUntil(this.table.betTimeout) : -1
     }
