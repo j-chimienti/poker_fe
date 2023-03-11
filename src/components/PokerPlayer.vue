@@ -23,21 +23,23 @@
         <q-chip>
           <PlayerAccountBalance :balance="player.balance"/>
         </q-chip>
-      <q-circular-progress
-        show-value
-        class="text-white q-ma-md"
-        :value="countdownBetTimeoutText"
-        size="50px"
-        :thickness="0.2"
-        color="orange"
-        :min="0"
-        :max="30"
-        track-color="transparent"
-        v-if="isMyTurn && countdownBetTimeoutText > 0"
-      >
-        <q-icon name="timer" />
-      </q-circular-progress>
-        <div v-else style="width: 50px"></div>
+        <div  style="width: 70px; height: 70px">
+
+          <q-circular-progress
+            show-value
+            class="text-white q-ma-md"
+            :value="countdownBetTimeoutText"
+            size="50px"
+            :thickness="0.2"
+            color="orange"
+            :min="0"
+            :max="30"
+            track-color="transparent"
+            v-if="isMyTurn && countdownBetTimeoutText > 0"
+          >
+            <q-icon name="timer" />
+          </q-circular-progress>
+        </div>
       </div>
     </q-card-section>
   <q-card-section>

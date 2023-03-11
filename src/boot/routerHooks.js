@@ -45,11 +45,7 @@ async function session(store) {
 
 
 export default boot(({ router, store }) => {
-
-
   router.beforeEach(async (to, from) => {
-
-
     if (to.name === "table") {
       const id = to.params.id
       if (!usePokerStore().table) {
