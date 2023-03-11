@@ -43,14 +43,16 @@
       </div>
     </q-card-section>
   <q-card-section>
-
-
       <div v-if="playerIsMe">
         <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
       </div>
       <div v-else>
-        <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
-        <!--        <FaceDownCard  v-for="card in player.cards" :key="card.id"/>-->
+        <div v-if="player.bestPoint">
+          <FaceUpCard v-for="card in player.bestPoint" :key="card.id" :card="card"/>
+        </div>
+        <div v-else>
+          <FaceDownCard   v-for="card in player.cards" :key="card.id"/>
+        </div>
       </div>
     </q-card-section>
     <q-card-actions style="min-height: 50px;">
@@ -68,9 +70,10 @@ import {useAuthStore} from "stores/auth-store";
 import {secondsUntil} from "src/services/dateService";
 import PlayerAccountBalance from "components/PlayerAccountBalance.vue";
 import {playerName} from "src/services/playerService";
+import FaceDownCard from "components/FaceDownCard";
 export default {
   name: 'PokerPlayer',
-  components: {PlayerAccountBalance, FaceUpCard},
+  components: {FaceDownCard, PlayerAccountBalance, FaceUpCard},
   data() { return {showing: false, countdownBetTimeoutText: 0 }},
   mounted() {
     setInterval(this.checkIf, 1000)
