@@ -23,33 +23,10 @@
         <q-chip>
           <PlayerAccountBalance :balance="player.balance"/>
         </q-chip>
-
-          <q-circular-progress
-            show-value
-            class="text-white q-ma-md"
-            :value="countdownBetTimeoutText"
-            size="50px"
-            :thickness="0.2"
-            color="orange"
-            :min="0"
-            :max="30"
-            track-color="transparent"
-            v-if="isMyTurn && countdownBetTimeoutText > 0"
-          >
-            <q-icon name="timer" />
-          </q-circular-progress>
-          <q-circular-progress
-            v-else
-            class="text-white q-ma-md"
-            size="50px"
-            :thickness="0.2"
-            color="red"
-          >
-            <q-icon name="person_off" />
-          </q-circular-progress>
         </div>
     </q-card-section>
   <q-card-section>
+
       <div v-if="playerIsMe">
         <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
       </div>
@@ -61,6 +38,29 @@
           <FaceDownCard  v-for="card in player.cards" :key="card.id"/>
         </div>
       </div>
+    <q-circular-progress
+      show-value
+      class="text-white q-ma-md"
+      :value="countdownBetTimeoutText"
+      size="50px"
+      :thickness="0.2"
+      color="orange"
+      :min="0"
+      :max="30"
+      track-color="transparent"
+      v-if="isMyTurn && countdownBetTimeoutText > 0"
+    >
+      <q-icon name="timer" />
+    </q-circular-progress>
+    <q-circular-progress
+      v-else
+      class="text-white q-ma-md"
+      size="50px"
+      :thickness="0.2"
+      color="red"
+    >
+      <q-icon name="person_off" />
+    </q-circular-progress>
     </q-card-section>
     <q-card-actions style="min-height: 50px;">
       <q-chip v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
