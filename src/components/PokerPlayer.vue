@@ -23,7 +23,6 @@
         <q-chip>
           <PlayerAccountBalance :balance="player.balance"/>
         </q-chip>
-        <div  style="width: 70px; height: 70px">
 
           <q-circular-progress
             show-value
@@ -39,8 +38,19 @@
           >
             <q-icon name="timer" />
           </q-circular-progress>
+          <q-circular-progress
+            class="text-white q-ma-md"
+            size="50px"
+            :thickness="0.2"
+            color="grey"
+            :min="0"
+            :max="30"
+            track-color="transparent"
+            v-else
+          >
+            <q-icon name="person_off" />
+          </q-circular-progress>
         </div>
-      </div>
     </q-card-section>
   <q-card-section>
       <div v-if="playerIsMe">
