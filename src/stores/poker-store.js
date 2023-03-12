@@ -127,7 +127,8 @@ export const usePokerStore = defineStore("poker", {
         } else {
           pc = playerCardsMapped
         }
-        const updatedPlayer = Object.assign({}, p.player, {cards: pc})
+        const bestPoint = _get(p.player, 'bestPoint.cards', []).map(c => new Card(c))
+        const updatedPlayer = Object.assign({}, p.player, {cards: pc, bestPoint})
         const updatedP =  Object.assign({}, p, {player: updatedPlayer})
         return [idx, updatedP]
       })
@@ -138,9 +139,7 @@ export const usePokerStore = defineStore("poker", {
       this.tables = tables // todo: map??
     },
     setTable(t) {
-      const navigateToPage = !this.table && t
       this.table = this.mapToTable(t)
-      if (navigateToPage) this.router.push({name: "table", params: {id: t.id}})
     }
   },
   getters: {

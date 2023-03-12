@@ -66,8 +66,6 @@
       </div>
     </q-card-section>
     <q-card-actions style="min-height: 50px;">
-
-
       <q-chip v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
     </q-card-actions>
   </q-card>

@@ -25,7 +25,7 @@ export async function messageFactory(res) {
   }
   if (gameResult) {
     const {winner, hands, table} = gameResult
-    //Notify.create("winner= " + winner)
+    Notify.create("winner= " + winner)
     // Notify.create({
     //   message: hands.map(h => h.hand.message),
     //   timeout: 10000
