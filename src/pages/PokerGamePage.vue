@@ -2,7 +2,7 @@
   <div class="row justify-center">
     <q-btn @click="navigateToLobby" label="lobby" icon="arrow_left" color="secondary" />
     <div>
-      <div>
+      <div v-if="table">
         <q-chip>{{table.title}}</q-chip>
         <q-chip>{{table.round}}</q-chip>
         <q-chip>hand:{{table.hand}}</q-chip>
