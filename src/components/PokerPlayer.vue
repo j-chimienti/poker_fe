@@ -39,14 +39,11 @@
             <q-icon name="timer" />
           </q-circular-progress>
           <q-circular-progress
+            v-else
             class="text-white q-ma-md"
             size="50px"
             :thickness="0.2"
-            color="grey"
-            :min="0"
-            :max="30"
-            track-color="transparent"
-            v-else
+            color="red"
           >
             <q-icon name="person_off" />
           </q-circular-progress>
@@ -61,7 +58,7 @@
           <FaceUpCard v-for="card in player.bestPoint" :key="card.id" :card="card"/>
         </div>
         <div v-else>
-          <FaceDownCard   v-for="card in player.cards" :key="card.id"/>
+          <FaceDownCard  v-for="card in player.cards" :key="card.id"/>
         </div>
       </div>
     </q-card-section>
