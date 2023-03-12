@@ -69,7 +69,7 @@ export default boot(({ router, store }) => {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()
       } else getTables()
-    } else if (to.path === "/callback") {
+    } else if (to.name === "/callback") {
       if (to.query.code && to.query.state) {
         Loading.show(Object.assign({}, options, {
           message: "Logging in. Hang on..."
@@ -78,8 +78,10 @@ export default boot(({ router, store }) => {
         Loading.hide()
         if (playerOpt) Notify.create("logged in " + playerOpt.email)
         else Notify.create("failed to login")
+        return true
       } else {
         Notify.create("missing query params code or state")
+        return true
       }
     }
     return true
