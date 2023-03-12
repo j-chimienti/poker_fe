@@ -31,8 +31,8 @@
         <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
       </div>
       <div v-else>
-        <div v-if="player.bestPoint">
-          <FaceUpCard v-for="card in player.bestPoint" :key="card.id" :card="card"/>
+        <div v-if="player.bestCards">
+          <FaceUpCard v-for="card in player.bestCards" :key="card.id" :card="card"/>
         </div>
         <div v-else>
           <FaceDownCard  v-for="card in player.cards" :key="card.id"/>

@@ -127,8 +127,8 @@ export const usePokerStore = defineStore("poker", {
         } else {
           pc = playerCardsMapped
         }
-        const bestPoint = _get(p.player, 'bestPoint.cards', []).map(c => new Card(c))
-        const updatedPlayer = Object.assign({}, p.player, {cards: pc, bestPoint})
+        const bestCards = _get(p.player, 'bestPoint.cards', []).map(c => new Card(c))
+        const updatedPlayer = Object.assign({}, p.player, {cards: pc, bestCards})
         const updatedP =  Object.assign({}, p, {player: updatedPlayer})
         return [idx, updatedP]
       })
