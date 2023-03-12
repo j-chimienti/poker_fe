@@ -78,10 +78,10 @@ export default boot(({ router, store }) => {
         Loading.hide()
         if (playerOpt) Notify.create("logged in " + playerOpt.email)
         else Notify.create("failed to login")
-        return true
+        return {name: "home"}
       } else {
         Notify.create("missing query params code or state")
-        return true
+        return {name: "home"}
       }
     }
     return true
