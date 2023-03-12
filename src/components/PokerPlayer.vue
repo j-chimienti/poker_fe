@@ -80,7 +80,7 @@ import {useAuthStore} from "stores/auth-store";
 import {secondsUntil} from "src/services/dateService";
 import PlayerAccountBalance from "components/PlayerAccountBalance.vue";
 import {playerName} from "src/services/playerService";
-import FaceDownCard from "components/FaceDownCard";
+import FaceDownCard from "components/FaceDownCard.vue";
 export default {
   name: 'PokerPlayer',
   components: {FaceDownCard, PlayerAccountBalance, FaceUpCard},
