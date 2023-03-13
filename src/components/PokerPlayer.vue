@@ -31,11 +31,11 @@
         <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
       </div>
       <div v-else>
-        <div v-if="player.bestCards">
+        <div v-if="player.bestCards.length">
           <FaceUpCard v-for="card in player.bestCards" :key="card.id" :card="card"/>
         </div>
         <div v-else>
-          <FaceDownCard  v-for="card in player.cards" :key="card.id"/>
+          <FaceDownCard  v-for="(card, i) in player.cards" :key="i"/>
         </div>
       </div>
     <q-circular-progress
