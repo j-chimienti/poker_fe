@@ -48,10 +48,10 @@ export default boot(({ router, store }) => {
   router.beforeEach(async (to, from) => {
     if (to.name === "table") {
       const id = to.params.id
-      if (!usePokerStore().table) {
-        const tableOpt = usePokerStore().tables.find(t => t.id === id)
-        if (tableOpt) usePokerStore().setTable(tableOpt)
-      }
+      // if (!usePokerStore().table) {
+      //   const tableOpt = usePokerStore().tables.find(t => t.id === id)
+      //   if (tableOpt) usePokerStore().setTable(tableOpt)
+      // }
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session(store)
         if (!playerOpt) confirmRefreshPage()
