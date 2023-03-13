@@ -50,7 +50,7 @@ export default boot(({ router, store }) => {
       const id = to.params.id
       if (!usePokerStore().table) {
         const tableOpt = usePokerStore().tables.find(t => t.id === id)
-        if (tableOpt) usePokerStore().table = tableOpt
+        if (tableOpt) usePokerStore().setTable(tableOpt)
       }
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session(store)
