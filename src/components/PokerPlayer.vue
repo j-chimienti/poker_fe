@@ -31,7 +31,7 @@
         <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
       </div>
       <div v-else>
-        <div v-if="player.bestCards.length">
+        <div v-if="player.bestCards && Array.isArray(player.bestCards) && player.bestCards.length">
           <FaceUpCard v-for="card in player.bestCards" :key="card.id" :card="card"/>
         </div>
         <div v-else>
