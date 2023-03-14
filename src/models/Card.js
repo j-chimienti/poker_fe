@@ -29,23 +29,26 @@ function formatRank(value, face = null) {
  * @param suite
  * @param value
  * @param face
- * @returns {{face, suite: *, formattedSuite: string, rank: *, formattedRank: string, value: *, cardClazz: string}}
+ * @returns {{image: (*), face: null, suite, formattedSuite: string, rank, formattedRank: (*|string), id: *, value}|{image: *, face: null, suite: null, formattedSuite: null, rank: null, formattedRank: null, id: *, faceDown: boolean, value: null}}
  * @constructor
  */
 export default function Card({ suite, value, face = null }) {
   const isFaceDown = value === -1
-  const formattedSuite = isFaceDown ? "" : findSuite(suite)
-  const formattedRank = isFaceDown ? -1 : formatRank(value, face)
-  const image = isFaceDown ? "" : mapCardToImage({ suite, value, face })
-  return {
-    id: v1(),
-    suite,
-    rank: value,
-    value,
-    face,
-    formattedSuite,
-    formattedRank,
-    image,
+  if (isFaceDown) return FaceDownCard()
+  else {
+    const formattedSuite = findSuite(suite)
+    const formattedRank = formatRank(value, face)
+    const image = mapCardToImage({ suite, value, face })
+    return {
+      id: v1(),
+      suite,
+      rank: value,
+      value,
+      face,
+      formattedSuite,
+      formattedRank,
+      image,
+    }
   }
 }
 import faceDownCardImg from "../assets/cards/Background_.png"
