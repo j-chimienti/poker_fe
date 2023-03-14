@@ -32,9 +32,11 @@ function formatRank(value, face = null) {
  * @returns {{face, suite: *, formattedSuite: string, rank: *, formattedRank: string, value: *, cardClazz: string}}
  * @constructor
  */
-export default function Card({ suite, value, face = null}) {
-  const formattedSuite = findSuite(suite)
-  const formattedRank = formatRank(value, face)
+export default function Card({ suite, value, face = null }) {
+  const isFaceDown = value === -1
+  const formattedSuite = isFaceDown ? "" : findSuite(suite)
+  const formattedRank = isFaceDown ? -1 : formatRank(value, face)
+  const image = isFaceDown ? "" : mapCardToImage({ suite, value, face })
   return {
     id: v1(),
     suite,
@@ -43,7 +45,7 @@ export default function Card({ suite, value, face = null}) {
     face,
     formattedSuite,
     formattedRank,
-    image: mapCardToImage({ suite, value, face }),
+    image,
   }
 }
 import faceDownCardImg from "../assets/cards/Background_.png"

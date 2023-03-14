@@ -7,11 +7,23 @@
       <div class="row justify-start wrap">
         <q-chip>
           <q-avatar>
-            <img :src="img">
+            <img :src="img(player.position)">
             <q-chip v-if="playerIsMe" label="star"/>
           </q-avatar>
           {{playerName(player)}}
         </q-chip>
+        <q-popup-edit
+          dark
+          v-if="playerIsMe"
+          v-model="playerNameCustom"
+          v-slot="scope"
+          @save="setPlayerName"
+        >
+          <q-input
+            v-model="scope.value"
+            dense autofocus counter @keyup.enter="scope.set"
+          />
+        </q-popup-edit>
         <q-chip v-if="showing">move:{{player.state}}</q-chip>
         <q-chip class="bg-yellow" v-if="player.winner">winner</q-chip>
         <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
@@ -76,18 +88,27 @@ import {secondsUntil} from "src/services/dateService";
 import PlayerAccountBalance from "components/PlayerAccountBalance.vue";
 import {playerName} from "src/services/playerService";
 import FaceDownCard from "components/FaceDownCard.vue";
+import {change_name} from "src/services/apiService";
 export default {
   name: 'PokerPlayer',
   components: {FaceDownCard, PlayerAccountBalance, FaceUpCard},
-  data() { return {showing: false, countdownBetTimeoutText: 0 }},
+  data() { return {showing: false, countdownBetTimeoutText: 0, playerNameCustom: this.player.name }},
   mounted() {
     setInterval(this.checkIf, 1000)
   },
   methods: {
+    setPlayerName(n) {
+      change_name(n)
+    },
     playerName,
     checkIf() {
       this.countdownBetTimeoutText = this.table && this.table.betTimeout ? secondsUntil(this.table.betTimeout) : -1
-    }
+    },
+    img(position) {
+      return this.playerIsMe ? "https://cdn.quasar.dev/img/boy-avatar.png" : `https://cdn.quasar.dev/img/avatar${position}.jpg`
+
+      // "https://cdn.quasar.dev/img/avatar.png"
+    },
   },
   computed: {
     getKlass() {
@@ -96,9 +117,7 @@ export default {
       else if (this.player.state ===  "SITTING" || this.player.state === "FOLDED") return "bg-grey"
       else return ""
     },
-    img() {
-      return this.playerIsMe ? "https://cdn.quasar.dev/img/boy-avatar.png" : "https://cdn.quasar.dev/img/avatar.png"
-    },
+
     playerIsMe() {
       return this.player.playerAccountId === this.playerId
     },
