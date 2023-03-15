@@ -1,39 +1,41 @@
-import {useAuthStore} from "stores/auth-store";
-import {Dialog, Loading, Notify, QSpinnerFacebook} from "quasar";
+import { useAuthStore } from "stores/auth-store"
+import { Dialog, Loading, Notify, QSpinnerFacebook } from "quasar"
 import { boot } from "quasar/wrappers"
-import {getSessionId} from "src/services/localStorageService";
-import {getTable, getTables, subscribeTable} from "src/services/apiService";
-import {usePokerStore} from "stores/poker-store";
+import { getSessionId } from "src/services/localStorageService"
+import { getTable, getTables, subscribeTable } from "src/services/apiService"
+import { usePokerStore } from "stores/poker-store"
 
-
-export function confirmRefreshPage () {
+export function confirmRefreshPage() {
   Dialog.create({
-    title: 'Cannot start game',
+    title: "Cannot start game",
     dark: true,
-    message: 'Error starting game. Would you like to refresh page?',
+    message: "Error starting game. Would you like to refresh page?",
     cancel: false,
-    persistent: true
-  }).onOk(() => {
-    window.location.reload()
-    // console.log('>>>> OK')
-  }).onOk(() => {
-    // console.log('>>>> second OK catcher')
-  }).onCancel(() => {
-    // console.log('>>>> Cancel')
-  }).onDismiss(() => {
-    // console.log('I am triggered on both OK and Cancel')
+    persistent: true,
   })
+    .onOk(() => {
+      window.location.reload()
+      // console.log('>>>> OK')
+    })
+    .onOk(() => {
+      // console.log('>>>> second OK catcher')
+    })
+    .onCancel(() => {
+      // console.log('>>>> Cancel')
+    })
+    .onDismiss(() => {
+      // console.log('I am triggered on both OK and Cancel')
+    })
 }
-
 
 const options = {
   // delay: 400,
   spinner: QSpinnerFacebook,
-  spinnerColor: 'warning',
+  spinnerColor: "warning",
   spinnerSize: 140,
-  backgroundColor: 'primary',
-  message: 'Starting game. Hang on...',
-  messageColor: 'warning'
+  backgroundColor: "primary",
+  message: "Starting game. Hang on...",
+  messageColor: "warning",
 }
 
 async function session(store) {
@@ -42,7 +44,6 @@ async function session(store) {
   Loading.hide()
   return playerOpt
 }
-
 
 export default boot(({ router, store }) => {
   router.beforeEach(async (to, from) => {
@@ -63,25 +64,29 @@ export default boot(({ router, store }) => {
         getTable(id)
         subscribeTable(id)
       }
-    }
-    else if (to.name === "home") {
+    } else if (to.name === "home") {
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()
       } else getTables()
-    } else if (to.name === "/callback") {
+    } else if (to.path === "/callback") {
       if (to.query.code && to.query.state) {
-        Loading.show(Object.assign({}, options, {
-          message: "Logging in. Hang on..."
-        }))
-        const playerOpt = await useAuthStore().oauthCallback({code: to.query.code, state: to.query.state})
+        Loading.show(
+          Object.assign({}, options, {
+            message: "Logging in. Hang on...",
+          })
+        )
+        const playerOpt = await useAuthStore().oauthCallback({
+          code: to.query.code,
+          state: to.query.state,
+        })
         Loading.hide()
         if (playerOpt) Notify.create("logged in " + playerOpt.email)
         else Notify.create("failed to login")
-        return {name: "home"}
+        return { name: "home" }
       } else {
         Notify.create("missing query params code or state")
-        return {name: "home"}
+        return { name: "home" }
       }
     }
     return true

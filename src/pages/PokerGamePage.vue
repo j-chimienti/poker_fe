@@ -63,8 +63,18 @@ export default {
   unmounted() { clearInterval(this.interval) },
  mounted() {
    this.interval = setInterval(this.handleCountdowns, 1000)
+   setInterval(this.sendSubscribeTable, 1000 * 15)
  },
   methods: {
+    sendSubscribeTable() {
+      if (this.table && this.table.id)
+      subscribeTable(this.table.id)
+      else {
+        const id = this.$route.params.id
+        console.log("table not found " + id)
+        subscribeTable(id)
+      }
+    },
     onRaise() {
 
       raise(this.table.id, this.raiseAmount)
