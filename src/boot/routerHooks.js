@@ -3,7 +3,6 @@ import { Dialog, Loading, Notify, QSpinnerFacebook } from "quasar"
 import { boot } from "quasar/wrappers"
 import { getSessionId } from "src/services/localStorageService"
 import { getTable, getTables, subscribeTable } from "src/services/apiService"
-import { usePokerStore } from "stores/poker-store"
 
 export function confirmRefreshPage() {
   Dialog.create({
