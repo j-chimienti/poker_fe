@@ -1,14 +1,13 @@
 /* eslint-disable */
 // eslint-disable-next-line import/no-cycle
-import {get as _get} from "lodash"
-import {Loading, Notify, QSpinnerFacebook} from "quasar"
+import { get as _get } from "lodash"
+import { Notify } from "quasar"
 
 import * as apiService from "../services/apiService"
 
-import {defineStore} from "pinia"
-import {useBlackjackStore} from "stores/blackjack-store"
-import {messageFactory} from "stores/messageFactory"
-import {clearSessionId, saveSessionId} from "src/services/localStorageService";
+import { defineStore } from "pinia"
+import { messageFactory } from "stores/messageFactory"
+import { clearSessionId, saveSessionId } from "src/services/localStorageService"
 
 const wsUrl = process.env.VUE_APP_WEBSOCKET_URL
 
@@ -24,9 +23,6 @@ export const useAuthStore = defineStore("auth", {
     isSessionUser: (state) =>
       Boolean(state.playerAccount) &&
       _get(state.playerAccount, "email", "").includes("session"),
-    sessionUserNoBalance: (state) => {
-      return state.isSessionUser && useBlackjackStore().balance
-    },
     playerId: (state) => _get(state.playerAccount, "id", null),
     email: (state) => _get(state.playerAccount, "email", "N/A"),
     sessionId: (state) => _get(state.playerAccount, "sessionId", null),
@@ -66,35 +62,25 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async onAuthSuccess({ playerAccount }) {
-      const bjackStore = useBlackjackStore()
       this.playerAccount = playerAccount
       saveSessionId(playerAccount.sessionId)
-      bjackStore.playingFor = _get(playerAccount, "email", "").includes(
-        "session"
-      )
-        ? "FREE"
-        : "BTC"
       await this.openWebsocket(playerAccount.sessionId)
-      useBlackjackStore().loginModalVisible = false
       return playerAccount
     },
     async oauthCallback({ code, state }) {
-
       const provider = "google" // todo: hardcode
       return apiService
         .oauthCallbackV2(provider, { code, state })
         .then((res) => this.onAuthSuccess(res.data))
-        .catch(err => {
+        .catch((err) => {
           return null
         })
-
     },
     async resumeSession(sessionId) {
-
       return apiService
         .resumeOrNewSession(sessionId)
         .then((res) => this.onAuthSuccess(res.data))
-        .catch(err => {
+        .catch((err) => {
           clearSessionId()
           return null
         })
@@ -102,25 +88,23 @@ export const useAuthStore = defineStore("auth", {
 
     signup({ password, email }) {
       this.requestingSession = true
-      return apiService
-        .signup(email, password)
-        .then((res) => {
-          this.loginModalVisible = false
-          if (res.status === 201) {
-            Notify.create({
-              type: "positive",
-              message: "Created playerAccount " + email,
-            })
-            return this.onAuthSuccess(res.data)
-          } else {
-            Notify.create({
-              type: "negative",
-              message: "Failed to signup",
-            })
-            clearSessionId()
-            return res
-          }
-        })
+      return apiService.signup(email, password).then((res) => {
+        this.loginModalVisible = false
+        if (res.status === 201) {
+          Notify.create({
+            type: "positive",
+            message: "Created playerAccount " + email,
+          })
+          return this.onAuthSuccess(res.data)
+        } else {
+          Notify.create({
+            type: "negative",
+            message: "Failed to signup",
+          })
+          clearSessionId()
+          return res
+        }
+      })
     },
     login(body) {
       this.requestingSession = true

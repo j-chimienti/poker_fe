@@ -4,8 +4,6 @@
 
 <script>
 import PlayingCard from "./PlayingCard.vue"
-import {mapState} from "pinia"
-import {useBlackjackStore} from "stores/blackjack-store"
 
 export default {
   name: "FaceUpCard",
