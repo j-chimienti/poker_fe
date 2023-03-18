@@ -72,8 +72,10 @@ export default boot(({ router, store }) => {
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()
-      } else getTables()
-      if (from.name === "table") navigateToLobby()
+      } else {
+        getTables()
+        navigateToLobby()
+      }
     } else if (to.path === "/callback") {
       if (to.query.code && to.query.state) {
         Loading.show(
@@ -86,7 +88,7 @@ export default boot(({ router, store }) => {
           state: to.query.state,
         })
         Loading.hide()
-        if (playerOpt) Notify.create("logged in " + playerOpt.email)
+        if (playerOpt) Notify.create("logged in " + playerOpt.name)
         else Notify.create("failed to login")
         return { name: "home" }
       } else {

@@ -66,12 +66,6 @@ export function deal(id) {
     tableId: id,
   })
 }
-export function new_round(id) {
-  return useAuthStore().sendWebsocketMessage({
-    action: actions.NEW_ROUND,
-    tableId: id,
-  })
-}
 
 export function change_name(name) {
   return useAuthStore().sendWebsocketMessage({ WsChangeName: null, name })

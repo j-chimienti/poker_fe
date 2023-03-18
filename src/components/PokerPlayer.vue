@@ -5,7 +5,7 @@
           <q-avatar>
             <img :src="img(player.position)">
           </q-avatar>
-          {{playerName(player)}}
+          {{player.name}}
         </q-chip>
         <q-popup-edit
           dark
@@ -46,7 +46,7 @@
       show-value
       class="text-white q-ma-md"
       :value="countdownBetTimeoutText"
-      size="50px"
+      size="40px"
       :thickness="0.2"
       color="orange"
       :min="0"
@@ -56,17 +56,10 @@
     >
       <q-icon name="timer" />
     </q-circular-progress>
-<!--    <q-circular-progress-->
-<!--      v-else-->
-<!--      class="text-white q-ma-md"-->
-<!--      size="50px"-->
-<!--      :thickness="0.2"-->
-<!--      color="red"-->
-<!--    >-->
-<!--      <q-icon name="person_off" />-->
-<!--    </q-circular-progress>-->
      <q-chip v-if="showing">move:{{player.state}}</q-chip>
-      <q-chip v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
+      <q-chip
+        :color="player.winner ? 'green' : null"
+        v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
   </div>
 </template>
 <script>
@@ -101,12 +94,7 @@ export default {
     },
   },
   computed: {
-    bgKlass() {
-      if (this.player.winner) return "bg-purple"
-      else if (this.isMyTurn) return "bg-green"
-      else if (this.player.state ===  "SITTING" || this.player.state === "FOLDED") return "bg-grey"
-      else return ""
-    },
+
     getKlass() {
       return 'object' + this.player.position //+ ' ' + this.bgKlass
     },

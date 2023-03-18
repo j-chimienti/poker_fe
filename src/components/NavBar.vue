@@ -10,7 +10,7 @@
           data-cy="openDrawerBtn"
           @click="rightDrawerOpen = !rightDrawerOpen"
         />
-        poker
+        <router-link :to="{name: 'home'}">poker</router-link>
 <!--        <img :src="logoSrc" style="width: 220px;" class="q-mr-lg" />-->
       </div>
     </q-toolbar>
