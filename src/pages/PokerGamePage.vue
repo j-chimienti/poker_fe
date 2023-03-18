@@ -1,38 +1,24 @@
 <template>
-  <div v-if="!table">loading...</div>
-  <div v-else>
-    <div class="row justify-center">
-      <q-btn @click="navigateToLobby" label="lobby" icon="arrow_left" color="secondary" />
-      <div>
-        <div >
-          <q-chip>{{table.title}}</q-chip>
-          <q-chip>{{table.round}}</q-chip>
-          <q-chip>hand:{{table.hand}}</q-chip>
-          <q-chip>pot:{{table.pot}}</q-chip>
-          <q-chip>players:{{Object.keys(table.pokerPlayers).length}}</q-chip>
-          <q-chip v-if="countdownText > 0" color="orange">
-            <div>next game starts: {{countdownText}}s</div>
-          </q-chip>
+    <div v-if="table">
+      <TableInfo :countdown-text="countdownText" />
+      <PokerTable />
+      <q-footer>
+        <div class="row flex-center">
+          <div v-if="joinedTable">
+            <q-form @submit="onRaise">
+              <q-input type="number" v-model.number="raiseAmount"/>
+            </q-form>
+          </div>
+          <q-btn-group v-if="joinedTable">
+            <q-btn @click="onRaise"  color="red" label="raise"/>
+            <q-btn @click="call(table.id)" color="green" label="call"/>
+            <q-btn @click="fold(table.id)" color="grey" label="fold"/>
+          </q-btn-group>
+          <q-btn v-if="joinedTable" @click="onLeave(table.id)" color="red" label="leave" />
+          <q-btn v-else   @click="join(table.id)" color="green" label="join"/>
         </div>
-      </div>
+      </q-footer>
     </div>
-    <PokerTable />
-    <div class="row justify-center" v-if="joinedTable && table && table.hand && table.hand !== 'WAITING'" >
-        <q-form @submit="onRaise">
-          <q-input type="number" v-model.number="raiseAmount"/>
-          <q-btn type="submit"  color="red" label="raise"/>
-        </q-form>
-        <q-btn-group>
-
-          <q-btn @click="call(table.id)" color="blue" label="call"/>
-          <q-btn @click="fold(table.id)" color="grey" label="fold"/>
-        </q-btn-group>
-      </div>
-    <div class="row">
-      <q-btn v-if="joinedTable" @click="onLeave(table.id)" color="red" label="leave"/>
-      <q-btn v-else size="lg" @click="join(table.id)" color="green" label="join"/>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -41,6 +27,7 @@ import {usePokerStore} from "stores/poker-store";
 import {call, fold, join, leave, raise, subscribeTable} from "src/services/apiService";
 import {mapState} from "pinia";
 import {secondsUntil} from "src/services/dateService";
+import TableInfo from "pages/TableInfo.vue";
 
 export default {
   computed: {
@@ -71,15 +58,7 @@ export default {
     handleCountdowns() {
       this.countdownText = this.table && this.table.nextHandStart ? secondsUntil(this.table.nextHandStart) : -1
     },
-    async navigateToLobby() {
-      if (this.table) {
-        try {
-          leave(this.table.id)
-        } catch (e) {
-        }
-      }
-      return this.$router.push({name: 'home'})
-    },
+
     onLeave(id) {
       leave(id)
       subscribeTable(id)
@@ -93,13 +72,9 @@ export default {
   },
 
   components: {
+    TableInfo,
     PokerTable
   }
 }
 </script>
 
-<style scoped>
-
-
-
-</style>

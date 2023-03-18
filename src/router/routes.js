@@ -11,9 +11,15 @@ const routes = [
     ],
   },
   {
-    name: "table",
     path: "/table/:id",
-    component: () => import("pages/PokerGamePage.vue"),
+    component: () => import("layouts/HomeLayout.vue"),
+    children: [
+      {
+        name: "table",
+        path: "",
+        component: () => import("pages/PokerGamePage.vue"),
+      },
+    ],
   },
 
   // Always leave this as last one,
