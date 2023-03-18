@@ -2,7 +2,12 @@ import { useAuthStore } from "stores/auth-store"
 import { Dialog, Loading, Notify, QSpinnerFacebook } from "quasar"
 import { boot } from "quasar/wrappers"
 import { getSessionId } from "src/services/localStorageService"
-import { getTable, getTables, subscribeTable } from "src/services/apiService"
+import {
+  getTable,
+  getTables,
+  navigateToLobby,
+  subscribeTable,
+} from "src/services/apiService"
 
 export function confirmRefreshPage() {
   Dialog.create({
@@ -68,6 +73,7 @@ export default boot(({ router, store }) => {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()
       } else getTables()
+      if (from.name === "table") navigateToLobby()
     } else if (to.path === "/callback") {
       if (to.query.code && to.query.state) {
         Loading.show(

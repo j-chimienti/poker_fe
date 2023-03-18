@@ -31,7 +31,7 @@ export default {
         el.style.transform = 'translate(-100px, -100vh)'
     },
     onEnter(el, done) {
-      const delay = this.cards.length > 2 ? 0 : el.dataset.index * 1
+      const delay = this.cards.length > 3 ? 0 : el.dataset.index * 1
       this.$gsap.to(el, {
         y: 0,
         x: 0,

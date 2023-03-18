@@ -1,12 +1,12 @@
 <template>
-  <div class="row justify-center table-wrapper" style="height: 90vh">
     <div class="table-v2">
-      <div class="row flex justify-center player-hand-container">
-        <PokerHand />
+    <div class="table-stuff">
+      <div class="pokerHand row flex-center">
+      <PokerHand  />
       </div>
     <PokerPlayers/>
-  </div>
-  </div>
+    </div>
+    </div>
 </template>
 
 <script>
@@ -23,40 +23,31 @@ export default {
 </script>
 
 <style scoped>
-.table-wrapper {
-  width: 100%;
-}
 
 .table-v2 {
   background: url("../assets/table-green.png") center center no-repeat;
   background-size: contain;
-  margin-top: -100px;
+  width: 100vw;
+  height: 100vh;
+}
+
+.table-stuff {
+  width: 70%;
+  height: 70%;
+  position: relative;
+  top: 10%;
+  left: 15%;
+
+}
+
+.pokerHand {
+  position: absolute;
+  top: 40%;
   width: 100%;
-}
-
-.dealer-hand-container {
-  margin-top: 300px;
-}
-
-.player-hand-container {
+  background: red;
   height: 100px;
-  margin-top: 100px;
 }
 
-@media all and (max-width: 500px) {
-  .table-wrapper {
-    width: 200vw;
-    margin-left: -50vw;
-  }
-  .table-v2 {
-    margin-top: 0;
-  }
 
-  .dealer-hand-container {
-    margin-top: 200px;
-  }
-  .player-hand-container {
-    margin-top: 25px;
-  }
-}
+
 </style>

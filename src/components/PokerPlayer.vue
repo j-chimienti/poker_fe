@@ -1,14 +1,9 @@
 <template>
-  <q-card :class="getKlass"
-          class="q-pa-md q-ma-md"
-          style="min-height: 240px"
-  >
-    <q-card-section>
+  <div :class="getKlass">
       <div class="row justify-start wrap">
         <q-chip>
           <q-avatar>
             <img :src="img(player.position)">
-            <q-chip v-if="playerIsMe" label="star"/>
           </q-avatar>
           {{playerName(player)}}
         </q-chip>
@@ -24,20 +19,17 @@
             dense autofocus counter @keyup.enter="scope.set"
           />
         </q-popup-edit>
-        <q-chip v-if="showing">move:{{player.state}}</q-chip>
-        <q-chip class="bg-yellow" v-if="player.winner">winner</q-chip>
-        <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
-        <q-chip v-if="player.sb || player.bb">
-          <span v-if="player.sb">SB</span>
-          <span v-else-if="player.bb">bb</span>
-        </q-chip>
-        <q-chip>bet=<PlayerAccountBalance :balance="player.bet"/></q-chip>
+<!--        <q-chip class="bg-yellow" v-if="player.winner">winner</q-chip>-->
+<!--        <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>-->
+<!--        <q-chip v-if="player.sb || player.bb">-->
+<!--          <span v-if="player.sb">SB</span>-->
+<!--          <span v-else-if="player.bb">bb</span>-->
+<!--        </q-chip>-->
+<!--        <q-chip>bet=<PlayerAccountBalance :balance="player.bet"/></q-chip>-->
         <q-chip>
           <PlayerAccountBalance :balance="player.balance"/>
         </q-chip>
         </div>
-    </q-card-section>
-  <q-card-section>
 
       <div v-if="playerIsMe">
         <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
@@ -64,20 +56,18 @@
     >
       <q-icon name="timer" />
     </q-circular-progress>
-    <q-circular-progress
-      v-else
-      class="text-white q-ma-md"
-      size="50px"
-      :thickness="0.2"
-      color="red"
-    >
-      <q-icon name="person_off" />
-    </q-circular-progress>
-    </q-card-section>
-    <q-card-actions style="min-height: 50px;">
+<!--    <q-circular-progress-->
+<!--      v-else-->
+<!--      class="text-white q-ma-md"-->
+<!--      size="50px"-->
+<!--      :thickness="0.2"-->
+<!--      color="red"-->
+<!--    >-->
+<!--      <q-icon name="person_off" />-->
+<!--    </q-circular-progress>-->
+     <q-chip v-if="showing">move:{{player.state}}</q-chip>
       <q-chip v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
-    </q-card-actions>
-  </q-card>
+  </div>
 </template>
 <script>
 import FaceUpCard from "components/FaceUpCard.vue"
@@ -111,11 +101,14 @@ export default {
     },
   },
   computed: {
-    getKlass() {
+    bgKlass() {
       if (this.player.winner) return "bg-purple"
       else if (this.isMyTurn) return "bg-green"
       else if (this.player.state ===  "SITTING" || this.player.state === "FOLDED") return "bg-grey"
       else return ""
+    },
+    getKlass() {
+      return 'object' + this.player.position //+ ' ' + this.bgKlass
     },
 
     playerIsMe() {

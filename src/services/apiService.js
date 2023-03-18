@@ -77,6 +77,13 @@ export function change_name(name) {
   return useAuthStore().sendWebsocketMessage({ WsChangeName: null, name })
 }
 
+export function navigateToLobby() {
+  return useAuthStore().sendWebsocketMessage({
+    WsNavigateToLobby: null,
+    name: "PLACEHOLDER",
+  })
+}
+
 export async function authorize(provider = "google") {
   return api.get(`/api/auth/authorize/${provider}`).then((res) => {
     const { url } = res.data

@@ -1,9 +1,5 @@
 <template>
-<div>
-  <div class="row flex-center" >
     <PokerPlayer v-for="player in pokerPlayersByPosition" :player="player" :key="player.position"/>
-  </div>
-</div>
 </template>
 
 <script>

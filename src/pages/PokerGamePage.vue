@@ -10,26 +10,14 @@
           <q-chip>hand:{{table.hand}}</q-chip>
           <q-chip>pot:{{table.pot}}</q-chip>
           <q-chip>players:{{Object.keys(table.pokerPlayers).length}}</q-chip>
-          <div  v-if="countdownText > 0">
-            next game starts:
-            <q-knob
-              :min="0"
-              :max="15"
-              v-model="countdownText"
-              size="50px"
-              :thickness="0.22"
-              class="q-ma-md"
-              show-value
-            />
-          </div>
-
-
+          <q-chip v-if="countdownText > 0" color="orange">
+            <div>next game starts: {{countdownText}}s</div>
+          </q-chip>
         </div>
       </div>
     </div>
-    <div>
-      <PokerTable />
-      <div class="row justify-center" v-if="joinedTable && table && table.hand && table.hand !== 'WAITING'" >
+    <PokerTable />
+    <div class="row justify-center" v-if="joinedTable && table && table.hand && table.hand !== 'WAITING'" >
         <q-form @submit="onRaise">
           <q-input type="number" v-model.number="raiseAmount"/>
           <q-btn type="submit"  color="red" label="raise"/>
@@ -40,9 +28,10 @@
           <q-btn @click="fold(table.id)" color="grey" label="fold"/>
         </q-btn-group>
       </div>
+    <div class="row">
+      <q-btn v-if="joinedTable" @click="onLeave(table.id)" color="red" label="leave"/>
+      <q-btn v-else size="lg" @click="join(table.id)" color="green" label="join"/>
     </div>
-    <q-btn v-if="joinedTable" @click="onLeave(table.id)" color="red" label="leave"/>
-    <q-btn v-else size="lg" @click="join(table.id)" color="green" label="join"/>
   </div>
 </template>
 

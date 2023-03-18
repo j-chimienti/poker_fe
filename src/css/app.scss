@@ -69,8 +69,89 @@ body {
   background-repeat: repeat;
   font-family: "Inter", serif;
   color: white;
+  height: 100vh;
+  min-height: 500px;
 }
 
 .pointer {
   cursor: pointer;
 }
+
+
+
+
+.object1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 250px;
+  //background-color: green;
+}
+
+.object2 {
+  position: absolute;
+  top: 0;
+  right: 40%;
+  width: 250px;
+  height: 250px;
+  //background-color: blue;
+}
+
+.object3 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 250px;
+  //background-color: orange;
+}
+
+.object4 {
+  position: absolute;
+  top: 40%;
+  right: -20%;
+  width: 250px;
+  height: 250px;
+  //background-color: purple;
+}
+
+.object8 {
+  position: absolute;
+  top: 40%;
+  left: -20%;
+  width: 250px;
+  height: 250px;
+  //background-color: pink;
+}
+
+
+.object7 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 250px;
+  height: 250px;
+  //background-color: teal;
+}
+
+.object6 {
+  position: absolute;
+  bottom: 0;
+  right: 40%;
+  width: 250px;
+  height: 250px;
+  //background-color: brown;
+}
+
+.object5 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 250px;
+  height: 250px;
+  //background-color: steelblue;
+}
+
+
+
