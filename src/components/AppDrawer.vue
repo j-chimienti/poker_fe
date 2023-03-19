@@ -17,7 +17,7 @@
           <img :src="isSessionUser ? 'https://cdn.quasar.dev/img/boy-avatar.png' : picture">
         </q-avatar>
 
-        <PlayerAccountBalance class="text-weight-bold"/>
+        <TweenedNumber class="text-weight-bold"/>
         <div>{{isSessionUser ? "anon" : email}}</div>
       </div>
     </q-img>
@@ -60,7 +60,7 @@ import DebitForm from "./DebitForm.vue"
 import CreateInvoice from "./CreateInvoice.vue"
 import LightningInvoice from "./LightningInvoice.vue"
 import SignupButton from "./SignupButton.vue"
-import PlayerAccountBalance from "components/PlayerAccountBalance.vue";
+import TweenedNumber from "components/TweenedNumber.vue";
 
 export default {
   name: "AppDrawer",
@@ -69,7 +69,7 @@ export default {
       miniState: true
     }
   },
-  components: {PlayerAccountBalance, SignupButton, LightningInvoice, CreateInvoice, DebitForm },
+  components: {TweenedNumber, SignupButton, LightningInvoice, CreateInvoice, DebitForm },
   mixins: [StoreMixin],
 }
 </script>

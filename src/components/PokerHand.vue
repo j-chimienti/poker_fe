@@ -4,12 +4,13 @@
     @before-enter="beforeEnter"
     @leave="onLeave"
   >
-     <PlayingCard
-       v-for="(card, idx) in cards"
-       :key="card.id"
-       :data-index="idx"
-       :card="card"
-     />
+       <PlayingCard
+         v-for="(card, idx) in cards"
+         :key="card.id"
+         :data-index="idx"
+         class="q-mx-sm"
+         :card="card"
+       />
   </TransitionGroup>
 </template>
 

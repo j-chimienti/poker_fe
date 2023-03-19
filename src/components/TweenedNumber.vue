@@ -5,7 +5,7 @@
 <script>
 import gsap from "gsap"
 export default {
-  name: "PlayerAccountBalance",
+  name: "TweenedNumber",
   props: {
     balance: {
       type: Number,

@@ -19,15 +19,13 @@
             dense autofocus counter @keyup.enter="scope.set"
           />
         </q-popup-edit>
-<!--        <q-chip class="bg-yellow" v-if="player.winner">winner</q-chip>-->
-<!--        <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>-->
-<!--        <q-chip v-if="player.sb || player.bb">-->
-<!--          <span v-if="player.sb">SB</span>-->
-<!--          <span v-else-if="player.bb">bb</span>-->
-<!--        </q-chip>-->
-<!--        <q-chip>bet=<PlayerAccountBalance :balance="player.bet"/></q-chip>-->
+        <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
+        <q-chip v-if="player.sb || player.bb">
+          <span v-if="player.sb">SB</span>
+          <span v-else-if="player.bb">bb</span>
+        </q-chip>
         <q-chip>
-          <PlayerAccountBalance :balance="player.balance"/>
+          <TweenedNumber :balance="player.balance"/>
         </q-chip>
         </div>
 
@@ -68,13 +66,13 @@ import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
 import {useAuthStore} from "stores/auth-store";
 import {secondsUntil} from "src/services/dateService";
-import PlayerAccountBalance from "components/PlayerAccountBalance.vue";
+import TweenedNumber from "components/TweenedNumber.vue";
 import {playerName} from "src/services/playerService";
 import FaceDownCard from "components/FaceDownCard.vue";
 import {change_name} from "src/services/apiService";
 export default {
   name: 'PokerPlayer',
-  components: {FaceDownCard, PlayerAccountBalance, FaceUpCard},
+  components: {FaceDownCard, TweenedNumber, FaceUpCard},
   data() { return {showing: false, countdownBetTimeoutText: 0, playerNameCustom: this.player.name }},
   mounted() {
     setInterval(this.checkIf, 1000)
