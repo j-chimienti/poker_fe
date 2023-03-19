@@ -1,8 +1,7 @@
 <template>
   <div class="row justify-center">
     <q-btn @click="navigateToLobby" label="lobby" icon="arrow_left" color="secondary"/>
-    <div>
-      <div>
+      <div v-if="table">
         <q-chip>{{table.title}}</q-chip>
         <q-chip>{{table.round}}</q-chip>
         <q-chip>hand:<TweenedNumber :balance="table.hand" /></q-chip>
@@ -10,7 +9,6 @@
         <q-chip v-if="countdownText > 0" color="orange">
           <div>next game starts: {{countdownText}}s</div>
         </q-chip>
-      </div>
     </div>
   </div>
 </template>
@@ -19,7 +17,7 @@ import {leave} from "src/services/apiService";
 import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
 import {secondsUntil} from "src/services/dateService";
-import TweenedNumber from "components/TweenedNumber";
+import TweenedNumber from "components/TweenedNumber.vue";
 
 export default {
   name: 'TableInfo',

@@ -22,7 +22,7 @@
         <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
         <q-chip v-if="player.sb || player.bb">
           <span v-if="player.sb">SB</span>
-          <span v-else-if="player.bb">bb</span>
+          <span v-else-if="player.bb">BB</span>
         </q-chip>
         <q-chip>
           <TweenedNumber :balance="player.balance"/>
@@ -40,24 +40,19 @@
           <FaceDownCard  v-for="(card, i) in player.cards" :key="i"/>
         </div>
       </div>
-    <q-circular-progress
-      show-value
-      class="text-white q-ma-md"
-      :value="countdownBetTimeoutText"
-      size="40px"
-      :thickness="0.2"
-      color="orange"
-      :min="0"
-      :max="30"
-      track-color="transparent"
-      v-if="isMyTurn && countdownBetTimeoutText > 0"
+    <q-chip
+      color="info"
+      icon="timer"
+        v-if="isMyTurn && countdownBetTimeoutText > 0"
     >
-      <q-icon name="timer" />
-    </q-circular-progress>
-     <q-chip v-if="showing">move:{{player.state}}</q-chip>
+      {{countdownBetTimeoutText}}
+    </q-chip>
+    <div v-else-if="table.winner">
       <q-chip
-        :color="player.winner ? 'green' : null"
+        :color="player.winner ? 'success' : null"
         v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
+    </div>
+     <q-chip v-else :color="getPlayerState(player.state)">{{player.state}}</q-chip>
   </div>
 </template>
 <script>
@@ -78,6 +73,13 @@ export default {
     setInterval(this.checkIf, 1000)
   },
   methods: {
+    getPlayerState(s) {
+      if (s === "FOLDED") return "negative"
+      else if (s === "CALLED") return "positive"
+      else if (s === "BETTED") return "positive"
+      else if (s === "RAISED") return "accent"
+      else if (s === "READY") return "positive"
+    },
     setPlayerName(n) {
       change_name(n)
     },

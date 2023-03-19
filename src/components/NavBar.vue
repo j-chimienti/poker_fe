@@ -12,7 +12,8 @@
           />
           <div class="text-h3">Poker</div>
         </div>
-      <TableInfo/>
+      <TableInfo v-if="showTable"/>
+      <div v-else class="text-h2"></div>
       <div></div>
     </q-toolbar>
   </q-header>
@@ -24,11 +25,11 @@ import TableInfo from "pages/TableInfo.vue";
 export default {
   name: "NavBar",
   components: {TableInfo},
-  data() {
-    return {
-
-    }
-  },
+ computed: {
+   showTable() {
+     return this.$route.name === "table"
+   }
+ },
   mixins: [StoreMixin],
 }
 </script>
