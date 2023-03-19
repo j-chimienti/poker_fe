@@ -1,7 +1,9 @@
 <template>
   <div :class="getKlass">
       <div class="row justify-start wrap">
-        <q-chip>
+        <q-chip
+          :color="player.winner ? 'positive' : null"
+        >
           <q-avatar>
             <img :src="img(player.position)">
           </q-avatar>
