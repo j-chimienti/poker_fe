@@ -1,7 +1,9 @@
 <template>
   <div :class="getKlass">
       <div class="row justify-start wrap">
-        <q-chip>
+        <q-chip
+          :color="player.winner ? 'positive' : null"
+        >
           <q-avatar>
             <img :src="img(player.position)">
           </q-avatar>
@@ -19,15 +21,13 @@
             dense autofocus counter @keyup.enter="scope.set"
           />
         </q-popup-edit>
-<!--        <q-chip class="bg-yellow" v-if="player.winner">winner</q-chip>-->
-<!--        <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>-->
-<!--        <q-chip v-if="player.sb || player.bb">-->
-<!--          <span v-if="player.sb">SB</span>-->
-<!--          <span v-else-if="player.bb">bb</span>-->
-<!--        </q-chip>-->
-<!--        <q-chip>bet=<PlayerAccountBalance :balance="player.bet"/></q-chip>-->
+        <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
+        <q-chip v-if="player.sb || player.bb">
+          <span v-if="player.sb">SB</span>
+          <span v-else-if="player.bb">BB</span>
+        </q-chip>
         <q-chip>
-          <PlayerAccountBalance :balance="player.balance"/>
+          <TweenedNumber :balance="player.balance"/>
         </q-chip>
         </div>
 
@@ -42,24 +42,19 @@
           <FaceDownCard  v-for="(card, i) in player.cards" :key="i"/>
         </div>
       </div>
-    <q-circular-progress
-      show-value
-      class="text-white q-ma-md"
-      :value="countdownBetTimeoutText"
-      size="40px"
-      :thickness="0.2"
-      color="orange"
-      :min="0"
-      :max="30"
-      track-color="transparent"
-      v-if="isMyTurn && countdownBetTimeoutText > 0"
+    <q-chip
+      color="info"
+      icon="timer"
+        v-if="isMyTurn && countdownBetTimeoutText > 0"
     >
-      <q-icon name="timer" />
-    </q-circular-progress>
-     <q-chip v-if="showing">move:{{player.state}}</q-chip>
+      {{countdownBetTimeoutText}}
+    </q-chip>
+    <div v-else-if="table.winner">
       <q-chip
-        :color="player.winner ? 'green' : null"
+        :color="player.winner ? 'success' : null"
         v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
+    </div>
+     <q-chip v-else :color="getPlayerState(player.state)">{{player.state}}</q-chip>
   </div>
 </template>
 <script>
@@ -68,18 +63,25 @@ import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
 import {useAuthStore} from "stores/auth-store";
 import {secondsUntil} from "src/services/dateService";
-import PlayerAccountBalance from "components/PlayerAccountBalance.vue";
+import TweenedNumber from "components/TweenedNumber.vue";
 import {playerName} from "src/services/playerService";
 import FaceDownCard from "components/FaceDownCard.vue";
 import {change_name} from "src/services/apiService";
 export default {
   name: 'PokerPlayer',
-  components: {FaceDownCard, PlayerAccountBalance, FaceUpCard},
+  components: {FaceDownCard, TweenedNumber, FaceUpCard},
   data() { return {showing: false, countdownBetTimeoutText: 0, playerNameCustom: this.player.name }},
   mounted() {
     setInterval(this.checkIf, 1000)
   },
   methods: {
+    getPlayerState(s) {
+      if (s === "FOLDED") return "negative"
+      else if (s === "CALLED") return "positive"
+      else if (s === "BETTED") return "positive"
+      else if (s === "RAISED") return "accent"
+      else if (s === "READY") return "positive"
+    },
     setPlayerName(n) {
       change_name(n)
     },

@@ -4,71 +4,9 @@
 @import "./cards.css";
 @import "./quasar.variables.scss";
 
-.q-field__native,
-.q-placeholder {
-  color: white;
-}
-
-.playingCards .card {
-  background: white;
-  color: black;
-}
-//@import url(https://fonts.googleapis.com/css?family=Inter);
-
-/* inter-regular - latin */
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  src: local(""),
-    url("../assets/fonts/inter-v11-latin/inter-v11-latin-regular.woff2")
-      format("woff2"),
-    /* Chrome 26+, Opera 23+, Firefox 39+ */
-      url("../assets/fonts/inter-v11-latin/inter-v11-latin-regular.woff")
-      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-}
-/* inter-500 - latin */
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  src: local(""),
-    url("../assets/fonts/inter-v11-latin/inter-v11-latin-500.woff2")
-      format("woff2"),
-    /* Chrome 26+, Opera 23+, Firefox 39+ */
-      url("../assets/fonts/inter-v11-latin/inter-v11-latin-500.woff")
-      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-}
-/* inter-600 - latin */
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 600;
-  src: local(""),
-    url("../assets/fonts/inter-v11-latin/inter-v11-latin-600.woff2")
-      format("woff2"),
-    /* Chrome 26+, Opera 23+, Firefox 39+ */
-      url("../assets/fonts/inter-v11-latin/inter-v11-latin-600.woff")
-      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-}
-/* inter-800 - latin */
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 800;
-  src: local(""),
-    url("../assets/fonts/inter-v11-latin/inter-v11-latin-800.woff2")
-      format("woff2"),
-    /* Chrome 26+, Opera 23+, Firefox 39+ */
-      url("../assets/fonts/inter-v11-latin/inter-v11-latin-800.woff")
-      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-}
-
 body {
-  background-image: url("../assets/blackjack-background.svg");
+  background-image: url("../assets/blackjack-background.svg") !important;
   background-repeat: repeat;
-  font-family: "Inter", serif;
-  color: white;
   height: 100vh;
   min-height: 500px;
 }
@@ -78,51 +16,34 @@ body {
 }
 
 
-
-
 .object1 {
   position: absolute;
   top: 0;
   left: 0;
-  width: 250px;
-  height: 250px;
-  //background-color: green;
 }
 
 .object2 {
   position: absolute;
   top: 0;
   right: 40%;
-  width: 250px;
-  height: 250px;
-  //background-color: blue;
 }
 
 .object3 {
   position: absolute;
   top: 0;
   right: 0;
-  width: 250px;
-  height: 250px;
-  //background-color: orange;
 }
 
 .object4 {
   position: absolute;
   top: 40%;
   right: -20%;
-  width: 250px;
-  height: 250px;
-  //background-color: purple;
 }
 
 .object8 {
   position: absolute;
   top: 40%;
   left: -20%;
-  width: 250px;
-  height: 250px;
-  //background-color: pink;
 }
 
 
@@ -130,27 +51,18 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 250px;
-  height: 250px;
-  //background-color: teal;
 }
 
 .object6 {
   position: absolute;
   bottom: 0;
   right: 40%;
-  width: 250px;
-  height: 250px;
-  //background-color: brown;
 }
 
 .object5 {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 250px;
-  height: 250px;
-  //background-color: steelblue;
 }
 
 

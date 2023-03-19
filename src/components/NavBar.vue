@@ -1,40 +1,39 @@
 <template>
-  <q-header elevated>
+  <q-header class="bg-transparent">
     <q-toolbar class="flex justify-between">
-      <div class="flex justtify-center">
-        <q-btn
-          dense
-          flat
-          round
-          icon="menu"
-          data-cy="openDrawerBtn"
-          @click="rightDrawerOpen = !rightDrawerOpen"
-        />
-        <router-link :to="{name: 'home'}">poker</router-link>
-<!--        <img :src="logoSrc" style="width: 220px;" class="q-mr-lg" />-->
-      </div>
+        <div class="flex justify-start">
+          <q-btn
+            dense
+            flat
+            round
+            icon="menu"
+            data-cy="openDrawerBtn"
+            @click="rightDrawerOpen = !rightDrawerOpen"
+          />
+          <div class="text-h3">Poker</div>
+        </div>
+      <TableInfo v-if="showTable"/>
+      <div v-else class="text-h2"></div>
+      <div></div>
     </q-toolbar>
   </q-header>
 </template>
 <script>
 import StoreMixin from "../mixins/StoreMixin.vue"
-import logoSrc from "../assets/bj-logo.png"
+import TableInfo from "pages/TableInfo.vue";
 
 export default {
   name: "NavBar",
-  data() {
-    return {
-      logoSrc,
-
-    }
-  },
+  components: {TableInfo},
+ computed: {
+   showTable() {
+     return this.$route.name === "table"
+   }
+ },
   mixins: [StoreMixin],
 }
 </script>
 
 <style>
-.navbar-bj {
-  background-size: cover;
-  background: url("../assets/BottomNav.png") no-repeat;
-}
+
 </style>
