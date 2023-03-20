@@ -1,20 +1,22 @@
 <template>
     <div v-if="table">
       <PokerTable />
-      <q-footer class="bg-transparent">
+      <q-footer class="bg-transparent q-pb-lg">
         <div class="row flex-center">
           <div v-if="joinedTable">
             <q-form @submit="onRaise">
               <q-input type="number" v-model.number="raiseAmount"/>
             </q-form>
           </div>
-          <q-btn-group v-if="joinedTable" push>
-            <q-btn size="lg" @click="onRaise"  push color="accent" label="raise"/>
-            <q-btn size="lg" @click="call(table.id)" push color="positive" label="call"/>
-            <q-btn size="lg" @click="fold(table.id)" push color="negative" label="fold"/>
-          </q-btn-group>
-          <q-btn size="lg" push v-if="joinedTable" @click="onLeave(table.id)" color="warning" label="leave" />
-          <q-btn size="lg" push  v-else   @click="join(table.id)" color="secondary" label="join"/>
+          <div v-if="joinedTable">
+            <q-btn rounded size="lg" @click="onRaise"  push color="accent" label="raise"/>
+            <q-btn rounded size="lg" @click="call(table.id)" push color="positive" label="call"/>
+            <q-btn rounded size="lg" @click="fold(table.id)" push color="negative" label="fold"/>
+          </div>
+          <div class="q-pl-xl">
+            <q-btn size="lg" v-if="joinedTable" @click="onLeave(table.id)" color="warning" label="leave" />
+            <q-btn size="lg" push  v-else   @click="join(table.id)" color="secondary" label="join"/>
+          </div>
         </div>
       </q-footer>
     </div>
