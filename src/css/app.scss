@@ -18,26 +18,28 @@ body {
 
 .object1 {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 10%;
+  left: 10%;
 }
 
 .object2 {
   position: absolute;
-  top: 0;
-  right: 40%;
+  top: 10%;
+  right: 50%;
+  transform: translateX(50%);
 }
 
 .object3 {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10%;
+  right: 10%;
 }
 
 .object4 {
   position: absolute;
-  top: 40%;
-  right: -20%;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
 }
 
 .object8 {

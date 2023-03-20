@@ -29,7 +29,7 @@ export default {
   methods: {
     beforeEnter(el) {
         el.style.opacity = 0
-        el.style.transform = 'translate(-100px, -100vh)'
+        el.style.transform = 'translate(-100px, -100px)'
     },
     onEnter(el, done) {
       const delay = this.cards.length > 3 ? 0 : el.dataset.index * 1
@@ -44,7 +44,7 @@ export default {
     },
     onLeave(el, done) {
       this.$gsap.to(el, {
-        y: "-100vh",
+        y: "-100px",
         opacity: 0,
         duration: 0.8,
         delay: 0,

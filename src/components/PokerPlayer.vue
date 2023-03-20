@@ -1,11 +1,11 @@
 <template>
-  <div :class="getKlass">
+  <div :class="getKlass" v-if="player">
       <div class="row justify-start wrap">
         <q-chip
           :color="player.winner ? 'positive' : null"
         >
           <q-avatar>
-            <img :src="img(player.position)">
+            <img :src="img">
           </q-avatar>
           {{player.name}}
         </q-chip>
@@ -31,30 +31,29 @@
         </q-chip>
         </div>
 
-      <div v-if="playerIsMe">
-        <FaceUpCard v-for="card in player.cards" :key="card.id" :card="card"/>
-      </div>
-      <div v-else>
-        <div v-if="player.bestCards && Array.isArray(player.bestCards) && player.bestCards.length">
-          <FaceUpCard v-for="card in player.bestCards" :key="card.id" :card="card"/>
+        <div v-if="playerIsMe">
+          <FaceUpCard class="q-mx-md" v-for="card in player.cards" :key="card.id" :card="card"/>
         </div>
-        <div v-else>
-          <FaceDownCard  v-for="(card, i) in player.cards" :key="i"/>
-        </div>
-      </div>
-    <q-chip
-      color="info"
-      icon="timer"
-        v-if="isMyTurn && countdownBetTimeoutText > 0"
-    >
-      {{countdownBetTimeoutText}}
-    </q-chip>
-    <div v-else-if="table.winner">
+        <FaceUpCard class="q-mx-sm" v-else-if="hasBestCards(player)" v-for="card in player.bestCards" :key="card.id" :card="card"/>
+        <FaceDownCard v-else  v-for="(card, i) in player.cards" :key="i" :style="getStyle(i)"/>
+    <div class="row" v-if="player.cards && Array.isArray(player.cards) && player.cards.length === 2">
       <q-chip
-        :color="player.winner ? 'success' : null"
-        v-if="player.bestPoint && player.bestPoint.message">{{player.bestPoint.message}}</q-chip>
+        color="info"
+        icon="timer"
+        v-if="isMyTurn"
+      >
+        {{countdownBetTimeoutText}}
+      </q-chip>
+      <div v-else-if="table.winner && player.bestPoint && player.bestPoint.message">
+        <q-chip
+          :color="player.winner ? 'success' : null"
+        >{{player.bestPoint.message}}
+        </q-chip>
+      </div>
+      <q-chip v-else :color="getPlayerState(player.state)">{{player.state}}</q-chip>
     </div>
-     <q-chip v-else :color="getPlayerState(player.state)">{{player.state}}</q-chip>
+
+
   </div>
 </template>
 <script>
@@ -67,14 +66,24 @@ import TweenedNumber from "components/TweenedNumber.vue";
 import {playerName} from "src/services/playerService";
 import FaceDownCard from "components/FaceDownCard.vue";
 import {change_name} from "src/services/apiService";
+import {getAvatar} from "src/services/avatarService";
+import {get} from 'lodash'
+
 export default {
   name: 'PokerPlayer',
   components: {FaceDownCard, TweenedNumber, FaceUpCard},
-  data() { return {showing: false, countdownBetTimeoutText: 0, playerNameCustom: this.player.name }},
+  data() { return {showing: false, countdownBetTimeoutText: '', playerNameCustom: this.player.name }},
   mounted() {
     setInterval(this.checkIf, 1000)
   },
   methods: {
+    getStyle(i) {
+      return (i === 1) ?  'margin-left: -40px' : ''
+    },
+    hasBestCards(player) {
+      const bc = get(player, "bestCards", [])
+      return Boolean(bc.length)
+    },
     getPlayerState(s) {
       if (s === "FOLDED") return "negative"
       else if (s === "CALLED") return "positive"
@@ -87,16 +96,18 @@ export default {
     },
     playerName,
     checkIf() {
-      this.countdownBetTimeoutText = this.table && this.table.betTimeout ? secondsUntil(this.table.betTimeout) : -1
-    },
-    img(position) {
-      return this.playerIsMe ? "https://cdn.quasar.dev/img/boy-avatar.png" : `https://cdn.quasar.dev/img/avatar${position}.jpg`
-
-      // "https://cdn.quasar.dev/img/avatar.png"
+      const until = this.table && this.table.betTimeout ? secondsUntil(this.table.betTimeout) : 0
+      this.countdownBetTimeoutText = until <= 0 ? '' : until
     },
   },
   computed: {
 
+
+    img() {
+
+      return getAvatar(this.player)
+
+    },
     getKlass() {
       return 'object' + this.player.position //+ ' ' + this.bgKlass
     },
@@ -111,12 +122,7 @@ export default {
     ...mapState(useAuthStore, ['playerId']),
   },
   watch: {
-    'player.state'(n, o) {
-      if (n && n!== 'READY' && n !== o) {
-        this.showing = true
-        setTimeout(() => this.showing = false, 2000)
-      }
-    }
+
   },
   props: {
     player: {}

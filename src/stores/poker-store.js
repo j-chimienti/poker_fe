@@ -100,6 +100,16 @@ Object.values(table_example.pokerPlayers)
 
 export const usePokerStore = defineStore("poker", {
   actions: {
+    onChatMessage(m) {
+      {
+        if (!this.chatMessages.hasOwnProperty(m.tableId))
+          Object.assign(this.chatMessages, { [m.tableId]: [m] })
+        else
+          Object.assign(this.chatMessages, {
+            [m.tableId]: this.chatMessages[m.tableId].concat(m).slice(-100),
+          })
+      }
+    },
     mapToTable(t) {
       const cardsMapped = t.cards.map((c) => new Card(c))
       const tableHand = _get(this.table, "hand", -1)
@@ -189,13 +199,14 @@ export const usePokerStore = defineStore("poker", {
     },
     playerOpt() {
       const playerId = useAuthStore().playerId
-      return _get(this.table, `pokerPlayers.${playerId}.player`)
+      return _get(this.table, `pokerPlayers.${playerId}.player`, null)
     },
   },
   state: () => {
     return {
       tables: [],
       table: null,
+      chatMessages: {},
     }
   },
 })

@@ -1,7 +1,7 @@
 <template>
   <img
     src="../assets/cards/Background_OLD.png"
-    width="75"
+    width="64"
     alt="missing background"
     class="card-back"
   />
