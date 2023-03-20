@@ -1,5 +1,5 @@
-import {Notify} from "quasar"
-import {usePokerStore} from "stores/poker-store";
+import { Notify } from "quasar"
+import { usePokerStore } from "stores/poker-store"
 
 export async function messageFactory(res) {
   const {
@@ -11,20 +11,24 @@ export async function messageFactory(res) {
     table = null,
     placeBet = null,
     failedToJoinTable = null,
-    gameResult = null
+    gameResult = null,
+    chatMessage = null,
   } = res
 
   // const lightingStore = useLightningStore()
   const pokerStore = usePokerStore()
 
+  if (chatMessage) {
+    pokerStore.onChatMessage(chatMessage)
+  }
   if (msg) {
-      Notify.create({
-        type: status === "failed" ? "negative" : "info",
-        message: msg,
-      })
+    Notify.create({
+      type: status === "failed" ? "negative" : "info",
+      message: msg,
+    })
   }
   if (gameResult) {
-    const {winner, hands, table} = gameResult
+    const { winner, hands, table } = gameResult
     Notify.create("winner= " + winner)
     // Notify.create({
     //   message: hands.map(h => h.hand.message),
@@ -34,7 +38,7 @@ export async function messageFactory(res) {
   }
   if (table) pokerStore.setTable(table)
   if (failedToJoinTable) {
-    const {table, message = ''} = failedToJoinTable
+    const { table, message = "" } = failedToJoinTable
     Notify.create(message)
   }
   if (placeBet) {
