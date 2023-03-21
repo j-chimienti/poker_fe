@@ -2,13 +2,15 @@
   <div class="row justify-center">
     <q-btn @click="navigateToLobby" label="lobby" icon="arrow_left" color="secondary"/>
       <div v-if="table">
-        <q-chip>{{table.title}}</q-chip>
-        <q-chip>{{table.round}}</q-chip>
-        <q-chip>hand:<TweenedNumber :balance="table.hand" /></q-chip>
-        <q-chip>pot: <TweenedNumber :balance="table.pot" /></q-chip>
-        <q-chip v-if="countdownText > 0" color="orange">
-          <div>next game starts: {{countdownText}}s</div>
+        <q-chip :ripple="false">{{table.title}}</q-chip>
+        <q-chip :ripple="false" v-if="countdownText > 0" color="orange">
+          <div>next hand: {{countdownText}}s</div>
         </q-chip>
+        <span v-else>
+          <q-chip :ripple="false">{{table.round}}</q-chip>
+          <q-chip :ripple="false">hand: <TweenedNumber :balance="table.hand" /></q-chip>
+          <q-chip :ripple="false">pot: <TweenedNumber :balance="table.pot" /></q-chip>
+        </span>
     </div>
   </div>
 </template>

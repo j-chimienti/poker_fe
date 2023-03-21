@@ -16,6 +16,8 @@
 //$accent: #ef284e;
 //$dark: $primary;
 
+
+//
 //$primary   : #1976D2;
 //$secondary : #26A69A;
 //$accent    : #9C27B0;
@@ -25,7 +27,10 @@
 //$negative  : #C10015;
 //$info      : #31CCEC;
 //$warning   : #F2C037;
+//
 
+
+// chatgpt 3
 $primary   : #024444;
 $secondary : #F2AA4C; /* a warm and vibrant orange color that complements the blue-green primary */
 $accent    : #8E44AD; /* a bright, attention-grabbing purple color */
@@ -37,3 +42,36 @@ $info      : #3498DB; /* a bright blue color that can be used for informational 
 $warning   : #F1C40F; /* a bright yellow color that can be used for warning messages */
 
 
+
+// chat gpt 4
+//$primary   : #024444;
+//$secondary : #026f6f;
+//$accent    : #f26d21;
+//$dark      : #1D1D1D;
+//$dark-page : #121212;
+//$positive  : #21BA45;
+//$negative  : #C10015;
+//$info      : #31CCEC;
+//$warning   : #F2C037;
+//
+//$pill-bg   : #0b5e5e;
+//$card-bg   : #0e6969;
+
+
+// Variables for website branding
+// chat gpt 4
+$primary   : #024444; // a dark and rich teal color, creating a sense of depth and sophistication
+$secondary : #F2784B; // a warm and vibrant coral color that complements the dark teal primary
+$accent    : #B58AD0; // a soft and elegant purple color that adds contrast to the primary and secondary colors
+$dark      : #1D1D1D; // a deep dark shade for text and UI elements
+$dark-page : #121212; // a slightly darker shade for page backgrounds
+
+// Background colors for pill and card components
+$pill-bg   : #1F6A6A; // a lighter teal shade derived from the primary color, suitable for pill backgrounds
+$card-bg   : #1C5D5D; // a slightly lighter teal shade derived from the primary color, suitable for card backgrounds
+
+// Colors for different types of notifications and messages
+$positive  : #21BA45; // a bright green color for positive messages and success indicators
+$negative  : #C10015; // a bold red color for negative messages and error indicators
+$info      : #31CCEC; // a striking blue color for informational messages
+$warning   : #F2C037; // a vibrant yellow color for warning messages and alerts

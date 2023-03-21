@@ -2,7 +2,9 @@
   <div :class="getKlass" v-if="player">
       <div class="row justify-start wrap">
         <q-chip
-          :color="player.winner ? 'positive' : null"
+          :clickable="false"
+          :ripple="false"
+          :color="player.winner ? 'positive' : ''"
         >
           <q-avatar>
             <img :src="img">
@@ -21,36 +23,38 @@
             dense autofocus counter @keyup.enter="scope.set"
           />
         </q-popup-edit>
-        <q-chip class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
-        <q-chip v-if="player.sb || player.bb">
+        <q-chip :ripple="false" class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
+        <q-chip :ripple="false" v-if="player.sb || player.bb">
           <span v-if="player.sb">SB</span>
           <span v-else-if="player.bb">BB</span>
         </q-chip>
-        <q-chip>
+        <q-chip :ripple="false">
           <TweenedNumber :balance="player.balance"/>
         </q-chip>
         </div>
 
         <div v-if="playerIsMe">
-          <FaceUpCard class="q-mx-md" v-for="card in player.cards" :key="card.id" :card="card"/>
+          <FaceUpCard class="q-mx-xs" v-for="card in player.cards" :key="card.id" :card="card"/>
         </div>
         <FaceUpCard class="q-mx-sm" v-else-if="hasBestCards(player)" v-for="card in player.bestCards" :key="card.id" :card="card"/>
         <FaceDownCard v-else  v-for="(card, i) in player.cards" :key="i" :style="getStyle(i)"/>
     <div class="row" v-if="player.cards && Array.isArray(player.cards) && player.cards.length === 2">
-      <q-chip
-        color="info"
+      <q-chip :ripple="false"
+        color="warning"
         icon="timer"
         v-if="isMyTurn"
+        :clickable="false"
       >
         {{countdownBetTimeoutText}}
       </q-chip>
       <div v-else-if="table.winner && player.bestPoint && player.bestPoint.message">
-        <q-chip
+        <q-chip :ripple="false"
+          :clickable="false"
           :color="player.winner ? 'success' : null"
         >{{player.bestPoint.message}}
         </q-chip>
       </div>
-      <q-chip v-else :color="getPlayerState(player.state)">{{player.state}}</q-chip>
+      <q-chip :ripple="false" v-else :color="getPlayerState(player.state)">{{player.state}}</q-chip>
     </div>
 
 
@@ -84,6 +88,7 @@ export default {
       const bc = get(player, "bestCards", [])
       return Boolean(bc.length)
     },
+    isFolded(state) { return state === 'FOLDED'},
     getPlayerState(s) {
       if (s === "FOLDED") return "negative"
       else if (s === "CALLED") return "positive"
