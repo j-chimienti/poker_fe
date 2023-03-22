@@ -71,6 +71,14 @@ export function change_name(name) {
   return useAuthStore().sendWebsocketMessage({ WsChangeName: null, name })
 }
 
+export function chatMessage(message, tableId) {
+  return useAuthStore().sendWebsocketMessage({
+    WsChatMessage: null,
+    message,
+    tableId,
+  })
+}
+
 export function navigateToLobby() {
   return useAuthStore().sendWebsocketMessage({
     WsNavigateToLobby: null,

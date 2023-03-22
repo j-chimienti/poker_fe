@@ -5,6 +5,7 @@ import wayne from "assets/avatars/wayne.jpeg"
 import sean from "assets/avatars/sean_connery.jpeg"
 
 export function getAvatar(player) {
+  if (!player) return `https://cdn.quasar.dev/img/avatar1.jpg`
   const n = player.name
   if (n.includes("austin")) return austin
   else if (n.includes("donald")) return donald
