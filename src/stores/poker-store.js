@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 import { useAuthStore } from "stores/auth-store"
 import { get as _get } from "lodash"
 import Card from "src/models/Card"
-
+import { flatten, uniqBy } from "lodash"
 const table_example = {
   round: 0,
   id: "8",
@@ -166,6 +166,16 @@ export const usePokerStore = defineStore("poker", {
     },
   },
   getters: {
+    allPlayers() {
+      return uniqBy(
+        flatten(
+          this.tables.map((table) =>
+            Object.values(table.pokerPlayers).map((p) => p.player)
+          )
+        ),
+        "playerAccountId"
+      )
+    },
     pokerPlayersByPosition() {
       return this.pokerPlayers
         .map((p) => p.player)

@@ -1,8 +1,10 @@
 <template>
     <div v-if="table">
       <PokerTable />
+      <ChatMessages :table-id="table.id" style="position: fixed; left: 60px; bottom: 100px; max-height: 250px; overflow-y: scroll;"/>
       <q-footer class="bg-transparent q-pb-lg">
         <div class="row flex-center">
+          <SendMessageForm style="position: fixed; left: 10px;"/>
           <div v-if="joinedTable">
             <q-form @submit="onRaise">
               <q-input type="number" v-model.number="raiseAmount"/>
@@ -19,8 +21,8 @@
           </div>
         </div>
       </q-footer>
+
     </div>
-      <ChatMessages/>
 </template>
 
 <script>
@@ -29,6 +31,7 @@ import {usePokerStore} from "stores/poker-store";
 import {call, fold, join, leave, raise, subscribeTable} from "src/services/apiService";
 import {mapState} from "pinia";
 import ChatMessages from "components/ChatMessages.vue";
+import SendMessageForm from "components/SendMessageForm.vue";
 
 export default {
   computed: {
@@ -69,6 +72,7 @@ export default {
   },
 
   components: {
+    SendMessageForm,
     ChatMessages,
     PokerTable
   }
