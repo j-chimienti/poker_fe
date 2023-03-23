@@ -4,7 +4,7 @@
     <div v-else :class="'object' + position">
       <q-btn color="accent" size="lg"
              :disable="joinedTable"
-             @click="joinTable(tableId, position)" icon="add" push rounded :label="position"/>
+             @click="joinTable(tableId, position)" icon="add" push rounded />
     </div>
   </div>
 </template>

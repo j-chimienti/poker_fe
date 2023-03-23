@@ -2,19 +2,20 @@
   <div :class="getKlass">
     <div  :class="getColumnClass">
       <div class="row justify-start">
-        <q-popup-edit
-          dark
-          v-if="playerIsMe"
-          v-model="playerNameCustom"
-          v-slot="scope"
-          @save="setPlayerName"
-        >
-          <q-input
-            v-model="scope.value"
-            dense autofocus counter @keyup.enter="scope.set"
-          />
-        </q-popup-edit>
+
         <q-chip>
+          <q-popup-edit
+            dark
+            v-if="playerIsMe"
+            v-model="playerNameCustom"
+            v-slot="scope"
+            @save="setPlayerName"
+          >
+            <q-input
+              v-model="scope.value"
+              dense autofocus counter @keyup.enter="scope.set"
+            />
+          </q-popup-edit>
           <q-avatar rounded>
             <img :src="img">
           </q-avatar>

@@ -8,6 +8,7 @@ import {
   navigateToLobby,
   subscribeTable,
 } from "src/services/apiService"
+import { usePokerStore } from "stores/poker-store"
 
 export function confirmRefreshPage() {
   Dialog.create({
@@ -53,10 +54,12 @@ export default boot(({ router, store }) => {
   router.beforeEach(async (to, from) => {
     if (to.name === "table") {
       const id = to.params.id
-      // if (!usePokerStore().table) {
-      //   const tableOpt = usePokerStore().tables.find(t => t.id === id)
-      //   if (tableOpt) usePokerStore().setTable(tableOpt)
-      // }
+      const pokerStore = usePokerStore()
+      pokerStore.room = id
+      if (!pokerStore.table || pokerStore.table.id !== id) {
+        const tableOpt = pokerStore.tables.find((t) => t.id === id)
+        if (tableOpt) pokerStore.setTable(tableOpt)
+      }
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session(store)
         if (!playerOpt) confirmRefreshPage()
@@ -69,6 +72,8 @@ export default boot(({ router, store }) => {
         subscribeTable(id)
       }
     } else if (to.name === "home") {
+      const pokerStore = usePokerStore()
+      pokerStore.room = "lobby"
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()

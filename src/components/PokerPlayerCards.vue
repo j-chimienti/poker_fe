@@ -1,12 +1,15 @@
 <template>
-  <div v-if="player.hasOwnProperty('cards') && !player.cards.length">
+  <div v-if="playerIsMe || hasBestCards">
+    <FaceUpCard class="q-mx-xs"
+                v-for="card in getCards" :key="card.id"
+                :card="card"/>
+  </div>
+  <div v-else-if="player.cards.length">
+    <FaceDownCard v-for="(card, i) in player.cards" :key="i" :style="getStyle(i)"/>
+  </div>
+  <div v-else>
     <div class="card-outline"></div>
   </div>
-  <div v-if="playerIsMe">
-    <FaceUpCard class="q-mx-xs" v-for="card in player.cards" :key="card.id" :card="card"/>
-  </div>
-  <FaceUpCard class="q-mx-sm" v-else-if="hasBestCards" v-for="card in player.bestCards" :key="card.id" :card="card"/>
-  <FaceDownCard v-else v-for="(card, i) in player.cards" :key="i" :style="getStyle(i)"/>
 </template>
 <script>
 import FaceDownCard from "components/FaceDownCard.vue"
@@ -50,6 +53,10 @@ export default {
     },
   },
   computed: {
+
+    getCards() {
+      return this.hasBestCards ? this.player.bestCards : this.player.cards
+    },
 
     hasBestCards() {
       const bc = get(this.player, "bestCards", [])
