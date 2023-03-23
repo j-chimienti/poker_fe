@@ -9,16 +9,12 @@
 </template>
 <script>
 import {chatMessage} from "src/services/apiService";
+import RouterMixin from "src/mixins/RouterMixin.vue";
 
 export default {
   name: 'SendMessageForm',
   data() { return {msg: ''}},
-  computed: {
-    tableId() {
-      if (this.$route.name === "table") return this.$route.params.id
-      return "lobby"
-    }
-  },
+  mixins: [RouterMixin],
   methods: {
 
     sendMessage() {

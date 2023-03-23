@@ -13,7 +13,7 @@
 
 <script>
 import {usePokerStore} from "stores/poker-store";
-import {getTables, join} from "src/services/apiService";
+import {getTables, joinTable} from "src/services/apiService";
 import {mapState} from "pinia";
 
 export default {

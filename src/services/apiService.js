@@ -26,10 +26,11 @@ export function getTables() {
   })
 }
 
-export function join(id) {
+export function joinTable(id, position) {
   return useAuthStore().sendWebsocketMessage({
     action: actions.JOIN,
     tableId: id,
+    position,
   })
 }
 

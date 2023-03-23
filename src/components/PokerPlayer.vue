@@ -1,15 +1,34 @@
 <template>
-  <div :class="getKlass" v-if="player">
-      <div class="row justify-start wrap">
+  <div :class="getKlass">
+    <div  :class="getColumnClass">
+      <div class="row justify-start">
         <q-chip
           :clickable="false"
           :ripple="false"
           :color="player.winner ? 'positive' : ''"
         >
-          <q-avatar>
+          <q-avatar rounded size="48px">
             <img :src="img">
+            <q-badge :ripple="false"
+                     color="warning"
+                     floating
+                     icon="timer"
+                     v-if="isMyTurn"
+                     :clickable="false"
+            >
+              {{ countdownBetTimeoutText }}
+            </q-badge>
+            <div v-else-if="table.winner && player.bestPoint && player.bestPoint.message">
+              <q-badge :ripple="false"
+                       :clickable="false"
+                       floating
+                       :color="player.winner ? 'success' : null"
+              >{{ player.bestPoint.message }}
+              </q-badge>
+            </div>
+            <q-badge floating :ripple="false" v-else :color="getPlayerState(player.state)">{{ player.state }}</q-badge>
           </q-avatar>
-          {{player.name}}
+          {{ player.name }}
         </q-chip>
         <q-popup-edit
           dark
@@ -28,66 +47,47 @@
           <span v-if="player.sb">SB</span>
           <span v-else-if="player.bb">BB</span>
         </q-chip>
+
+      </div>
+      <div class="row q-my-sm">
         <q-chip :ripple="false">
           <TweenedNumber :balance="player.balance"/>
         </q-chip>
-        </div>
-
-        <div v-if="playerIsMe">
-          <FaceUpCard class="q-mx-xs" v-for="card in player.cards" :key="card.id" :card="card"/>
-        </div>
-        <FaceUpCard class="q-mx-sm" v-else-if="hasBestCards(player)" v-for="card in player.bestCards" :key="card.id" :card="card"/>
-        <FaceDownCard v-else  v-for="(card, i) in player.cards" :key="i" :style="getStyle(i)"/>
-    <div class="row" v-if="player.cards && Array.isArray(player.cards) && player.cards.length === 2">
-      <q-chip :ripple="false"
-        color="warning"
-        icon="timer"
-        v-if="isMyTurn"
-        :clickable="false"
-      >
-        {{countdownBetTimeoutText}}
-      </q-chip>
-      <div v-else-if="table.winner && player.bestPoint && player.bestPoint.message">
-        <q-chip :ripple="false"
-          :clickable="false"
-          :color="player.winner ? 'success' : null"
-        >{{player.bestPoint.message}}
-        </q-chip>
       </div>
-      <q-chip :ripple="false" v-else :color="getPlayerState(player.state)">{{player.state}}</q-chip>
+      <div class="row q-mt-md">
+        <PokerPlayerCards :player="player"/>
+      </div>
     </div>
-
-
   </div>
+
 </template>
 <script>
-import FaceUpCard from "components/FaceUpCard.vue"
 import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
 import {useAuthStore} from "stores/auth-store";
 import {secondsUntil} from "src/services/dateService";
 import TweenedNumber from "components/TweenedNumber.vue";
 import {playerName} from "src/services/playerService";
-import FaceDownCard from "components/FaceDownCard.vue";
 import {change_name} from "src/services/apiService";
 import {getAvatar} from "src/services/avatarService";
 import {get} from 'lodash'
+import ApiMixin from "src/mixins/ApiMixin.vue";
+import RouterMixin from "src/mixins/RouterMixin.vue";
+import PokerPlayerCards from "components/PokerPlayerCards.vue";
 
 export default {
   name: 'PokerPlayer',
-  components: {FaceDownCard, TweenedNumber, FaceUpCard},
-  data() { return {showing: false, countdownBetTimeoutText: '', playerNameCustom: this.player.name }},
+  mixins: [RouterMixin, ApiMixin],
+  components: {PokerPlayerCards, TweenedNumber},
+  data() { return {showing: false, countdownBetTimeoutText: '', playerNameCustom: get(this.player, 'name', '') }},
   mounted() {
     setInterval(this.checkIf, 1000)
   },
   methods: {
     getStyle(i) {
-      return (i === 1) ?  'margin-left: -40px' : ''
+      return (i === 1) ?  'margin-left: -50px' : ''
     },
-    hasBestCards(player) {
-      const bc = get(player, "bestCards", [])
-      return Boolean(bc.length)
-    },
+
     isFolded(state) { return state === 'FOLDED'},
     getPlayerState(s) {
       if (s === "FOLDED") return "negative"
@@ -107,6 +107,21 @@ export default {
   },
   computed: {
 
+    getColumnClass() {
+      if (this.player.position === 1) return 'column'
+      else if (this.player.position === 2) return 'column'
+      else if (this.player.position === 3) return 'column'
+      else if (this.player.position === 4) return 'row reverse'
+      else if (this.player.position === 5) return 'row reverse'
+      else if (this.player.position === 6) return 'column reverse'
+      else if (this.player.position === 7) return 'column reverse'
+      else if (this.player.position === 8) return 'column reverse'
+      else if (this.player.position === 9) return 'row'
+      else if (this.player.position === 10) return 'row'
+      else {
+        return ''
+      }
+    },
 
     img() {
 
@@ -114,7 +129,7 @@ export default {
 
     },
     getKlass() {
-      return 'object' + this.player.position //+ ' ' + this.bgKlass
+      return 'object' + this.player.position
     },
 
     playerIsMe() {
@@ -126,11 +141,10 @@ export default {
     ...mapState(usePokerStore, ['pokerPlayers','table', 'playerTurn', 'pokerPlayersByPosition']),
     ...mapState(useAuthStore, ['playerId']),
   },
-  watch: {
 
-  },
   props: {
     player: {}
   }
 }
 </script>
+
