@@ -1,11 +1,12 @@
 
 <script>
+import {usePokerStore} from "stores/poker-store";
+
 export default {
   name: "RouterMixin",
   computed: {
     tableId() {
-      if (this.$route.name === "table") return this.$route.params.id
-      return "lobby"
+      return usePokerStore().room
     }
   }
 }
