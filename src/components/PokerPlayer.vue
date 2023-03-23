@@ -2,34 +2,6 @@
   <div :class="getKlass">
     <div  :class="getColumnClass">
       <div class="row justify-start">
-        <q-chip
-          :clickable="false"
-          :ripple="false"
-          :color="player.winner ? 'positive' : ''"
-        >
-          <q-avatar rounded size="48px">
-            <img :src="img">
-            <q-badge :ripple="false"
-                     color="warning"
-                     floating
-                     icon="timer"
-                     v-if="isMyTurn"
-                     :clickable="false"
-            >
-              {{ countdownBetTimeoutText }}
-            </q-badge>
-            <div v-else-if="table.winner && player.bestPoint && player.bestPoint.message">
-              <q-badge :ripple="false"
-                       :clickable="false"
-                       floating
-                       :color="player.winner ? 'success' : null"
-              >{{ player.bestPoint.message }}
-              </q-badge>
-            </div>
-            <q-badge floating :ripple="false" v-else :color="getPlayerState(player.state)">{{ player.state }}</q-badge>
-          </q-avatar>
-          {{ player.name }}
-        </q-chip>
         <q-popup-edit
           dark
           v-if="playerIsMe"
@@ -42,6 +14,34 @@
             dense autofocus counter @keyup.enter="scope.set"
           />
         </q-popup-edit>
+        <q-chip>
+          <q-avatar rounded>
+            <img :src="img">
+          </q-avatar>
+          {{player.name}}
+        </q-chip>
+
+        <div>
+          <q-badge :ripple="false"
+                   color="warning"
+                   floating
+                   icon="timer"
+                   v-if="isMyTurn"
+                   :clickable="false"
+          >
+            {{ countdownBetTimeoutText }}
+          </q-badge>
+          <div v-else-if="table.winner && player.bestPoint && player.bestPoint.message">
+            <q-badge :ripple="false"
+                     :clickable="false"
+                     floating
+                     :color="player.winner ? 'success' : null"
+            >{{ player.bestPoint.message }}
+            </q-badge>
+          </div>
+          <q-badge v-else floating :ripple="false" :color="getPlayerState(player.state)">{{ player.state }}</q-badge>
+        </div>
+
         <q-chip :ripple="false" class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
         <q-chip :ripple="false" v-if="player.sb || player.bb">
           <span v-if="player.sb">SB</span>
