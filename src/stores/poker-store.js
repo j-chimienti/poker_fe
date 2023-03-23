@@ -2,7 +2,8 @@ import { defineStore } from "pinia"
 import { useAuthStore } from "stores/auth-store"
 import { get as _get } from "lodash"
 import Card from "src/models/Card"
-import { flatten, uniqBy } from "lodash"
+import { flatten, uniqBy, range, difference } from "lodash"
+import { openSeats } from "src/services/tableService"
 const table_example = {
   round: 0,
   id: "8",
@@ -180,6 +181,9 @@ export const usePokerStore = defineStore("poker", {
       return this.pokerPlayers
         .map((p) => p.player)
         .sort((a, b) => a.position - b.position)
+    },
+    tablePositions() {
+      return openSeats(this.table)
     },
     hand() {
       return _get(this.table, "hand", -1)

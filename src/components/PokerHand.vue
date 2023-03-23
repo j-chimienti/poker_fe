@@ -11,6 +11,7 @@
          class="q-mx-sm"
          :card="card"
        />
+        <div class="card-outline" v-for="card in cardsAndHoles" :key="card"></div>
   </TransitionGroup>
 </template>
 
@@ -23,7 +24,18 @@ import {mapState} from "pinia";
 export default {
   name: "BlackjackHand",
   computed: {
-    ...mapState(usePokerStore, ['cards'])
+    ...mapState(usePokerStore, ['cards']),
+    cardsAndHoles() {
+      const cards = this.cards;
+        const holes = []
+      if (cards.length < 5) {
+        const items = 5 - cards.length
+        for (let i = 1; i <= items; i++) {
+          holes.push(i)
+        }
+      }
+      return holes
+    }
   },
   components: { PlayingCard },
   methods: {
@@ -43,6 +55,7 @@ export default {
       })
     },
     onLeave(el, done) {
+      // todo: don't animate hole cards
       this.$gsap.to(el, {
         y: "-100px",
         opacity: 0,

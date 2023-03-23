@@ -1,10 +1,10 @@
 <template>
-    <div v-if="table">
+    <div v-if="table" class="table-v2">
       <PokerTable />
-      <ChatMessages :table-id="table.id" style="position: fixed; left: 60px; bottom: 100px; max-height: 250px; overflow-y: scroll;"/>
-      <q-footer class="bg-transparent q-pb-lg">
+<!--      <ChatMessages :table-id="table.id" style="position: fixed; left: 60px; bottom: 100px; max-height: 250px; overflow-y: scroll;"/>-->
+      <q-footer class="bg-transparent">
         <div class="row flex-center">
-          <SendMessageForm style="position: fixed; left: 10px;"/>
+<!--          <SendMessageForm style="position: fixed; left: 10px;"/>-->
           <div v-if="joinedTable">
             <q-form @submit="onRaise">
               <q-input type="number" v-model.number="raiseAmount"/>
@@ -17,7 +17,6 @@
           </div>
           <div class="q-pl-xl">
             <q-btn size="lg" v-if="joinedTable" @click="onLeave(table.id)" color="warning" label="leave" />
-            <q-btn size="lg" push  v-else   @click="join(table.id)" color="secondary" label="join"/>
           </div>
         </div>
       </q-footer>
@@ -28,12 +27,14 @@
 <script>
 import PokerTable from "components/PokerTable.vue"
 import {usePokerStore} from "stores/poker-store";
-import {call, fold, join, leave, raise, subscribeTable} from "src/services/apiService";
+import {leave, raise, subscribeTable} from "src/services/apiService";
 import {mapState} from "pinia";
 import ChatMessages from "components/ChatMessages.vue";
 import SendMessageForm from "components/SendMessageForm.vue";
+import ApiMixin from "src/mixins/ApiMixin.vue";
 
 export default {
+  mixins: [ApiMixin],
   computed: {
     ...mapState(usePokerStore, ['table', 'joinedTable', 'round'])
   },
@@ -64,11 +65,7 @@ export default {
       subscribeTable(id)
     },
 
-    join,
-    fold,
-    leave,
-    call,
-    raise
+
   },
 
   components: {
@@ -79,3 +76,11 @@ export default {
 }
 </script>
 
+<style>
+.table-v2 {
+  background: url("../assets/table-green.png") center center no-repeat;
+  background-size: contain;
+  width: 100vw;
+  height: 100vh;
+}
+</style>

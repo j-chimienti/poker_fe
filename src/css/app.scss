@@ -19,59 +19,80 @@ body {
   background: $pill-bg;
 }
 
-
-
-
-.object1 {
-  position: absolute;
-  top: 10%;
-  left: 10%;
+.card-outline {
+  width: 75px;
+  height: 104px;
+  border: 3px dotted black;
+  border-radius: 15px;
 }
 
-.object2 {
-  position: absolute;
-  top: 10%;
-  right: 50%;
-  transform: translateX(50%);
+@for $i from 1 through 10 {
+  .object#{$i} {
+    position: absolute;
+  }
 }
 
-.object3 {
-  position: absolute;
-  top: 10%;
-  right: 10%;
+.object1, .object2, .object3 {
+  top: 15%;
+}
+
+.object1, .join-btn-1, .object8 {
+  left: 30%;
+}
+
+.object2, .object7 {
+
+  left: 45%;
+}
+
+.object3, .object6 {
+  left: 60%;
+}
+
+.object4, .object5, .object9, .object10 {
+  transform: translateY(-50%);
+}
+
+.object4, .object10 {
+  top: 35%;
+
+}
+
+.object5, .object9 {
+  bottom: 35%;
 }
 
 .object4 {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 0;
+  right: 10%;
 }
 
-.object8 {
-  position: absolute;
-  top: 40%;
-  left: -20%;
-}
-
-
-.object7 {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-
-.object6 {
-  position: absolute;
-  bottom: 0;
-  right: 40%;
+.object10 {
+  left: 10%;
 }
 
 .object5 {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  right: 10%;
 }
+
+.object9 {
+  left: 10%;
+}
+
+
+.join-btn-8 {
+  left: -5%;
+
+}
+
+.object6, .object7, .object8 {
+  bottom: 20%;
+
+}
+
+
+
+
+
 
 
 
