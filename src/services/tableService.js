@@ -8,7 +8,12 @@ export function openSeats(table) {
     return (
       Object.values(table.pokerPlayers)
         .map((p) => p.player)
-        .find((k) => k.position === i) || i
+        .find((k) => k.position === i) || {
+        position: i,
+        cards: [],
+        id: i,
+        openSeat: true,
+      }
     )
   })
 }

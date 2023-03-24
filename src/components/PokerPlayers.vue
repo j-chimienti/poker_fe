@@ -1,10 +1,10 @@
 <template>
-  <div v-for="position in tablePositions" :key="position">
-    <PokerPlayer v-if="position && position.playerAccountId" :player="position"/>
-    <div v-else :class="'object' + position">
+  <div v-for="spot in tablePositions" :key="spot.position">
+    <PokerPlayer v-if="spot.playerAccountId" :player="spot"/>
+    <div v-else :class="'object' + spot.position">
       <q-btn color="accent" size="lg"
              :disable="joinedTable"
-             @click="joinTable(tableId, position)" icon="add" push rounded />
+             @click="joinTable(tableId, spot.position)" icon="add" push rounded />
     </div>
   </div>
 </template>
