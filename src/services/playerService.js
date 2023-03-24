@@ -1,5 +1,5 @@
-export function playerName(player) {
-  if (!(player && player.name)) return ""
-  const isAnon = player.name.includes("session")
-  return isAnon ? "anon" : player.name
+export function displayName(player) {
+  const n = player.name
+  if (n.includes("session")) return `player ${player.position}`
+  return n
 }

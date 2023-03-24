@@ -4,37 +4,43 @@
     @before-enter="beforeEnter"
     @leave="onLeave"
   >
-       <PlayingCard
-         v-for="(card, idx) in cards"
-         :key="card.id"
-         :data-index="idx"
-         class="q-mx-sm"
-         :card="card"
-       />
-        <div class="card-outline" v-for="card in cardsAndHoles" :key="card"></div>
+        <div class="card-outline row flex-center" v-for="card in cardsAndHoles" :key="card.idx">
+         <PlayingCard
+           v-if="card.card"
+           :key="card.card.id"
+           :data-index="card.idx"
+           :card="card.card"
+         />
+        </div>
   </TransitionGroup>
 </template>
 
 <script>
 import PlayingCard from "./PlayingCard.vue"
-import StoreMixin from "src/mixins/StoreMixin.vue";
 import {usePokerStore} from "stores/poker-store";
 import {mapState} from "pinia";
+import {range} from 'lodash'
 
 export default {
   name: "BlackjackHand",
   computed: {
     ...mapState(usePokerStore, ['cards']),
     cardsAndHoles() {
-      const cards = this.cards;
-        const holes = []
-      if (cards.length < 5) {
-        const items = 5 - cards.length
-        for (let i = 1; i <= items; i++) {
-          holes.push(i)
+
+      const r = range(0,5)
+      return r.map(idx => {
+        let card = null
+        try {
+          card = this.cards.length >= idx ? this.cards[idx] : null
+        } catch (e) {
+
+          alert('bad idx ' + idx)
         }
-      }
-      return holes
+        return {
+          card,
+          idx,
+        }
+      })
     }
   },
   components: { PlayingCard },
@@ -55,7 +61,6 @@ export default {
       })
     },
     onLeave(el, done) {
-      // todo: don't animate hole cards
       this.$gsap.to(el, {
         y: "-100px",
         opacity: 0,

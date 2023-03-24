@@ -6,11 +6,11 @@ import sean from "assets/avatars/sean_connery.jpeg"
 
 const defaultImg = `https://cdn.quasar.dev/img/avatar1.jpg`
 export function getAvatar(player) {
-  if (!player) return defaultImg
-  const n = player.name.toLowerCase()
+  if (!(player && player.picture)) return defaultImg
+  const n = get(player, "name", "")
   if (n.includes("austin powers")) return austin
   else if (n.includes("donald trump")) return donald
   else if (n.includes("lil wayne")) return wayne
   else if (n.includes("sean connery")) return sean
-  else return get(player, "picture", defaultImg)
+  else return player.picture
 }

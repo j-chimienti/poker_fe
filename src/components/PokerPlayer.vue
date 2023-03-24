@@ -2,7 +2,6 @@
   <div :class="getKlass">
     <div  :class="getColumnClass">
       <div class="row justify-start">
-
         <q-chip>
           <q-popup-edit
             dark
@@ -19,7 +18,7 @@
           <q-avatar rounded>
             <img :src="img">
           </q-avatar>
-          {{player.name}}
+          {{name}}
         </q-chip>
 
         <div>
@@ -55,9 +54,6 @@
           <TweenedNumber :balance="player.balance"/>
         </q-chip>
       </div>
-      <div class="row q-mt-md">
-        <PokerPlayerCards :player="player"/>
-      </div>
     </div>
   </div>
 
@@ -68,10 +64,9 @@ import {usePokerStore} from "stores/poker-store";
 import {useAuthStore} from "stores/auth-store";
 import {secondsUntil} from "src/services/dateService";
 import TweenedNumber from "components/TweenedNumber.vue";
-import {playerName} from "src/services/playerService";
+import {displayName} from "src/services/playerService";
 import {change_name} from "src/services/apiService";
 import {getAvatar} from "src/services/avatarService";
-import {get} from 'lodash'
 import ApiMixin from "src/mixins/ApiMixin.vue";
 import RouterMixin from "src/mixins/RouterMixin.vue";
 import PokerPlayerCards from "components/PokerPlayerCards.vue";
@@ -80,7 +75,7 @@ export default {
   name: 'PokerPlayer',
   mixins: [RouterMixin, ApiMixin],
   components: {PokerPlayerCards, TweenedNumber},
-  data() { return {showing: false, countdownBetTimeoutText: '', playerNameCustom: get(this.player, 'name', '') }},
+  data() { return {showing: false, countdownBetTimeoutText: '', playerNameCustom: displayName(this.player) }},
   mounted() {
     setInterval(this.checkIf, 1000)
   },
@@ -100,13 +95,16 @@ export default {
     setPlayerName(n) {
       change_name(n)
     },
-    playerName,
     checkIf() {
       const until = this.table && this.table.betTimeout ? secondsUntil(this.table.betTimeout) : 0
       this.countdownBetTimeoutText = until <= 0 ? '' : until
     },
   },
   computed: {
+
+    name() {
+      return displayName(this.player)
+    },
 
     getColumnClass() {
       if (this.player.position === 1) return 'column'
