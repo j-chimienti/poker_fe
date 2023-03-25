@@ -9,3 +9,13 @@ export const LIGHTNING_INVOICES_STATUS = {
   paid: "paid",
   expired: "expired",
 }
+export const status = {
+  READY: "READY",
+  SITTING: "SITTING",
+  CALLED: "CALLED",
+  BETTED: "BETTED",
+  RAISED: "RAISED",
+  CHECKED: "CHECKED",
+  FOLDED: "FOLDED",
+  LEAVING: "LEAVING",
+}

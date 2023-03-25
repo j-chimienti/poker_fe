@@ -5,12 +5,12 @@
       <q-footer class="bg-transparent">
         <div class="row flex-center">
 <!--          <SendMessageForm style="position: fixed; left: 10px;"/>-->
-          <div v-if="joinedTable">
+          <div v-if="canPlace">
             <q-form @submit="onRaise">
               <q-input type="number" v-model.number="raiseAmount"/>
             </q-form>
           </div>
-          <div v-if="joinedTable">
+          <div v-if="canPlace">
             <q-btn rounded size="lg" @click="onRaise"  push color="accent" label="raise"/>
             <q-btn rounded size="lg" @click="call(table.id)" push color="positive" label="call"/>
             <q-btn rounded size="lg" @click="fold(table.id)" push color="negative" label="fold"/>
@@ -32,11 +32,15 @@ import {mapState} from "pinia";
 import ChatMessages from "components/ChatMessages.vue";
 import SendMessageForm from "components/SendMessageForm.vue";
 import ApiMixin from "src/mixins/ApiMixin.vue";
+import {canPlaceBet} from "src/services/playerService";
 
 export default {
   mixins: [ApiMixin],
   computed: {
-    ...mapState(usePokerStore, ['table', 'joinedTable', 'round'])
+    ...mapState(usePokerStore, ['table', 'joinedTable', 'round', 'playerOpt']),
+    canPlace() {
+      return this.joinedTable && canPlaceBet(this.playerOpt)
+    }
   },
   data() {
     return {   countdownBetTimeoutText: '', raiseAmount: 100 }
