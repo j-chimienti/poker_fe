@@ -1,15 +1,7 @@
 import { api } from "boot/axios"
 import { useAuthStore } from "stores/auth-store"
 
-const actions = {
-  JOIN: "JOIN",
-  LEAVE: "LEAVE",
-  FOLD: "FOLD",
-  CALL: "CALL",
-  RAISE: "RAISE",
-  DEAL: "DEAL",
-  NEW_ROUND: "NEW_ROUND",
-}
+import { actions } from "src/services/constants"
 
 export function getTable(id) {
   return useAuthStore().sendWebsocketMessage({ WsGetTable: null, id })
