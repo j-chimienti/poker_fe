@@ -35,7 +35,6 @@
             <q-badge :ripple="false"
                      :clickable="false"
                      floating
-                     :color="player.winner ? 'success' : null"
             >{{ player.bestPoint.message }}
             </q-badge>
           </div>
@@ -84,7 +83,6 @@ export default {
       return (i === 1) ?  'margin-left: -50px' : ''
     },
 
-    isFolded(state) { return state === 'FOLDED'},
     getPlayerState(s) {
       if (s === "FOLDED") return "negative"
       else if (s === "CALLED") return "positive"
@@ -128,7 +126,8 @@ export default {
 
     },
     getKlass() {
-      return 'object' + this.player.position
+      const bg = this.player.winner || this.table.winner === this.player.name ? 'bg-purple' : ''
+      return ['object' + this.player.position, bg]
     },
 
     playerIsMe() {

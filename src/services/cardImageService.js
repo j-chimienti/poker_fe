@@ -108,13 +108,14 @@ export const cardImages = [
 
 export function mapCardToImage(card) {
   const { value, suite, face } = card
-  const s = suite[0].toUpperCase() + suite.substring(1)
-  if (face === null) {
-    const name = `${s}_${value}`
-    return cardImages.find((c) => c.name === name).image
-  } else {
-    const f = face[0].toUpperCase() + face.substring(1)
-    const name = `${s}_${f}`
-    return cardImages.find((c) => c.name === name).image
-  }
+
+  const result = cardImages.find((c) => {
+    const [cardSuite, rank] = c.name.split("_")
+    return (
+      suite[0].toUpperCase() === cardSuite[0].toUpperCase() &&
+      ((face && rank[0].toUpperCase() === face[0].toUpperCase()) ||
+        (value && rank === String(value)))
+    )
+  })
+  return result.image
 }

@@ -23,23 +23,23 @@
     </q-img>
     <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px">
       <q-list padding data-cy="drawerList">
-        <q-item >
-          <q-item-section avatar>
-            <q-icon name="img:/ln.svg"/>
-          </q-item-section>
-          <q-item-section>
-            <CreateInvoice v-if="!invoice || invoiceIsExpired" />
-            <LightningInvoice v-if="invoice" />
-          </q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section avatar>
-            <q-icon name="currency_bitcoin"/>
-          </q-item-section>
-          <q-item-section>
-            <DebitForm />
-          </q-item-section>
-        </q-item>
+<!--        <q-item >-->
+<!--          <q-item-section avatar>-->
+<!--            <q-icon name="img:/ln.svg"/>-->
+<!--          </q-item-section>-->
+<!--          <q-item-section>-->
+<!--            <CreateInvoice v-if="!invoice || invoiceIsExpired" />-->
+<!--            <LightningInvoice v-if="invoice" />-->
+<!--          </q-item-section>-->
+<!--        </q-item>-->
+<!--        <q-item>-->
+<!--          <q-item-section avatar>-->
+<!--            <q-icon name="currency_bitcoin"/>-->
+<!--          </q-item-section>-->
+<!--          <q-item-section>-->
+<!--            <DebitForm />-->
+<!--          </q-item-section>-->
+<!--        </q-item>-->
         <q-item>
           <q-item-section avatar>
             <q-icon name="login"/>

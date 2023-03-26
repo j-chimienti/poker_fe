@@ -19,3 +19,15 @@ export const status = {
   FOLDED: "FOLDED",
   LEAVING: "LEAVING",
 }
+
+export const faceCards = ["A", "K", "Q", "J"]
+
+export const actions = {
+  JOIN: "JOIN",
+  LEAVE: "LEAVE",
+  FOLD: "FOLD",
+  CALL: "CALL",
+  RAISE: "RAISE",
+  DEAL: "DEAL",
+  NEW_ROUND: "NEW_ROUND",
+}
