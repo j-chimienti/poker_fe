@@ -3,6 +3,7 @@ import {mapActions, mapState} from "pinia"
 import DialogMixin from "./DialogMixin.vue"
 import {useAuthStore} from "stores/auth-store"
 import {useLightningStore} from "stores/lightning-store"
+import {usePokerStore} from "stores/poker-store";
 
 export default {
   name: "StoreMixin",
@@ -39,6 +40,7 @@ export default {
   },
   computed: {
 
+    ...mapState(usePokerStore, ['room']),
     ...mapState(useAuthStore, [
       "email",
       "connectedToWebsocket",

@@ -43,10 +43,10 @@ export default {
 </script>
 
 <style scoped>
-.chat-container {
-  position: relative;
-  bottom: 0;
-  left: 40px;
-  max-width: 400px;
-}
+/*.chat-container {*/
+/*  position: relative;*/
+/*  bottom: 0;*/
+/*  left: 40px;*/
+/*  max-width: 400px;*/
+/*}*/
 </style>
