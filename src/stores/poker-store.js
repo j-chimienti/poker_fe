@@ -66,9 +66,20 @@ export const usePokerStore = defineStore("poker", {
     },
     setTables(tables) {
       this.tables = tables
+      tables.map((table) =>
+        table.id === this.room ? this.setTable(table) : null
+      )
     },
     setTable(t) {
-      if (this.room === t.id) this.table = this.mapToTable(t)
+      if (this.room === t.id) {
+        if (
+          this.table &&
+          this.table.modifiedAt &&
+          new Date(this.table.modifiedAt) > new Date(t.modifiedAt)
+        ) {
+          console.log("skipping set older update")
+        } else this.table = this.mapToTable(t)
+      }
     },
   },
   getters: {
