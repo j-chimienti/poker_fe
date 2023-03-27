@@ -1,5 +1,7 @@
 <template>
     <div   :class="'object' + player.position" class="pokercards">
+      <div class="card-outline">
+
       <div v-if="playerIsMe || hasBestCards">
         <FaceUpCard class="q-mx-xs"
                     v-for="card in getCards"
@@ -9,7 +11,7 @@
       <div v-else-if="player.cards.length">
         <FaceDownCard v-for="(card, i) in player.cards" :key="i" :style="getStyle(i)"/>
       </div>
-      <div v-else class="card-outline"></div>
+      </div>
   </div>
 </template>
 <script>

@@ -8,6 +8,10 @@ export function getTable(id) {
 }
 
 export function subscribeTable(id) {
+  if (!id) {
+    console.log("skipping subscribeTable call missing id")
+    return null
+  }
   return useAuthStore().sendWebsocketMessage({ WsSubscribeTable: null, id })
 }
 
