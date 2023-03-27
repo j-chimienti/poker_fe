@@ -49,6 +49,15 @@
             <SignupButton v-else/>
           </q-item-section>
         </q-item>
+        <q-item>
+          <q-item-section avatar>
+            <q-icon name="message"/>
+          </q-item-section>
+          <q-item-section>
+            <ChatMessages :table-id="room"/>
+            <SendMessageForm/>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-scroll-area>
   </q-drawer>
@@ -61,6 +70,8 @@ import CreateInvoice from "./CreateInvoice.vue"
 import LightningInvoice from "./LightningInvoice.vue"
 import SignupButton from "./SignupButton.vue"
 import TweenedNumber from "components/TweenedNumber.vue";
+import ChatMessages from "components/ChatMessages.vue";
+import SendMessageForm from "components/SendMessageForm.vue";
 
 export default {
   name: "AppDrawer",
@@ -69,7 +80,7 @@ export default {
       miniState: true
     }
   },
-  components: {TweenedNumber, SignupButton, LightningInvoice, CreateInvoice, DebitForm },
+  components: {SendMessageForm, ChatMessages, TweenedNumber, SignupButton, LightningInvoice, CreateInvoice, DebitForm },
   mixins: [StoreMixin],
 }
 </script>
