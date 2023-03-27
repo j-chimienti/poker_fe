@@ -66,6 +66,9 @@ export const usePokerStore = defineStore("poker", {
     },
     setTables(tables) {
       this.tables = tables
+      tables.map((table) =>
+        table.id === this.room ? this.setTable(table) : null
+      )
     },
     setTable(t) {
       if (this.room === t.id) {

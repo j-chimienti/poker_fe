@@ -56,7 +56,10 @@ export default boot(({ router, store }) => {
       const id = to.params.id
       const pokerStore = usePokerStore()
       pokerStore.room = id
-      if (!pokerStore.table || pokerStore.table.id !== id) {
+      if (
+        !pokerStore.table ||
+        (pokerStore.table && pokerStore.table.id && pokerStore.table.id !== id)
+      ) {
         const tableOpt = pokerStore.tables.find((t) => t.id === id)
         if (tableOpt) pokerStore.setTable(tableOpt)
       }
@@ -74,6 +77,7 @@ export default boot(({ router, store }) => {
     } else if (to.name === "home") {
       const pokerStore = usePokerStore()
       pokerStore.room = "lobby"
+      pokerStore.table = null
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session()
         if (!playerOpt) confirmRefreshPage()

@@ -25,10 +25,10 @@
             <q-item-section>Big Blind:</q-item-section>
             <q-item-section>{{table.config.bet.min * 2}}</q-item-section>
           </q-item>
-<!--          <q-item>-->
-<!--            <q-item-section>Rake:</q-item-section>-->
-<!--            <q-item-section>{{table.rake}}</q-item-section>-->
-<!--          </q-item>-->
+          <q-item>
+            <q-item-section>Rake:</q-item-section>
+            <q-item-section>{{table.rake || 0}}</q-item-section>
+          </q-item>
           <q-item>
             <q-item-section>Move Timeout:</q-item-section>
             <q-item-section>{{table.config.moveTimeout}} seconds</q-item-section>
