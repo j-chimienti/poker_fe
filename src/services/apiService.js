@@ -8,7 +8,11 @@ export function getTable(id) {
 }
 
 export function subscribeTable(id) {
-  return useAuthStore().sendWebsocketMessage({ WsSubscribeTable: null, id })
+  if (!id) {
+    console.log("skipping subscribeTable call missing id")
+    return null
+  } else
+    return useAuthStore().sendWebsocketMessage({ WsSubscribeTable: null, id })
 }
 
 export function getTables() {
@@ -102,7 +106,7 @@ export async function resumeOrNewSession(sessionId) {
   return api({
     url,
     method: "GET",
-    timeout: 4000,
+    timeout: 10000,
   })
 }
 

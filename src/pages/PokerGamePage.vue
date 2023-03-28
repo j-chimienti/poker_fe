@@ -55,7 +55,7 @@ export default {
       subscribeTable(this.table.id)
       else {
         const id = this.$route.params.id
-        subscribeTable(id)
+        if (id) subscribeTable(id)
       }
     },
     onRaise() {
