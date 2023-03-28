@@ -6,7 +6,7 @@ const routes = [
       {
         path: "",
         name: "home",
-        component: () => import("pages/PokerGameLobby.vue"),
+        component: () => import("components/TexasHoldEmLobby.vue"),
       },
     ],
   },
