@@ -1,6 +1,6 @@
 <template>
 <q-list>
-  <q-item v-for="table in rows" :key="table.title">
+  <q-item v-for="table in rows" :key="table.title" @click="joinTable(table.id)" class="cursor-pointer">
     <q-item-section>
       <div class="text-h6">{{table.title}}</div>
       <div class="text-secondary">
