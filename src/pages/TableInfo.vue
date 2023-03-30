@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-center">
-    <q-btn @click="navigateToLobby" label="lobby"   color="secondary"/>
+    <q-btn @click="goToLobby" label="lobby"   color="secondary"/>
       <div v-if="table">
         <q-chip :ripple="false">{{table.title}}</q-chip>
         <q-chip :ripple="false" v-if="countdownText > 0" color="orange">
@@ -16,7 +16,7 @@
   </div>
 </template>
 <script>
-import {leave} from "src/services/apiService";
+import {navigateToLobby} from "src/services/apiService";
 import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
 import {secondsUntil} from "src/services/dateService";
@@ -38,13 +38,8 @@ export default {
     handleCountdowns() {
       this.countdownText = this.table && this.table.nextHandStart ? secondsUntil(this.table.nextHandStart) : -1
     },
-    async navigateToLobby() {
-      if (this.table) {
-        try {
-          leave(this.table.id)
-        } catch (e) {
-        }
-      }
+    async goToLobby() {
+      navigateToLobby()
       return this.$router.push({name: 'home'})
     },
   }

@@ -44,10 +44,8 @@ const options = {
 }
 
 async function session(store) {
-  Loading.show(options)
-  const playerOpt = await useAuthStore(store).resumeSession(getSessionId())
-  Loading.hide()
-  return playerOpt
+  const sessionId = getSessionId()
+  return await useAuthStore(store).resumeSession(getSessionId())
 }
 
 export default boot(({ router, store }) => {

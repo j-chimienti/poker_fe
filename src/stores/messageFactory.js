@@ -18,9 +18,8 @@ export async function messageFactory(res) {
   // const lightingStore = useLightningStore()
   const pokerStore = usePokerStore()
 
-  if (chatMessage) {
-    pokerStore.onChatMessage(chatMessage)
-  }
+  if (chatMessage) pokerStore.onChatMessage(chatMessage)
+
   if (msg) {
     Notify.create({
       type: status === "failed" ? "negative" : "info",
@@ -28,12 +27,8 @@ export async function messageFactory(res) {
     })
   }
   if (gameResult) {
-    const { winner, hands, table } = gameResult
-    Notify.create("winner= " + winner)
-    // Notify.create({
-    //   message: hands.map(h => h.hand.message),
-    //   timeout: 10000
-    // })
+    const { winner, hands, table, message } = gameResult
+    Notify.create(message)
     pokerStore.setTable(table)
   }
   if (table) pokerStore.setTable(table)

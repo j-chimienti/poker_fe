@@ -79,7 +79,7 @@ export function chatMessage(message, tableId) {
 export function navigateToLobby() {
   return useAuthStore().sendWebsocketMessage({
     WsNavigateToLobby: null,
-    name: "PLACEHOLDER",
+    name: "",
   })
 }
 
