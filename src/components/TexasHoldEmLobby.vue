@@ -1,19 +1,21 @@
 <template>
-  <div v-for="table in rows" :key="table.title" class="game-card q-pa-md q-ma-md">
-      <div class="text-title text-center q-mb-lg">{{table.title}}</div>
+  <div class="row justify-center wrap">
+    <div v-for="table in rows" :key="table.title" class="game-card q-pa-md q-ma-md">
+      <div class="text-title text-center q-mb-lg">{{ table.title }}</div>
       <div class="row justify-between q-my-lg">
-       <div class="game-text">
-         <div class="row text-secondary">
-           {{table.playersCount}} players online
-         </div>
-         <div class="row">
-           <span>{{table.players}}</span>
-           <span>{{table.stakes}}</span>
-         </div>
-       </div>
-        <q-btn  @click="joinTable(table.id)" label="join" class="game-btn"  />
+        <div class="game-text">
+          <div class="row full-height text-secondary">
+            {{ table.playersCount }} players online
+          </div>
+          <div class="row full-height">
+            <span>{{ table.players }}</span>
+            <span>{{ table.stakes }}</span>
+          </div>
+        </div>
+        <q-btn @click="joinTable(table.id)" label="join" class="game-btn"/>
       </div>
 
+    </div>
   </div>
 </template>
 
@@ -71,7 +73,6 @@ export default {
 
 .game-card {
   width: 413px;
-  height: 144px;
   /* Box Shadows / Dark */
   box-shadow: 0px 0px 22px 5px rgba(0, 0, 0, 0.5);
 }

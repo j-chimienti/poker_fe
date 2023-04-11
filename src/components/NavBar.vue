@@ -8,7 +8,7 @@
       <div v-else class="text-h2"></div>
       <div></div>
 <!--      <img :src="msg"/>-->
-      <img :src="account"  @click="loginModalVisible = true"/>
+      <img class="cursor-pointer" :src="account"  @click="loginModalVisible = true"/>
     </q-toolbar>
   </q-header>
 </template>
