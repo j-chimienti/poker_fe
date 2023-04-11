@@ -1,24 +1,20 @@
 <template>
-<q-list>
-  <q-item v-for="table in rows" :key="table.title">
-    <q-item-section>
-      <div class="text-h6">{{table.title}}</div>
-      <div class="text-secondary">
-        {{table.playersCount}} players online
+  <div v-for="table in rows" :key="table.title" class="game-card q-pa-md q-ma-md">
+      <div class="text-title text-center q-mb-lg">{{table.title}}</div>
+      <div class="row justify-between q-my-lg">
+       <div class="game-text">
+         <div class="row text-secondary">
+           {{table.playersCount}} players online
+         </div>
+         <div class="row">
+           <span>{{table.players}}</span>
+           <span>{{table.stakes}}</span>
+         </div>
+       </div>
+        <q-btn  @click="joinTable(table.id)" label="join" class="game-btn"  />
       </div>
-    </q-item-section>
-    <q-item-section>{{table.players}}</q-item-section>
-    <q-item-section>{{table.stakes}}</q-item-section>
-    <q-item-section>
 
-      <div class="row justify-center">
-        <q-btn size="lg" @click="joinTable(table.id)" label="join" push color="secondary"/>
-      </div>
-
-    </q-item-section>
-  </q-item>
-</q-list>
-
+  </div>
 </template>
 
 <script>
@@ -64,5 +60,53 @@ export default {
 </script>
 
 <style scoped>
+
+.text-title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 52px;
+}
+
+
+.game-card {
+  width: 413px;
+  height: 144px;
+  /* Box Shadows / Dark */
+  box-shadow: 0px 0px 22px 5px rgba(0, 0, 0, 0.5);
+}
+
+
+.game-text {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 18px;
+}
+
+.game-btn {
+  width: 115px;
+  height: 48px;
+  /* Mango Orange */
+
+  background: #FF7A41;
+  box-shadow: -3px 3px 0px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+
+  font-family: 'Mukta';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 18px;
+  /* identical to box height, or 75% */
+
+  display: flex;
+  align-items: center;
+
+  /* Light/Background */
+
+  color: #FFFFFF;
+}
 
 </style>
