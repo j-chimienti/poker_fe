@@ -80,9 +80,9 @@ export default {
 
 <style>
 .table-v2 {
-  background: url("../assets/table-green.png") center center no-repeat;
+  background: url("../assets/poker-table.png") center center no-repeat;
   background-size: contain;
-  width: 100vw;
-  height: 100vh;
+  width: 1080px;
+  height: 520px;
 }
 </style>

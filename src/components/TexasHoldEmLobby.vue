@@ -12,7 +12,7 @@
             <span>{{ table.stakes }}</span>
           </div>
         </div>
-        <q-btn @click="joinTable(table.id)" label="join" class="game-btn"/>
+        <q-btn @click="joinTable(table.id)" label="join" class="join-btn"/>
       </div>
 
     </div>
@@ -86,28 +86,6 @@ export default {
   line-height: 18px;
 }
 
-.game-btn {
-  width: 115px;
-  height: 48px;
-  /* Mango Orange */
 
-  background: #FF7A41;
-  box-shadow: -3px 3px 0px 1px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-
-  font-family: 'Mukta';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 18px;
-  /* identical to box height, or 75% */
-
-  display: flex;
-  align-items: center;
-
-  /* Light/Background */
-
-  color: #FFFFFF;
-}
 
 </style>
