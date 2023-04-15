@@ -26,7 +26,7 @@ import LoginModal from "./components/auth/LoginModal.vue";
 
 export default defineComponent({
   name: "App",
-  components: {LoginModal, TestData, DebitModal, InvoiceModal},
+  components: { LoginModal, TestData, DebitModal, InvoiceModal},
   data() {
     return { cardImages}
   }

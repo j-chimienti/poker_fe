@@ -25,8 +25,11 @@ export const useAuthStore = defineStore("auth", {
       _get(state.playerAccount, "email", "").includes("session"),
     playerId: (state) => _get(state.playerAccount, "id", null),
     email: (state) => _get(state.playerAccount, "email", "N/A"),
+    name: (state) => _get(state.playerAccount, "name", "N/A"),
     sessionId: (state) => _get(state.playerAccount, "sessionId", null),
     picture: (state) => _get(state.playerAccount, "picture", null),
+    avatar: (state) => state.picture || "todo",
+    loading: (state) => state.playerAccount === null,
   },
   actions: {
     sendWebsocketMessage(m) {

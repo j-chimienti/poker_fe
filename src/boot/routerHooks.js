@@ -9,6 +9,7 @@ import {
   subscribeTable,
 } from "src/services/apiService"
 import { usePokerStore } from "stores/poker-store"
+import SplashScreen from "components/SplashScreen.vue"
 
 export function confirmRefreshPage() {
   Dialog.create({
@@ -35,17 +36,18 @@ export function confirmRefreshPage() {
 
 const options = {
   // delay: 400,
-  spinner: QSpinnerFacebook,
-  spinnerColor: "warning",
-  spinnerSize: 140,
-  backgroundColor: "primary",
-  message: "Starting game. Hang on...",
-  messageColor: "warning",
+  // spinner: QSpinnerFacebook,
+  spinner: SplashScreen,
+  // spinnerColor: "warning",
+  // spinnerSize: 140,
+  // backgroundColor: "primary",
+  message: "Loading. Hang on...",
+  // messageColor: "warning",
 }
 
 async function session(store) {
   const sessionId = getSessionId()
-  return await useAuthStore(store).resumeSession(getSessionId())
+  return await useAuthStore(store).resumeSession(sessionId)
 }
 
 export default boot(({ router, store }) => {
@@ -77,7 +79,9 @@ export default boot(({ router, store }) => {
       pokerStore.room = "lobby"
       pokerStore.table = null
       if (!useAuthStore().connectedToWebsocket) {
+        Loading.show(options)
         const playerOpt = await session()
+        Loading.hide()
         if (!playerOpt) confirmRefreshPage()
       } else {
         getTables()
@@ -86,9 +90,7 @@ export default boot(({ router, store }) => {
     } else if (to.path === "/callback") {
       if (to.query.code && to.query.state) {
         Loading.show(
-          Object.assign({}, options, {
-            message: "Logging in. Hang on...",
-          })
+          Object.assign({}, options, { message: "logging in with google" })
         )
         const playerOpt = await useAuthStore().oauthCallback({
           code: to.query.code,

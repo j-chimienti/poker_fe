@@ -1,6 +1,13 @@
 <template>
-    <div v-if="table" class="table-v2">
-      <PokerTable />
+  <div class="row flex q-ma-md">
+    <q-img src="../assets/logo-game-page.png" width="204px"/>
+    <q-img src="../assets/exit.png" width="77px" height="77px" @click="onLeave"/>
+  </div>
+    <div v-if="table" class="row flex-center">
+      <div class="table-v2">
+        <PokerTable />
+      </div>
+    </div>
       <q-footer class="bg-transparent">
         <div class="row flex-center">
           <div v-if="canPlace">
@@ -14,12 +21,9 @@
             <q-btn rounded size="lg" @click="fold(table.id)" push color="negative" label="fold"/>
           </div>
           <div class="q-pl-xl">
-            <q-btn size="lg" v-if="joinedTable" @click="onLeave(table.id)" color="warning" label="leave" />
           </div>
         </div>
       </q-footer>
-
-    </div>
 </template>
 
 <script>
@@ -62,9 +66,12 @@ export default {
     },
 
 
-    onLeave(id) {
+    onLeave() {
+      if (this.joinedTable) {
+      const id = this.table.id
       leave(id)
       subscribeTable(id)
+      }
     },
 
 

@@ -27,12 +27,6 @@ button {
 
   /* Auto layout */
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 14px 20px;
-  gap: 10px;
-
   width: 115px;
   height: 48px;
 
@@ -51,6 +45,20 @@ button {
   /* Light/Background */
 
   color: #FFFFFF;
+
+  font-family: 'Mukta';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 18px;
+  /* identical to box height, or 75% */
+
+  display: flex;
+  align-items: center;
+
+  /* Light/Background */
+
+
 }
 
 .q-card, .q-pill, .q-chip {

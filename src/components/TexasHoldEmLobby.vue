@@ -1,20 +1,23 @@
 <template>
-  <div class="row justify-center wrap">
-    <div v-for="table in rows" :key="table.title" class="game-card q-pa-md q-ma-md">
-      <div class="text-title text-center q-mb-lg">{{ table.title }}</div>
-      <div class="row justify-between q-my-lg">
-        <div class="game-text">
-          <div class="row full-height text-secondary">
-            {{ table.playersCount }} players online
+  <NavBar/>
+  <div class="q-container">
+    <div class="row justify-start wrap">
+      <div v-for="table in rows" :key="table.title" class="game-card q-pa-md q-ma-md">
+        <div class="text-title text-center q-mb-lg">{{ table.title }}</div>
+        <div class="row justify-between q-my-lg">
+          <div class="game-text">
+            <div class="row full-height text-secondary">
+              {{ table.playersCount }} players online
+            </div>
+            <div class="row full-height">
+              <span>{{ table.players }}</span>
+              <span>{{ table.stakes }}</span>
+            </div>
           </div>
-          <div class="row full-height">
-            <span>{{ table.players }}</span>
-            <span>{{ table.stakes }}</span>
-          </div>
+          <q-btn @click="joinTable(table.id)" label="join" class="join-btn"/>
         </div>
-        <q-btn @click="joinTable(table.id)" label="join" class="join-btn"/>
-      </div>
 
+      </div>
     </div>
   </div>
 </template>
@@ -24,8 +27,10 @@ import {usePokerStore} from "stores/poker-store";
 import {getTables, joinTable} from "src/services/apiService";
 import {mapState} from "pinia";
 import {formatToUSD} from "src/services/moneyUtils";
+import NavBar from "components/NavBar.vue";
 
 export default {
+  components: {NavBar},
   methods: {
     joinTable(id) {
 
