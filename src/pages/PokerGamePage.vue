@@ -1,29 +1,23 @@
 <template>
-  <div class="row flex q-ma-md">
+  <div class="row flex justify-between q-ma-md">
     <q-img src="../assets/logo-game-page.png" width="204px"/>
     <q-img src="../assets/exit.png" width="77px" height="77px" @click="onLeave"/>
   </div>
-    <div v-if="table" class="row flex-center">
-      <div class="table-v2">
+    <div v-if="table" class="row flex-center q-ma-md">
         <PokerTable />
+    </div>
+    <div class="row flex-center player-actions">
+      <div>
+        <q-form @submit="onRaise">
+          <q-input type="number" v-model.number="raiseAmount"/>
+        </q-form>
+      </div>
+      <div>
+        <q-btn  @click="onRaise"  color="secondary" label="raise"/>
+        <q-btn  @click="call(table.id)" color="secondary" label="call"/>
+        <q-btn  @click="fold(table.id)" color="secondary" label="fold"/>
       </div>
     </div>
-      <q-footer class="bg-transparent">
-        <div class="row flex-center">
-          <div v-if="canPlace">
-            <q-form @submit="onRaise">
-              <q-input type="number" v-model.number="raiseAmount"/>
-            </q-form>
-          </div>
-          <div v-if="canPlace">
-            <q-btn rounded size="lg" @click="onRaise"  push color="accent" label="raise"/>
-            <q-btn rounded size="lg" @click="call(table.id)" push color="positive" label="call"/>
-            <q-btn rounded size="lg" @click="fold(table.id)" push color="negative" label="fold"/>
-          </div>
-          <div class="q-pl-xl">
-          </div>
-        </div>
-      </q-footer>
 </template>
 
 <script>
@@ -86,10 +80,7 @@ export default {
 </script>
 
 <style>
-.table-v2 {
-  background: url("../assets/poker-table.png") center center no-repeat;
-  background-size: contain;
-  width: 1080px;
-  height: 520px;
+.player-actions {
+  margin-top: 200px;
 }
 </style>

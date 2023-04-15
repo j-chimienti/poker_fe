@@ -1,31 +1,33 @@
 <template>
-    <div   :class="'object' + player.position" class="pokercards">
-      <div class="card-outline">
-
-      <div v-if="playerIsMe || hasBestCards">
-        <FaceUpCard class="q-mx-xs"
-                    v-for="card in getCards"
-                    :key="card.id"
-                    :card="card"/>
+    <div   :class="'object' + player.position + ' pokercards'">
+      <div>
+      <div v-if="playerIsMe">
+        <MyCards :player="player"/>
       </div>
+        <div v-else-if="hasBestCards">
+          <FaceUpCard class="q-mx-xs"
+                      v-for="card in getCards"
+                      :key="card.id"
+                      :card="card"/>
+        </div>
       <div v-else-if="player.cards.length">
-        <FaceDownCard v-for="(card, i) in player.cards" :key="i" :style="getStyle(i)"/>
+        <q-img src="../assets/down-cards.png" width="75px"/>
       </div>
       </div>
   </div>
 </template>
 <script>
-import FaceDownCard from "components/FaceDownCard.vue"
-import FaceUpCard from "components/FaceUpCard.vue"
 import RouterMixin from "src/mixins/RouterMixin.vue";
 import {get} from "lodash";
 import {mapState} from "pinia";
 import {useAuthStore} from "stores/auth-store";
+import MyCards from "components/MyCards.vue";
+import FaceUpCard from "components/FaceUpCard.vue";
 
 export default {
   name: 'PokerPlayerCards',
   mixins: [RouterMixin],
-  components: {FaceUpCard, FaceDownCard},
+  components: {FaceUpCard, MyCards},
 
   methods: {
 
