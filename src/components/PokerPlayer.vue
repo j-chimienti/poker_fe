@@ -2,36 +2,9 @@
   <div :class="getKlass">
     <div  :class="getColumnClass">
       <div class="row justify-start">
-        <q-chip>
-          <q-popup-edit
-            dark
-            v-if="playerIsMe"
-            v-model="playerNameCustom"
-            v-slot="scope"
-            @save="setPlayerName"
-          >
-            <q-input
-              v-model="scope.value"
-              dense autofocus counter @keyup.enter="scope.set"
-            />
-          </q-popup-edit>
-          <q-avatar rounded>
-            <img :src="img">
-          </q-avatar>
-          {{name}}
-        </q-chip>
-
+<!--        <img :src="img">-->
         <div>
-          <q-badge :ripple="false"
-                   color="warning"
-                   floating
-                   icon="timer"
-                   v-if="isMyTurn"
-                   :clickable="false"
-          >
-            {{ countdownBetTimeoutText }}
-          </q-badge>
-          <div v-else-if="table.winner && player.bestPoint && player.bestPoint.message">
+          <div v-if="table.winner && player.bestPoint && player.bestPoint.message">
             <q-badge :ripple="false"
                      :clickable="false"
                      floating
@@ -40,13 +13,6 @@
           </div>
           <q-badge v-else floating :ripple="false" :color="getPlayerState(player.state)">{{ player.state }}</q-badge>
         </div>
-
-        <q-chip :ripple="false" class="bg-orange" v-if="player.allIn">ALL_IN</q-chip>
-        <q-chip :ripple="false" v-if="player.sb || player.bb">
-          <span v-if="player.sb">SB</span>
-          <span v-else-if="player.bb">BB</span>
-        </q-chip>
-
       </div>
       <div class="row q-my-sm">
         <q-chip :ripple="false">
@@ -126,8 +92,7 @@ export default {
 
     },
     getKlass() {
-      const bg = this.player.winner || this.table.winner === this.player.name ? 'bg-purple' : ''
-      return ['object' + this.player.position, bg]
+      return ['object' + this.player.position]
     },
 
     playerIsMe() {

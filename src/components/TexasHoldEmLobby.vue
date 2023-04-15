@@ -1,20 +1,23 @@
 <template>
-  <div class="row justify-center wrap">
-    <div v-for="table in rows" :key="table.title" class="game-card q-pa-md q-ma-md">
-      <div class="text-title text-center q-mb-lg">{{ table.title }}</div>
-      <div class="row justify-between q-my-lg">
-        <div class="game-text">
-          <div class="row full-height text-secondary">
-            {{ table.playersCount }} players online
+  <NavBar/>
+  <div class="q-container">
+    <div class="row justify-start wrap">
+      <div v-for="table in rows" :key="table.title" class="game-card q-pa-md q-ma-md">
+        <div class="text-title text-center q-mb-lg">{{ table.title }}</div>
+        <div class="row justify-between q-my-lg">
+          <div class="game-text">
+            <div class="row full-height text-secondary">
+              {{ table.playersCount }} players online
+            </div>
+            <div class="row full-height">
+              <span>{{ table.players }}</span>
+              <span>{{ table.stakes }}</span>
+            </div>
           </div>
-          <div class="row full-height">
-            <span>{{ table.players }}</span>
-            <span>{{ table.stakes }}</span>
-          </div>
+          <q-btn @click="joinTable(table.id)" label="join" class="join-btn"/>
         </div>
-        <q-btn @click="joinTable(table.id)" label="join" class="game-btn"/>
-      </div>
 
+      </div>
     </div>
   </div>
 </template>
@@ -24,8 +27,10 @@ import {usePokerStore} from "stores/poker-store";
 import {getTables, joinTable} from "src/services/apiService";
 import {mapState} from "pinia";
 import {formatToUSD} from "src/services/moneyUtils";
+import NavBar from "components/NavBar.vue";
 
 export default {
+  components: {NavBar},
   methods: {
     joinTable(id) {
 
@@ -86,28 +91,6 @@ export default {
   line-height: 18px;
 }
 
-.game-btn {
-  width: 115px;
-  height: 48px;
-  /* Mango Orange */
 
-  background: #FF7A41;
-  box-shadow: -3px 3px 0px 1px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-
-  font-family: 'Mukta';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 18px;
-  /* identical to box height, or 75% */
-
-  display: flex;
-  align-items: center;
-
-  /* Light/Background */
-
-  color: #FFFFFF;
-}
 
 </style>
