@@ -1,5 +1,5 @@
 <template>
-    <q-img :src="card.image" style="width: 75px"/>
+    <q-img :src="card.image" class="face-up-card"/>
 </template>
 
 <script>
@@ -15,5 +15,11 @@ export default {
 </script>
 
 <style scoped>
+
+.face-up-card {
+
+  width: 122.09px;
+  height: 176.68px;
+}
 
 </style>

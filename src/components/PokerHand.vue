@@ -22,7 +22,7 @@ import {mapState} from "pinia";
 import {range} from 'lodash'
 
 export default {
-  name: "BlackjackHand",
+  name: "PokerHand",
   computed: {
     ...mapState(usePokerStore, ['cards']),
     cardsAndHoles() {

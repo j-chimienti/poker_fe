@@ -2,7 +2,9 @@
   <div :class="getKlass">
     <div  :class="getColumnClass">
       <div class="row justify-start">
-<!--        <img :src="img">-->
+        <div class="player-avatar-1">
+          <q-img src="../assets/avatar.png" width="65px" height="65px"/>
+        </div>
         <div>
           <div v-if="table.winner && player.bestPoint && player.bestPoint.message">
             <q-badge :ripple="false"
@@ -92,7 +94,9 @@ export default {
 
     },
     getKlass() {
-      return ['object' + this.player.position]
+      const obj =  ['object' + this.player.position]
+      if (!this.isMyTurn) return obj
+      return obj.concat(['active'])
     },
 
     playerIsMe() {
@@ -110,4 +114,16 @@ export default {
   }
 }
 </script>
+<style>
+.player-avatar-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 129px;
+  height: 129px;
+  background-size: cover;
+  background-position: center;
+  background-image: url(../assets/avatar-outline.png);
 
+}
+</style>

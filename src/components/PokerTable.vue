@@ -1,4 +1,5 @@
 <template>
+  <div class="poker-table">
     <div style="position: relative; width: 100%; height: 100%">
         <div v-for="player in tablePositions" :key="player.position + player.playerAccountId + table.id">
           <PokerPlayerCards :player="player"/>
@@ -6,6 +7,7 @@
     <div class="pokerHand row flex-center"><PokerHand/></div>
     <PokerPlayers/>
     </div>
+  </div>
 </template>
 
 <script>
@@ -30,6 +32,12 @@ export default {
 
 <style scoped>
 
+.poker-table {
+  background: url("../assets/poker-table.png") center center no-repeat;
+  background-size: contain;
+  width: 1080px;
+  height: 520px;
+}
 
 .pokerHand {
   position: absolute;
