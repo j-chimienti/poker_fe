@@ -1,18 +1,17 @@
 <template>
-    <div   :class="'object' + player.position + ' pokercards'">
-      <div>
-      <div v-if="playerIsMe">
-        <MyCards :player="player"/>
-      </div>
-        <div v-else-if="hasBestCards">
-          <FaceUpCard class="q-mx-xs"
-                      v-for="card in getCards"
-                      :key="card.id"
-                      :card="card"/>
+    <div :class="'object' + player.position + ' pokercards'">
+        <div style="position: relative" v-if="hasBestCards">
+          <q-img
+              v-for="(card, idx) in getCards"
+              :src="card.image"
+              :class="getStyle(idx, card)"
+              :key="card.id"
+              width="61px"
+              height="88px"
+          />
         </div>
       <div v-else-if="player.cards.length">
         <q-img src="../assets/down-cards.png" width="75px"/>
-      </div>
       </div>
   </div>
 </template>
@@ -22,17 +21,17 @@ import {get} from "lodash";
 import {mapState} from "pinia";
 import {useAuthStore} from "stores/auth-store";
 import MyCards from "components/MyCards.vue";
-import FaceUpCard from "components/FaceUpCard.vue";
+import PlayingCard from "components/PlayingCard.vue";
 
 export default {
   name: 'PokerPlayerCards',
   mixins: [RouterMixin],
-  components: {FaceUpCard, MyCards},
+  components: {PlayingCard, MyCards},
 
   methods: {
 
     getStyle(i) {
-      return (i === 1) ?  'margin-left: -50px' : ''
+      return (i === 1) ?  'right-child' : 'left-child'
     },
 
   },
@@ -47,9 +46,7 @@ export default {
       return Boolean(bc.length)
     },
 
-    playerIsMe() {
-      return this.player.playerAccountId === this.playerId
-    },
+
     ...mapState(useAuthStore, ['playerId']),
   },
 
@@ -58,3 +55,18 @@ export default {
   }
 }
 </script>
+<style>
+.left-child {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.right-child {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  z-index: 2;
+}
+</style>
