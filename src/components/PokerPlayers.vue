@@ -1,8 +1,7 @@
 <template>
-  <div v-for="spot in tablePositions" :key="spot.position">
+  <div v-for="spot in tablePositions" :key="spot.position" :class="getKlass(spot)">
     <PokerPlayer v-if="spot.playerAccountId" :player="spot"/>
-
-    <div v-else :class="getKlass(spot)" >
+    <div v-else>
         <q-btn
           label="join"
           class="join-btn"
@@ -14,7 +13,7 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "pinia";
+import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
 import {useAuthStore} from "stores/auth-store";
 import PokerPlayer from "components/PokerPlayer.vue";
@@ -28,22 +27,16 @@ export default {
   computed: {
     ...mapState(usePokerStore, [ 'joinedTable', 'pokerPlayerById' ,'pokerPlayers', 'playerTurn', 'pokerPlayersByPosition', 'tablePositions']),
     ...mapState(useAuthStore, ['playerId']),
-    getBackground(spot) {
-      const a = ['player-avatar', 'object' + spot.position, 'row', 'flex-center']
-      if (this.joinedTable) return a
-      return a
-    },
-
-
   },
   methods: {
     getKlass(spot) {
-      const player = this.pokerPlayerById(this.playerTurn)
       const arr = ['player-avatar', 'object' + spot.position, 'row', 'flex-center']
-      const pos = this.$get(player, 'position', -2)
-      const p = this.$get(spot, 'position', -1)
-      if (pos !== p) return arr
-      return arr.concat(['active'])
+      if (this.isActive(spot)) return arr.concat(['active'])
+      return arr
+    },
+    isActive(spot) {
+      const pid = this.$get(spot, 'playerAccountId', null)
+      return pid === this.playerTurn
     }
   }
 }
@@ -55,7 +48,8 @@ export default {
   width: 129px;
   height: 129px;
  &.active {
-   background: red;
+   border: 6px solid $mango_orange;
+   border-radius: 100%;
  }
 }
 

@@ -173,5 +173,9 @@ export function mapCardToImage(card) {
         (value && rank === String(value)))
     )
   })
-  return result.image
+  if (result && result.image) return result.image
+  else {
+    console.log(card)
+    return ""
+  }
 }

@@ -24,111 +24,102 @@ button {
 }
 
 .join-btn {
-
-
   background: #FF7A41;
   color: #FFFFFF;
-
   font-family: 'Mukta';
   /* identical to box height, or 75% */
-
-
-
 }
 
 .q-card, .q-pill, .q-chip {
   background: $pill-bg;
 }
 
-.card-outline {
-  box-sizing: border-box;
-  min-width: 90px;
-  min-height: 100px;
-  border: 7px solid #0D6757;
-  border-radius: 8px;
-}
 
 
 @for $i from 1 through 10 {
   .object#{$i} {
     position: absolute;
   }
+
 }
 
-.object1, .object2, .object3 {
-  top: -20%;
+.object1, .object2 {
+  top: -15%;
   &.pokercards {
     top: -25%;
-
   }
 }
 
-
-
-.object1, .join-btn-1, .object8 {
-  left: 30%;
+.object1 {
+  left: 25%;
 }
 
-.object2, .object7 {
-
-  left: 45%;
+.object2 {
+  right: 25%;
 }
 
-.object3, .object6 {
-  left: 60%;
-}
-
-.object4, .object5, .object9, .object10 {
-  transform: translateY(-50%);
-}
-
-.object4, .object10 {
-  top: 35%;
-}
-
-.object4, .object5 {
+.object3 {
+  top: -5%;
+  right: 5%;
   &.pokercards {
-    right: 24%;
+    top: -25%;
   }
-}
-
-.object5, .object9 {
-  bottom: -20%;
 }
 
 .object4 {
-  right: 10%;
-
-}
-
-
-
-.object9, .object10 {
-  left: 5%;
+  top: 40%;
+  right: 0;
+  &.pokercards {
+    right: -10%;
+  }
 }
 
 .object5 {
+  bottom: -5%;
   right: 5%;
-}
-
-
-
-.join-btn-8 {
-  left: -5%;
-
-}
-
-.object6, .object7, .object8 {
-  bottom: -20%;
   &.pokercards {
-    bottom: -33%;
+    right: 0;
   }
-
 }
 
-.object9, .object10 {
+.object6 {
+  bottom: -15%;
+  right: 25%;
   &.pokercards {
-    left: -10%;
+    bottom: -25%;
+  }
+}
+
+.object7 {
+  bottom: -15%;
+  left: 25%;
+  &.pokercards {
+    bottom: -25%;
+  }
+}
+
+
+.object8 {
+  bottom: -5%;
+  left: 5%;
+  &.pokercards {
+    left: -5%;
+  }
+}
+
+.object9 {
+  top: 40%;
+  left: 0;
+  &.pokercards {
+    left: -5%;
+  }
+}
+
+.object10 {
+  top: -5%;
+  left: 5%;
+  &.pokercards {
+    left: -5%;
   }
 }
 

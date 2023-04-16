@@ -1,6 +1,7 @@
 <template>
   <div class="poker-table">
     <div style="position: relative; width: 100%; height: 100%">
+        <div class="table-round">{{table.round}}</div>
         <div v-for="player in tablePositions" :key="player.position + player.playerAccountId + table.id">
           <PokerPlayerCards :player="player"/>
         </div>
@@ -16,13 +17,15 @@ import PokerPlayers from "components/PokerPlayers.vue";
 import PokerPlayerCards from "components/PokerPlayerCards.vue";
 import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
+import MyCards from "components/MyCards.vue";
 
 export default {
   name: "PokerTable",
   computed: {
-    ...mapState(usePokerStore, ['pokerPlayers','table', 'playerTurn', 'tablePositions']),
+    ...mapState(usePokerStore, ['pokerPlayers','table', 'playerTurn', 'tablePositions', 'playerIsMe']),
   },
   components: {
+    MyCards,
     PokerPlayers,
     PokerPlayerCards,
     PokerHand,
@@ -47,6 +50,16 @@ export default {
   height: 100px;
 }
 
+.table-round {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 25%;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 18px;
+}
 
 
 </style>

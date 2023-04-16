@@ -1,32 +1,34 @@
 <template>
- <div class="my-cards">
-   <FaceUpCard class="q-mx-xs"
-               v-for="card in getCards"
-               :key="card.id"
-               :card="card"/>
+ <div class="my-cards" v-if="playerOpt">
+   <q-img v-for="card in getCards" :src="card.image" :key="card.id" width="122px" height="176px"/>
  </div>
 </template>
 <script>
-import FaceUpCard from "components/FaceUpCard.vue"
 import {get} from "lodash";
+import {mapState} from "pinia";
+import {usePokerStore} from "stores/poker-store";
+import PlayingCard from "components/PlayingCard.vue";
 
 export default {
   name: 'MyCards',
-  components: {FaceUpCard},
+  components: {PlayingCard},
   computed: {
 
+    ...mapState(usePokerStore, ['playerOpt']),
     getCards() {
-      return this.hasBestCards ? this.player.bestCards : this.player.cards
+      const cards = get(this.playerOpt, 'cards', [])
+      if (this.hasBestCards.length) return this.hasBestCards
+      else if (cards.length)
+      return cards
+      return []
     },
 
     hasBestCards() {
-      const bc = get(this.player, "bestCards", [])
-      return Boolean(bc.length)
+      return get(this.playerOpt, "bestCards", [])
+
     },
   },
-  props: {
-    player: {}
-  }
+
 }
 </script>
 

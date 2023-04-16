@@ -4,13 +4,9 @@
     @before-enter="beforeEnter"
     @leave="onLeave"
   >
-        <div class="card-outline row flex-center" v-for="card in cardsAndHoles" :key="card.idx">
-         <PlayingCard
-           v-if="card.card"
-           :key="card.card.id"
-           :data-index="card.idx"
-           :card="card.card"
-         />
+        <div class="row flex-center" v-for="card in cardsAndHoles" :key="card.idx" :data-index="card.idx">
+          <q-img v-if="card.card"  :src="card.card.image"  width="122px" height="176px" />
+          <div v-else class="hole-card"></div>
         </div>
   </TransitionGroup>
 </template>
@@ -73,4 +69,12 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.hole-card {
+  border: 7px solid #0D6757;
+  border-radius: 8px;
+  width: 122px;
+  height: 176px;
+}
+</style>

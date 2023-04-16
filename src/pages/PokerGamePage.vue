@@ -1,7 +1,7 @@
 <template>
   <div class="row flex justify-between q-ma-md">
-    <q-img src="../assets/logo-game-page.png" width="204px"/>
-    <q-img src="../assets/exit.png" width="77px" height="77px" @click="onLeave"/>
+    <q-img class="cursor-pointer" src="../assets/logo-game-page.png" width="204px" @click="goToLobby"/>
+    <q-img class="cursor-pointer" src="../assets/exit.png" width="77px" height="77px" @click="onLeave"/>
   </div>
     <div v-if="table" class="row flex-center q-ma-md">
         <PokerTable />
@@ -13,11 +13,12 @@
         </q-form>
       </div>
       <div>
-        <q-btn  @click="onRaise"  color="secondary" label="raise"/>
-        <q-btn  @click="call(table.id)" color="secondary" label="call"/>
-        <q-btn  @click="fold(table.id)" color="secondary" label="fold"/>
+        <q-btn :disabled="!myTurn"  @click="onRaise"  color="secondary" label="raise"/>
+        <q-btn :disabled="!myTurn"  @click="call(table.id)" color="secondary" label="call"/>
+        <q-btn :disabled="!myTurn"  @click="fold(table.id)" color="secondary" label="fold"/>
       </div>
     </div>
+  <MyCards/>
 </template>
 
 <script>
@@ -28,15 +29,13 @@ import {mapState} from "pinia";
 import ChatMessages from "components/ChatMessages.vue";
 import SendMessageForm from "components/SendMessageForm.vue";
 import ApiMixin from "src/mixins/ApiMixin.vue";
-import {canPlaceBet} from "src/services/playerService";
+import MyCards from "components/MyCards.vue";
 
 export default {
   mixins: [ApiMixin],
   computed: {
-    ...mapState(usePokerStore, ['table', 'joinedTable', 'round', 'playerOpt']),
-    canPlace() {
-      return this.joinedTable && canPlaceBet(this.playerOpt)
-    }
+    ...mapState(usePokerStore, ['table', 'joinedTable', 'round', 'playerOpt', 'myTurn']),
+
   },
   data() {
     return {   countdownBetTimeoutText: '', raiseAmount: 100 }
@@ -55,23 +54,28 @@ export default {
       }
     },
     onRaise() {
-
       raise(this.table.id, this.raiseAmount)
     },
-
-
     onLeave() {
       if (this.joinedTable) {
-      const id = this.table.id
-      leave(id)
-      subscribeTable(id)
+        const id = this.table.id
+        leave(id)
+        subscribeTable(id)
       }
+    },
+    goToLobby() {
+      if (this.joinedTable) {
+        const id = this.table.id
+        leave(id)
+      }
+      return this.$router.push({name: 'home'})
     },
 
 
   },
 
   components: {
+    MyCards,
     SendMessageForm,
     ChatMessages,
     PokerTable
