@@ -3,6 +3,7 @@ import { useAuthStore } from "stores/auth-store"
 import { flatten, get as _get, uniqBy } from "lodash"
 import Card from "src/models/Card"
 import { openSeats } from "src/services/tableService"
+import { formatToUSD } from "src/services/moneyUtils"
 
 export const usePokerStore = defineStore("poker", {
   actions: {
@@ -83,6 +84,16 @@ export const usePokerStore = defineStore("poker", {
     },
   },
   getters: {
+    balance() {
+      return formatToUSD(_get(this.playerOpt, "balance", 0), 2)
+    },
+    maxBet() {
+      const bets = this.pokerPlayers
+        .map((p) => p.player.bet)
+        .sort((a, b) => b - a)
+      const data = { bets }
+      return formatToUSD(_get(data, "bets[0]", 0), 0)
+    },
     allPlayers() {
       return uniqBy(
         flatten(
@@ -143,6 +154,7 @@ export const usePokerStore = defineStore("poker", {
       tables: [],
       table: null,
       chatMessages: {},
+      chatVisible: false,
       room: "lobby",
     }
   },

@@ -1,11 +1,19 @@
 <template>
-  <div class="row flex justify-between q-ma-md">
-    <q-img class="cursor-pointer" src="../assets/logo-game-page.png" width="204px" @click="goToLobby"/>
-    <q-img class="cursor-pointer" src="../assets/exit.png" width="77px" height="77px" @click="onLeave"/>
-  </div>
-    <div v-if="table" class="row flex-center q-ma-md">
-        <PokerTable />
+  <SplashScreen v-if="!table"></SplashScreen>
+  <div v-else>
+    <ChatMessages :table-id="table.id"/>
+    <div class="row flex justify-start q-ma-md">
+      <q-img class="cursor-pointer" src="../assets/logo-game-page.png" width="204px" @click="goToLobby"/>
     </div>
+    <div class="player-actions-navbar column">
+      <q-img class="cursor-pointer q-my-md" src="../assets/exit.png" width="77px" height="77px" @click="onLeave"/>
+      <q-img class="cursor-pointer" src="../assets/msg.png" width="77px" height="77px" @click="openChat"/>
+    </div>
+    <div class="row flex-center bet-container"><TableMaxBet/></div>
+    <div v-if="table" class="row flex-center q-ma-md">
+      <PokerTable />
+    </div>
+    <div class="table-pot row flex-center" >Pot: {{pot}}</div>
     <div class="row flex-center player-actions">
       <div>
         <q-form @submit="onRaise">
@@ -18,7 +26,9 @@
         <q-btn :disabled="!myTurn"  @click="fold(table.id)" color="secondary" label="fold"/>
       </div>
     </div>
-  <MyCards/>
+    <PlayerBalance/>
+    <MyCards/>
+  </div>
 </template>
 
 <script>
@@ -30,11 +40,18 @@ import ChatMessages from "components/ChatMessages.vue";
 import SendMessageForm from "components/SendMessageForm.vue";
 import ApiMixin from "src/mixins/ApiMixin.vue";
 import MyCards from "components/MyCards.vue";
+import SplashScreen from "components/SplashScreen.vue";
+import {formatToUSD} from "src/services/moneyUtils";
+import PlayerBalance from "components/PlayerBalance.vue";
+import TableMaxBet from "components/TableMaxBet.vue";
 
 export default {
   mixins: [ApiMixin],
   computed: {
-    ...mapState(usePokerStore, ['table', 'joinedTable', 'round', 'playerOpt', 'myTurn']),
+    pot() {
+      return formatToUSD(this.table.pot)
+    },
+    ...mapState(usePokerStore, ['table', 'joinedTable', 'round', 'playerOpt', 'myTurn', 'chatVisible']),
 
   },
   data() {
@@ -42,9 +59,24 @@ export default {
   },
   unmounted() { clearInterval(this.interval) },
  mounted() {
+    if (!this.table) {
+      const options = {
+        spinner: SplashScreen,
+        message: "Loading. Hang on...",
+      }
+      this.$q.loading.show(options)
+    }
    setInterval(this.sendSubscribeTable, 1000 * 15)
  },
+  watch: {
+    table: function(n) {
+      if (n && this.$q.loading.isActive) this.$q.loading.hide()
+    }
+  },
   methods: {
+    openChat() {
+      usePokerStore().chatVisible = !usePokerStore().chatVisible
+    },
     sendSubscribeTable() {
       if (this.table && this.table.id)
       subscribeTable(this.table.id)
@@ -75,6 +107,9 @@ export default {
   },
 
   components: {
+    TableMaxBet,
+    PlayerBalance,
+    SplashScreen,
     MyCards,
     SendMessageForm,
     ChatMessages,
@@ -86,5 +121,26 @@ export default {
 <style>
 .player-actions {
   margin-top: 200px;
+}
+
+.player-actions-navbar {
+  position: fixed;
+  top: 16px;
+  right: 38px;
+}
+
+.table-pot {
+  font-family: 'Mukta';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 18px;
+  /* or 45% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #FFFFFF;
 }
 </style>

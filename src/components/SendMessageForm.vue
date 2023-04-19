@@ -1,8 +1,8 @@
 <template>
-  <q-form @submit="sendMessage" class="z-max">
-    <q-input v-model="msg" outlined>
+  <q-form @submit="sendMessage" class="chat-message-form">
+    <q-input v-model="msg" placeholder="Say something...">
       <template v-slot:append>
-        <q-btn type="submit" icon="send" color="info" @click="sendMessage"/>
+        <q-btn type="submit" icon="send"  flat @click="sendMessage"/>
       </template>
     </q-input>
   </q-form>
@@ -25,3 +25,26 @@ export default {
   }
 }
 </script>
+
+<style>
+.chat-message-form {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 576px;
+  bottom: 33px;
+  color: black !important;
+  background: #FFFFFF;
+  mix-blend-mode: normal;
+  /* Rangoon Green
+
+  Rangoon Green
+  */
+  border: 4px solid #141818;
+  border-radius: 8px;
+}
+
+.q-field__control {
+  color: black !important;
+}
+</style>
