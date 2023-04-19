@@ -8,6 +8,7 @@ import * as apiService from "../services/apiService"
 import { defineStore } from "pinia"
 import { messageFactory } from "stores/messageFactory"
 import { clearSessionId, saveSessionId } from "src/services/localStorageService"
+import { formatToUSD } from "src/services/moneyUtils"
 
 const wsUrl = process.env.VUE_APP_WEBSOCKET_URL
 
@@ -17,19 +18,39 @@ export const useAuthStore = defineStore("auth", {
     playerAccount: null, //{playerAccount, session}
   }),
   getters: {
-    connectedToWebsocket: (state) =>
-      _get(state.websocket, "readyState", -1) === 1,
-    authenticated: (state) => Boolean(state.playerAccount),
-    isSessionUser: (state) =>
-      Boolean(state.playerAccount) &&
-      _get(state.playerAccount, "email", "").includes("session"),
-    playerId: (state) => _get(state.playerAccount, "id", null),
-    email: (state) => _get(state.playerAccount, "email", "N/A"),
-    name: (state) => _get(state.playerAccount, "name", "N/A"),
-    sessionId: (state) => _get(state.playerAccount, "sessionId", null),
-    picture: (state) => _get(state.playerAccount, "picture", null),
-    avatar: (state) => state.picture || "todo",
-    loading: (state) => state.playerAccount === null,
+    connectedToWebsocket(state) {
+      return _get(this.websocket, "readyState", -1) === 1
+    },
+    authenticated() {
+      return Boolean(this.playerAccount)
+    },
+    isSessionUser() {
+      return (
+        Boolean(this.playerAccount) &&
+        _get(this.playerAccount, "email", "").includes("session")
+      )
+    },
+    playerId() {
+      return _get(this.playerAccount, "id", null)
+    },
+    email() {
+      return _get(this.playerAccount, "email", "N/A")
+    },
+    name() {
+      return _get(this.playerAccount, "name", "N/A")
+    },
+    sessionId() {
+      return _get(this.playerAccount, "sessionId", null)
+    },
+    picture() {
+      return _get(this.playerAccount, "picture", null)
+    },
+    avatar() {
+      return this.picture || "todo"
+    },
+    loading() {
+      return this.playerAccount === null
+    },
   },
   actions: {
     sendWebsocketMessage(m) {
