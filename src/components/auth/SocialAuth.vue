@@ -44,6 +44,7 @@ $btn-height: 3rem;
     font-weight: bold;
     margin: 0.75em 0;
     width: 90%;
+    max-width: 400px;
     height: $btn-height;
     position: relative;
     .btn-icon {

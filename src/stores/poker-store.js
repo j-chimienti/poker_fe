@@ -17,6 +17,9 @@ export const usePokerStore = defineStore("poker", {
           })
       }
     },
+    openChat() {
+      this.chatVisible = !this.chatVisible
+    },
     mapToTable(t) {
       const cardsMapped = t.cards.map((c) => new Card(c))
       const tableHand = _get(this.table, "hand", -1)

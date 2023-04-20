@@ -28,6 +28,14 @@ export default {
         useUiStore().loginModalVisible = v
       },
     },
+    accountModalVisible: {
+      get() {
+        return useUiStore().accountModalVisible
+      },
+      set(v) {
+        useUiStore().accountModalVisible = v
+      },
+    },
     rightDrawerOpen: {
       get() { return useUiStore().rightDrawerOpen },
       set(v) { useUiStore().rightDrawerOpen = v }

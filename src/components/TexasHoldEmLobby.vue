@@ -1,5 +1,6 @@
 <template>
   <NavBar/>
+  <ChatMessages table-id="lobby"/>
   <div class="q-container">
     <div class="row justify-start wrap">
       <div v-for="table in rows" :key="table.title" class="game-card q-pa-md q-ma-md">
@@ -28,9 +29,10 @@ import {getTables, joinTable} from "src/services/apiService";
 import {mapState} from "pinia";
 import {formatToUSD} from "src/services/moneyUtils";
 import NavBar from "components/NavBar.vue";
+import ChatMessages from "components/ChatMessages.vue";
 
 export default {
-  components: {NavBar},
+  components: {ChatMessages, NavBar},
   methods: {
     joinTable(id) {
 
