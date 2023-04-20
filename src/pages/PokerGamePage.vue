@@ -13,6 +13,7 @@
     <div v-if="table" class="row flex-center q-ma-md">
       <PokerTable />
     </div>
+
     <div class="table-pot row flex-center" >Pot: {{pot}}</div>
     <div class="row flex-center player-actions">
       <div>
@@ -35,7 +36,7 @@
 import PokerTable from "components/PokerTable.vue"
 import {usePokerStore} from "stores/poker-store";
 import {leave, raise, subscribeTable} from "src/services/apiService";
-import {mapState} from "pinia";
+import {mapActions, mapState} from "pinia";
 import ChatMessages from "components/ChatMessages.vue";
 import SendMessageForm from "components/SendMessageForm.vue";
 import ApiMixin from "src/mixins/ApiMixin.vue";
@@ -44,6 +45,7 @@ import SplashScreen from "components/SplashScreen.vue";
 import {formatToUSD} from "src/services/moneyUtils";
 import PlayerBalance from "components/PlayerBalance.vue";
 import TableMaxBet from "components/TableMaxBet.vue";
+import TweenedNumber from "components/TweenedNumber.vue";
 
 export default {
   mixins: [ApiMixin],
@@ -74,9 +76,7 @@ export default {
     }
   },
   methods: {
-    openChat() {
-      usePokerStore().chatVisible = !usePokerStore().chatVisible
-    },
+    ...mapActions(usePokerStore, ['openChat']),
     sendSubscribeTable() {
       if (this.table && this.table.id)
       subscribeTable(this.table.id)
@@ -107,6 +107,7 @@ export default {
   },
 
   components: {
+    TweenedNumber,
     TableMaxBet,
     PlayerBalance,
     SplashScreen,

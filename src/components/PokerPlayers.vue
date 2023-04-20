@@ -1,6 +1,9 @@
 <template>
   <div v-for="spot in tablePositions" :key="spot.position" :class="getKlass(spot)">
-    <PokerPlayer v-if="spot.playerAccountId" :player="spot"/>
+    <div v-if="spot.playerAccountId">
+      <q-img src="../assets/avatars/1.png"/>
+      <PokerPlayer  :player="spot"/>
+    </div>
     <div v-else>
         <q-btn
           label="join"

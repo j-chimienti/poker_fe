@@ -4,6 +4,7 @@
     <InvoiceModal />
     <DebitModal />
     <LoginModal/>
+    <AccountInfoModal/>
     <div hidden>
       <img
         v-for="card in cardImages"
@@ -22,11 +23,12 @@ import {cardImages} from "./services/cardImageService.js"
 import InvoiceModal from "components/InvoiceModal.vue";
 import DebitModal from "components/DebitModal.vue";
 import TestData from "components/TestData.vue";
-import LoginModal from "./components/auth/LoginModal.vue";
+import LoginModal from "components/auth/LoginModal.vue";
+import AccountInfoModal from "components/auth/AccountInfoModal.vue";
 
 export default defineComponent({
   name: "App",
-  components: { LoginModal, TestData, DebitModal, InvoiceModal},
+  components: { AccountInfoModal, LoginModal, TestData, DebitModal, InvoiceModal},
   data() {
     return { cardImages}
   }

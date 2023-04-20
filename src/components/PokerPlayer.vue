@@ -1,9 +1,6 @@
 <template>
   <div class="my-turn" v-if="isMyTurn">{{name}} turn</div>
   <div class="player-state">{{ isMyTurn ? countdownText : player.state }}</div>
-  <div class="poker-player">
-    <q-img :src="playerImage" :alt="'player ' + player.position"/>
-  </div>
 </template>
 <script>
 import {mapState} from "pinia";
