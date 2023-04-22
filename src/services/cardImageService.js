@@ -175,7 +175,6 @@ export function mapCardToImage(card) {
   })
   if (result && result.image) return result.image
   else {
-    console.log(card)
     return ""
   }
 }

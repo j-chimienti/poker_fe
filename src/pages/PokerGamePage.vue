@@ -15,20 +15,17 @@
     </div>
 
     <div class="table-pot row flex-center" >Pot: {{pot}}</div>
-    <div class="row flex-center player-actions">
-      <div>
-        <q-form @submit="onRaise">
-          <q-input type="number" v-model.number="raiseAmount"/>
-        </q-form>
+    <div class="row flex-center player-actions" v-if="joinedTable">
+        <q-btn class="player-buttons" :disabled="!myTurn"  @click="raiseTheBetModalVisible = true"  color="secondary" label="raise"/>
+        <q-btn class="player-buttons" :disabled="!myTurn"  @click="onCall(table.id)" color="secondary" label="call"/>
+        <q-btn class="player-buttons" :disabled="!myTurn"  @click="onFold(table.id)" color="secondary" label="fold"/>
       </div>
-      <div>
-        <q-btn :disabled="!myTurn"  @click="onRaise"  color="secondary" label="raise"/>
-        <q-btn :disabled="!myTurn"  @click="call(table.id)" color="secondary" label="call"/>
-        <q-btn :disabled="!myTurn"  @click="fold(table.id)" color="secondary" label="fold"/>
-      </div>
-    </div>
     <PlayerBalance/>
     <MyCards/>
+    <RaiseTheBetModal/>
+    <CallTheBetModal/>
+
+    <FoldModal/>
   </div>
 </template>
 
@@ -46,9 +43,14 @@ import {formatToUSD} from "src/services/moneyUtils";
 import PlayerBalance from "components/PlayerBalance.vue";
 import TableMaxBet from "components/TableMaxBet.vue";
 import TweenedNumber from "components/TweenedNumber.vue";
+import RaiseTheBetModal from "components/dialogs/RaiseTheBetModal.vue";
+import CallTheBetModal from "components/dialogs/CallTheBetModal.vue";
+import FoldModal from "components/dialogs/FoldModal.vue";
+import DialogMixin from "src/mixins/DialogMixin.vue";
+import {useUiStore} from "stores/ui-store";
 
 export default {
-  mixins: [ApiMixin],
+  mixins: [ApiMixin, DialogMixin],
   computed: {
     pot() {
       return formatToUSD(this.table.pot)
@@ -57,7 +59,7 @@ export default {
 
   },
   data() {
-    return {   countdownBetTimeoutText: '', raiseAmount: 100 }
+    return {   countdownBetTimeoutText: '' }
   },
   unmounted() { clearInterval(this.interval) },
  mounted() {
@@ -77,6 +79,7 @@ export default {
   },
   methods: {
     ...mapActions(usePokerStore, ['openChat']),
+    ...mapActions(useUiStore, ['onCall', 'onFold']),
     sendSubscribeTable() {
       if (this.table && this.table.id)
       subscribeTable(this.table.id)
@@ -85,9 +88,7 @@ export default {
         if (id) subscribeTable(id)
       }
     },
-    onRaise() {
-      raise(this.table.id, this.raiseAmount)
-    },
+
     onLeave() {
       if (this.joinedTable) {
         const id = this.table.id
@@ -107,6 +108,9 @@ export default {
   },
 
   components: {
+    FoldModal,
+    CallTheBetModal,
+    RaiseTheBetModal,
     TweenedNumber,
     TableMaxBet,
     PlayerBalance,
@@ -146,5 +150,23 @@ export default {
   text-align: center;
 
   color: #FFFFFF;
+}
+
+.player-buttons {
+  /* Auto layout */
+
+  padding: 14px 20px;
+  gap: 10px;
+
+  width: 115px;
+  height: 48px;
+  /* Mango Orange */
+
+  /* Cartoon Shadow */
+
+  box-shadow: -3px 3px 0px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 </style>
