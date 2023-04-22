@@ -2,7 +2,7 @@
   <q-form @submit="sendMessage" class="chat-message-form">
     <q-input v-model="msg" placeholder="Say something...">
       <template v-slot:append>
-        <q-btn type="submit" icon="send"  flat @click="sendMessage"/>
+        <q-btn type="submit" label="send" @click="sendMessage"/>
       </template>
     </q-input>
   </q-form>
@@ -16,11 +16,11 @@ export default {
   data() { return {msg: ''}},
   mixins: [RouterMixin],
   methods: {
-
     sendMessage() {
-      chatMessage(this.msg, this.tableId)
-      this.msg = ''
-
+      if (this.msg) {
+        chatMessage(this.msg, this.tableId)
+        this.msg = ''
+      }
     }
   }
 }
@@ -36,6 +36,7 @@ export default {
   color: black !important;
   background: #FFFFFF;
   mix-blend-mode: normal;
+  padding-left: 15px;
   /* Rangoon Green
 
   Rangoon Green
@@ -44,7 +45,4 @@ export default {
   border-radius: 8px;
 }
 
-.q-field__control {
-  color: black !important;
-}
 </style>

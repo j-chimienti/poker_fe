@@ -8,19 +8,14 @@
         src="../assets/close.png" width="56px" height="56px"/>
       <div class="chat-header text-center">chat</div>
     </div>
-  <div style="max-height: 400px; overflow-y: scroll; overflow-x: hidden">
-    <div style="width: 100%; max-width: 400px">
       <q-chat-message v-for="message in chatMessages" :key="message"
                       :name="message.playerName"
+                      bg-color="white"
+                      text-color="black"
                       :avatar="getPlayerInfo(message.playerName)"
                       :text="[message.message]"
       />
-    </div>
-  </div>
-
-
     <SendMessageForm/>
-
   </div>
 </template>
 
@@ -46,7 +41,7 @@ export default {
   computed: {
     ...mapState(usePokerStore, ['allPlayers', 'chatVisible']),
     chatMessages() {
-        return  reverse(get(usePokerStore().chatMessages, this.tableId, []))
+        return  get(usePokerStore().chatMessages, this.tableId, []).slice(-7)
     }
   },
   props: {
