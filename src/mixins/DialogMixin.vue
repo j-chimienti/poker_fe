@@ -1,9 +1,11 @@
 <script>
 import {useUiStore} from "stores/ui-store";
+import {mapState} from "pinia";
 
 export default {
   name: "DialogMixin",
   computed: {
+    ...mapState(useUiStore, ['dontAskAgain']),
     invoiceModalVisible: {
       get() {
         return useUiStore().invoiceModalVisible
@@ -36,10 +38,27 @@ export default {
         useUiStore().accountModalVisible = v
       },
     },
-    rightDrawerOpen: {
-      get() { return useUiStore().rightDrawerOpen },
-      set(v) { useUiStore().rightDrawerOpen = v }
+    raiseTheBetModalVisible: {
+      get() { return useUiStore().raiseTheBetModalVisible },
+      set(v) { useUiStore().raiseTheBetModalVisible = v }
+    },
+    foldModal: {
+      get() { return useUiStore().foldModal },
+      set(v) { useUiStore().foldModal = v }
+    },
+    leaveModal: {
+      get() { return useUiStore().leaveModal },
+      set(v) { useUiStore().leaveModal = v }
+    },
+    callTheBetModal: {
+      get() { return useUiStore().callTheBetModal },
+      set(v) { useUiStore().callTheBetModal = v }
+    },
+    checkModal: {
+      get() { return useUiStore().checkModal },
+      set(v) { useUiStore().checkModal = v }
     }
+
   },
 }
 </script>

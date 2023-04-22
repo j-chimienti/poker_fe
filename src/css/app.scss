@@ -126,6 +126,37 @@ button {
 
 
 
+.player-action-dialog {
 
+}
 
+.player-action-title {
+  font-family: 'Wonderbar';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 44px;
+  /* identical to box height, or 110% */
 
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #FFFFFF;
+}
+
+.player-action-text {
+  font-family: 'Mukta';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 36px;
+  /* or 112% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #FFFFFF;
+
+}

@@ -110,11 +110,12 @@ export default {
   border-radius: 8px;
   display: flex;
   justify-content: center;
-  margin-top: -180px;
+  margin-top: -67px;
+  margin-left: 67px;
 }
 
 .my-turn {
-  margin-top: -150px;
-  height: 50px;
+  margin-top: -67px;
+  margin-left: 67px;
 }
 </style>
