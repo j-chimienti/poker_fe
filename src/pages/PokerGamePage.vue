@@ -121,7 +121,10 @@ export default {
 
 <style>
 .player-actions {
-  margin-top: 200px;
+ position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .player-actions-navbar {
