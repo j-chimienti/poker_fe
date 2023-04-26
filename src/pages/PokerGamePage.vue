@@ -59,7 +59,7 @@ export default {
 
   },
   data() {
-    return {   countdownBetTimeoutText: '' }
+    return {   countdownBetTimeoutText: '',  testCheckbox: false }
   },
   unmounted() { clearInterval(this.interval) },
  mounted() {

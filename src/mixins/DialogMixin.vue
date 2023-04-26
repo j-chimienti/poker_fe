@@ -57,7 +57,15 @@ export default {
     checkModal: {
       get() { return useUiStore().checkModal },
       set(v) { useUiStore().checkModal = v }
-    }
+    },
+    dontAskCall: {
+      get() { return useUiStore().dontAskCall },
+      set(v) { useUiStore().dontAskCall = v }
+    },
+    dontAskFold: {
+      get() { return useUiStore().dontAskFold },
+      set(v) { useUiStore().dontAskFold = v }
+    },
 
   },
 }

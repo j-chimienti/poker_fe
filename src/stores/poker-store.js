@@ -87,6 +87,9 @@ export const usePokerStore = defineStore("poker", {
     },
   },
   getters: {
+    callAmount() {
+      return _get(this.table, "callAmount", -1)
+    },
     balance() {
       return formatToUSD(_get(this.playerOpt, "balance", 0), 2)
     },
