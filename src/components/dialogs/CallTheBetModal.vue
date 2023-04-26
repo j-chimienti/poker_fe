@@ -1,14 +1,17 @@
 <template>
 <q-dialog v-model="callTheBetModal">
   <div class="bg-primary account-popup">
+    <q-img src="../../assets/close.png" class="close-dialog-btn"/>
   <div class="player-action-title row justify-center">call the bet</div>
-  <div class="player-action-text text-center">calling the bet will put XX into the pot</div>
-  <div class="column">
-    <q-btn label="call" @click="call(table.id); callTheBetModal = false"/>
-    <q-btn label="cancel"/>
-  </div>
-  <div class="row justify-center">
-    <q-checkbox :model-value="dontAskAgain.call" label="don't ask me again"/>
+  <div class="player-action-text text-center">calling the bet will put {{callAmount}} into the pot</div>
+    <div class="row justify-center q-my-sm">
+      <q-btn color="secondary" class="player-action-button" label="call" @click="call(table.id); callTheBetModal = false"/>
+    </div>
+    <div class="row justify-center q-my-sm">
+      <q-btn color="secondary" class="player-action-button" label="cancel"/>
+    </div>
+  <div class="row justify-center" style="margin-bottom: 24px;">
+    <q-checkbox v-model="dontAskCall" label="don't ask me again"/>
   </div>
   </div>
 </q-dialog>
@@ -19,22 +22,13 @@ import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
 import DialogMixin from "src/mixins/DialogMixin.vue";
 import ApiMixin from "src/mixins/ApiMixin.vue";
-import {useUiStore} from "stores/ui-store";
 
 export default {
   name: "CallTheBetModal",
   mixins: [DialogMixin, ApiMixin],
-  data() {
-    return { raiseAmount: 100 }
-  },
   computed: {
-    ...mapState(usePokerStore, ['table']),
-    ...mapState(useUiStore, ['dontAskAgain'])
-
+    ...mapState(usePokerStore, ['table', 'callAmount']),
   },
-  methods: {
-
-  }
 }
 </script>
 

@@ -25,9 +25,11 @@ import DebitModal from "components/DebitModal.vue";
 import TestData from "components/TestData.vue";
 import LoginModal from "components/auth/LoginModal.vue";
 import AccountInfoModal from "components/auth/AccountInfoModal.vue";
+import DialogMixin from "src/mixins/DialogMixin.vue";
 
 export default defineComponent({
   name: "App",
+  mixins: [DialogMixin],
   components: { AccountInfoModal, LoginModal, TestData, DebitModal, InvoiceModal},
   data() {
     return { cardImages}

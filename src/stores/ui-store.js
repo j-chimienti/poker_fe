@@ -12,15 +12,12 @@ export const useUiStore = defineStore("ui", {
     leaveModal: false,
     callTheBetModal: false,
     checkModal: false,
-    dontAskAgain: {
-      call: true,
-      check: false,
-      fold: false,
-    },
+    dontAskCall: false,
+    dontAskFold: false,
   }),
   actions: {
     onCall(tableId) {
-      if (this.dontAskAgain.call) call(tableId)
+      if (this.dontAskCall) call(tableId)
       else this.callTheBetModal = true
     },
     // onCheck(tableId) {
@@ -29,7 +26,7 @@ export const useUiStore = defineStore("ui", {
     // },
 
     onFold(tableId) {
-      if (this.dontAskAgain.fold) fold(tableId)
+      if (this.dontAskFold) fold(tableId)
       else this.foldModal = true
     },
   },

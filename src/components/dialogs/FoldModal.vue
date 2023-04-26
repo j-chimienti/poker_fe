@@ -8,27 +8,23 @@
       <q-btn label="cancel" @click="foldModal = false"/>
     </div>
     <div class="row justify-center">
-      <q-checkbox :model-value="dontAskAgain.fold" label="don't ask me again"/>
+      <q-checkbox v-model="dontAskFold" label="don't ask me again"/>
     </div>
   </div>
 </q-dialog>
 </template>
 
 <script>
-import {raise} from "src/services/apiService";
 import {mapState} from "pinia";
 import {usePokerStore} from "stores/poker-store";
 import DialogMixin from "src/mixins/DialogMixin.vue";
 import ApiMixin from "src/mixins/ApiMixin.vue";
-import {useUiStore} from "stores/ui-store";
 
 export default {
   name: "FoldModal",
   mixins: [DialogMixin, ApiMixin],
   computed: {
     ...mapState(usePokerStore, ['table']),
-    ...mapState(useUiStore, ['dontAskAgain'])
-
   }
 }
 </script>

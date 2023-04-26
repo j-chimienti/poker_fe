@@ -1,6 +1,19 @@
 <template>
-  <div class="my-turn" v-if="isMyTurn">{{name}} turn</div>
-  <div class="player-state">{{ isMyTurn ? countdownText : player.state }}</div>
+  <div :class="getKlass">
+    <div v-if="player && player.playerAccountId">
+      <div class="my-turn" v-if="isMyTurn">{{playerIsMe ? 'your' : name}} turn</div>
+      <div class="player-state">{{ isMyTurn ? countdownText : player.state }}</div>
+      <div v-if="playerIsMe" class="you-text">You</div>
+    </div>
+    <div v-else>
+      <q-btn
+        label="join"
+        class="join-btn"
+        v-if="!joinedTable"
+        @click="joinTable(table.id, player.position)"   />
+      <q-img v-else src="../assets/logo-icon-dark.png" width="50px"/>
+    </div>
+  </div>
 </template>
 <script>
 import {mapState} from "pinia";
@@ -43,11 +56,12 @@ export default {
   name: 'PokerPlayer',
   mixins: [RouterMixin, ApiMixin],
   components: {PokerPlayerCards, TweenedNumber},
-  data() { return {showing: false, countdownBetTimeoutText: '', playerNameCustom: displayName(this.player) }},
+  data() { return {showing: false, countdownBetTimeoutText: '' }},
   mounted() {
     setInterval(this.checkIf, 1000)
   },
   methods: {
+
     getStyle(i) {
       return (i === 1) ?  'margin-left: -50px' : ''
     },
@@ -61,6 +75,15 @@ export default {
     },
   },
   computed: {
+    getKlass() {
+      const arr = ['player-avatar', 'object' + this.player.position, 'row', 'flex-center']
+      if (this.isActive) return arr.concat(['active'])
+      return arr
+    },
+    isActive() {
+      const pid = this.$get(this.player, 'playerAccountId', null)
+      return pid === this.playerTurn
+    },
     playerImage() {
 
       const {player} = this
@@ -77,11 +100,6 @@ export default {
     img() {
       return getAvatar(this.player)
     },
-    getKlass() {
-      const obj =  ['object' + this.player.position]
-      if (!this.isMyTurn) return obj
-      return obj.concat(['active'])
-    },
 
     playerIsMe() {
       return this.player.playerAccountId === this.playerId
@@ -90,17 +108,29 @@ export default {
       return this.player.playerAccountId === this.playerTurn
     },
 
-    ...mapState(usePokerStore, ['pokerPlayers','table', 'playerTurn', 'pokerPlayersByPosition']),
+    ...mapState(usePokerStore, ['joinedTable', 'pokerPlayers','table', 'playerTurn', 'pokerPlayersByPosition']),
     ...mapState(useAuthStore, ['playerId']),
   },
 
   props: {
-    player: {}
+    player: {
+      type: Object,
+      required: true
+    }
   }
 }
 </script>
-<style>
-
+<style lang="scss">
+.player-avatar {
+  background-image: url(src/assets/join-disk.png);
+  background-size: contain;
+  width: 129px;
+  height: 129px;
+&.active {
+   border: 6px solid $mango_orange;
+   border-radius: 100%;
+ }
+}
 
 .player-state {
   width: 67px;
@@ -117,5 +147,21 @@ export default {
 .my-turn {
   margin-top: -67px;
   margin-left: 67px;
+}
+
+.you-text {
+  font-family: 'Mukta';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 18px;
+  /* or 56% */
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #FFFFFF;
+  text-transform: capitalize;
 }
 </style>

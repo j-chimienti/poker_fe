@@ -1,6 +1,6 @@
 <template>
-<q-dialog v-model="raiseTheBetModalVisible">
-  <div class="bg-primary account-popup">
+<q-dialog v-model="raiseTheBetModalVisible" v-if="table">
+  <div class="bg-primary account-popup text-white">
   <div class="player-action-title row justify-center">Raise the bet</div>
   <div class="row justify-center">
     <q-form @submit="onRaise">
@@ -21,7 +21,8 @@ export default {
   name: "RaiseTheBetModal",
   mixins: [DialogMixin],
   data() {
-    return { raiseAmount: 100 }
+    const minRaise = this.$get(this.table, "bet.min", 100)
+    return { raiseAmount: minRaise }
   },
   computed: {
     ...mapState(usePokerStore, ['table']),

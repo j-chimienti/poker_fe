@@ -131,6 +131,7 @@ button {
 }
 
 .player-action-title {
+  padding-top: 32px;
   font-family: 'Wonderbar';
   font-style: normal;
   font-weight: 400;
@@ -143,6 +144,24 @@ button {
   text-align: center;
 
   color: #FFFFFF;
+}
+
+.player-action-button {
+  width: 338px;
+  height: 48px;
+  /* Mango Orange */
+
+  background: #FF7A41;
+  box-shadow: -3px 3px 0px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.close-dialog-btn {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  left: 16px;
+  top: 12px;
 }
 
 .player-action-text {
