@@ -1,5 +1,5 @@
 import { useAuthStore } from "stores/auth-store"
-import { Dialog, Loading, Notify, QSpinnerFacebook } from "quasar"
+import { Dialog, Loading, Notify } from "quasar"
 import { boot } from "quasar/wrappers"
 import { getSessionId } from "src/services/localStorageService"
 import {

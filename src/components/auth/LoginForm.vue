@@ -4,6 +4,7 @@
     <SocialAuth />
     <div class="row flex-center">
       <q-form
+        dark
         @submit.prevent="onSubmitForm"
         class="q-my-lg text-center text-white"
         ref="loginForm"
@@ -20,6 +21,7 @@
         <q-input
           :type="passwordVisible ? 'text' : 'password'"
           name="password"
+          class="text-white"
           data-cy="password"
           v-model="password"
           lazy-rules

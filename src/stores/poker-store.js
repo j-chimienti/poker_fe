@@ -97,8 +97,7 @@ export const usePokerStore = defineStore("poker", {
       const bets = this.pokerPlayers
         .map((p) => p.player.bet)
         .sort((a, b) => b - a)
-      const data = { bets }
-      return formatToUSD(_get(data, "bets[0]", 0), 0)
+      return bets[0] || 0
     },
     allPlayers() {
       return uniqBy(

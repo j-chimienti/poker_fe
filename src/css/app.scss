@@ -125,11 +125,6 @@ button {
 }
 
 
-
-.player-action-dialog {
-
-}
-
 .player-action-title {
   padding-top: 32px;
   font-family: 'Wonderbar';
@@ -178,4 +173,12 @@ button {
 
   color: #FFFFFF;
 
+}
+
+.q-field__native, .q-field__input {
+  color: white;
+}
+
+.q-field__native  * {
+  color: white;
 }

@@ -1,5 +1,7 @@
 import { v1 } from "uuid"
 import { mapCardToImage } from "src/services/cardImageService"
+import faceDownCardImg from "../assets/playing-cards/Card Back.png"
+import { faceCards } from "src/services/constants"
 
 const symbolsMap = { "♦": "diamond", "♥": "heart", "♠": "spade", "♣": "club" }
 function parse(cardString) {
@@ -48,8 +50,6 @@ export default function Card(obj) {
     }
   }
 }
-import faceDownCardImg from "../assets/cards/Background_.png"
-import { faceCards } from "src/services/constants"
 
 export function FaceDownCard() {
   return {
