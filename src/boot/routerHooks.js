@@ -10,6 +10,7 @@ import {
 } from "src/services/apiService"
 import { usePokerStore } from "stores/poker-store"
 import SplashScreen from "components/SplashScreen.vue"
+import { pages } from "src/constants"
 
 export function confirmRefreshPage() {
   Dialog.create({
@@ -52,7 +53,7 @@ async function session(store) {
 
 export default boot(({ router, store }) => {
   router.beforeEach(async (to, from) => {
-    if (to.name === "table") {
+    if (to.name === pages.table) {
       const id = to.params.id
       const pokerStore = usePokerStore()
       pokerStore.room = id
@@ -74,9 +75,9 @@ export default boot(({ router, store }) => {
         getTable(id)
         subscribeTable(id)
       }
-    } else if (to.name === "home") {
+    } else if (to.name === pages.home) {
       const pokerStore = usePokerStore()
-      pokerStore.room = "lobby"
+      pokerStore.room = pages.lobby
       pokerStore.table = null
       if (!useAuthStore().connectedToWebsocket) {
         Loading.show(options)

@@ -4,6 +4,7 @@ import { flatten, get as _get, uniqBy } from "lodash"
 import Card from "src/models/Card"
 import { openSeats } from "src/services/tableService"
 import { formatToUSD } from "src/services/moneyUtils"
+import { pages } from "src/constants"
 
 export const usePokerStore = defineStore("poker", {
   actions: {
@@ -147,8 +148,8 @@ export const usePokerStore = defineStore("poker", {
       const playerId = useAuthStore().playerId
       return _get(this.table, `pokerPlayers.${playerId}.player`, null)
     },
-    pokerPlayerById: (state) => (playerId) => {
-      return _get(state.table, `pokerPlayers.${playerId}.player`, null)
+    pokerPlayerById: () => (playerId) => {
+      return _get(this.table, `pokerPlayers.${playerId}.player`, null)
     },
     playerIsMe: (state) => (playerId) => {
       return playerId === useAuthStore().playerId
@@ -160,7 +161,7 @@ export const usePokerStore = defineStore("poker", {
       table: null,
       chatMessages: {},
       chatVisible: false,
-      room: "lobby",
+      room: pages.lobby,
     }
   },
 })
