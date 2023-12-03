@@ -78,7 +78,7 @@
 <script>
 import PokerTable from "components/PokerTable.vue"
 import { usePokerStore } from "stores/poker-store"
-import { leave, raise, subscribeTable } from "src/services/apiService"
+import { leave } from "src/services/apiService"
 import { mapActions, mapState } from "pinia"
 import ChatMessages from "components/ChatMessages.vue"
 import SendMessageForm from "components/SendMessageForm.vue"
@@ -109,7 +109,6 @@ export default {
     ...mapState(usePokerStore, [
       "table",
       "joinedTable",
-      "callAmount",
       "round",
       "playerOpt",
       "myTurn",
@@ -133,7 +132,6 @@ export default {
       }
       this.$q.loading.show(options)
     }
-    setInterval(this.sendSubscribeTable, 1000 * 15)
   },
   watch: {
     table: function (n) {
@@ -143,19 +141,11 @@ export default {
   methods: {
     ...mapActions(usePokerStore, ["openChat"]),
     ...mapActions(useUiStore, ["onCall", "onFold", "onCheck"]),
-    sendSubscribeTable() {
-      if (this.table && this.table.id) subscribeTable(this.table.id)
-      else {
-        const id = this.$route.params.id
-        if (id) subscribeTable(id)
-      }
-    },
 
     onLeave() {
       if (this.joinedTable) {
         const id = this.table.id
         leave(id)
-        subscribeTable(id)
       }
     },
     goToLobby() {
