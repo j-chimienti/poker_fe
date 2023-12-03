@@ -50,6 +50,13 @@ export function call(id) {
     tableId: id,
   })
 }
+
+export function check(id) {
+  return useAuthStore().sendWebsocketMessage({
+    action: actions.CHECK,
+    tableId: id,
+  })
+}
 export function raise(id, amount) {
   return useAuthStore().sendWebsocketMessage({
     action: actions.RAISE,

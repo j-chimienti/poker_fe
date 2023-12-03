@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { call, fold } from "src/services/apiService"
+import { call, check, fold } from "src/services/apiService"
 
 export const useUiStore = defineStore("ui", {
   state: () => ({
@@ -11,19 +11,18 @@ export const useUiStore = defineStore("ui", {
     foldModal: false,
     leaveModal: false,
     callTheBetModal: false,
-    checkModal: false,
     dontAskCall: false,
     dontAskFold: false,
+    playAnotherHandModalVisible: false,
   }),
   actions: {
     onCall(tableId) {
-      if (this.dontAskCall) call(tableId)
+      if (this.dontAskCall) return call(tableId)
       else this.callTheBetModal = true
     },
-    // onCheck(tableId) {
-    //   if (this.dontAskAgain.check) check(tableId)
-    //   else this.checkModal = true
-    // },
+    onCheck(tableId) {
+      check(tableId)
+    },
 
     onFold(tableId) {
       if (this.dontAskFold) fold(tableId)

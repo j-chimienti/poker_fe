@@ -86,6 +86,13 @@ export const usePokerStore = defineStore("poker", {
         } else this.table = this.mapToTable(t)
       }
     },
+    onYourBet({ callAmount, tableId, betBy, canCall, canCheck }) {
+      if (this.table && this.table.id === tableId) {
+        this.canCheck = canCheck
+        this.canCall = canCall
+        Object.assign(this.table, { callAmount, betTimeout: betBy })
+      }
+    },
   },
   getters: {
     callAmount() {
@@ -132,6 +139,15 @@ export const usePokerStore = defineStore("poker", {
       return _get(playerOpt, "cards", [])
     },
 
+    bigBlindPlayerOpt() {
+      var bb = _get(this.table, "bigBlind", -1)
+      return this.pokerPlayers.find((p) => p.player.position === bb)
+    },
+    smallBlindPlayerOpt() {
+      var bb = _get(this.table, "smallBlind", -1)
+      return this.pokerPlayers.find((p) => p.player.position === bb)
+    },
+
     pokerPlayers() {
       return Object.values(_get(this.table, "pokerPlayers", {}))
     },
@@ -162,6 +178,8 @@ export const usePokerStore = defineStore("poker", {
       chatMessages: {},
       chatVisible: false,
       room: pages.lobby,
+      canCall: false,
+      canCheck: false,
     }
   },
 })

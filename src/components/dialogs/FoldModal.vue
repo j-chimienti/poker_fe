@@ -1,31 +1,50 @@
 <template>
-<q-dialog v-model="foldModal">
-  <div class="bg-primary account-popup">
-    <div class="player-action-title text-center">fold</div>
-    <div class="player-action-text text-center">are you sure you want to fold</div>
-    <div class="column">
-      <q-btn label="fold" @click="fold(table.id); foldModal = false"/>
-      <q-btn label="cancel" @click="foldModal = false"/>
-    </div>
-    <div class="row justify-center">
-      <q-checkbox v-model="dontAskFold" label="don't ask me again"/>
-    </div>
-  </div>
-</q-dialog>
+  <q-dialog v-model="foldModal">
+    <q-card class="bg-primary account-popup">
+      <q-card-section class="player-action-title flex-center"
+        >fold</q-card-section
+      >
+      <q-card-section class="player-action-text text-center"
+        >are you sure you want to fold</q-card-section
+      >
+      <q-card-section>
+        <div class="column">
+          <q-btn
+            label="fold"
+            @click="onFold"
+            color="secondary"
+            class="q-mb-sm"
+          />
+          <q-btn label="cancel" @click="foldModal = false" color="secondary" />
+        </div>
+      </q-card-section>
+      <q-card-section>
+        <div class="row justify-center">
+          <q-checkbox v-model="dontAskFold" label="don't ask me again" />
+        </div>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
-import {mapState} from "pinia";
-import {usePokerStore} from "stores/poker-store";
-import DialogMixin from "src/mixins/DialogMixin.vue";
-import ApiMixin from "src/mixins/ApiMixin.vue";
+import { mapState } from "pinia"
+import { usePokerStore } from "stores/poker-store"
+import DialogMixin from "src/mixins/DialogMixin.vue"
+import ApiMixin from "src/mixins/ApiMixin.vue"
 
 export default {
   name: "FoldModal",
   mixins: [DialogMixin, ApiMixin],
+  methods: {
+    onFold() {
+      this.fold(this.room)
+      this.foldModal = false
+    },
+  },
   computed: {
-    ...mapState(usePokerStore, ['table']),
-  }
+    ...mapState(usePokerStore, ["table"]),
+  },
 }
 </script>
 

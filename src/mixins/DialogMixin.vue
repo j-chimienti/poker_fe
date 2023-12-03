@@ -1,17 +1,25 @@
 <script>
-import {useUiStore} from "stores/ui-store";
-import {mapState} from "pinia";
+import { useUiStore } from "stores/ui-store"
+import { mapState } from "pinia"
 
 export default {
   name: "DialogMixin",
   computed: {
-    ...mapState(useUiStore, ['dontAskAgain']),
+    ...mapState(useUiStore, ["dontAskAgain"]),
     invoiceModalVisible: {
       get() {
         return useUiStore().invoiceModalVisible
       },
       set(v) {
         useUiStore().invoiceModalVisible = v
+      },
+    },
+    playAnotherHandModalVisible: {
+      get() {
+        return useUiStore().playAnotherHandModalVisible
+      },
+      set(v) {
+        useUiStore().playAnotherHandModalVisible = v
       },
     },
     debitModalVisible: {
@@ -39,34 +47,61 @@ export default {
       },
     },
     raiseTheBetModalVisible: {
-      get() { return useUiStore().raiseTheBetModalVisible },
-      set(v) { useUiStore().raiseTheBetModalVisible = v }
+      get() {
+        return useUiStore().raiseTheBetModalVisible
+      },
+      set(v) {
+        useUiStore().raiseTheBetModalVisible = v
+      },
     },
     foldModal: {
-      get() { return useUiStore().foldModal },
-      set(v) { useUiStore().foldModal = v }
+      get() {
+        return useUiStore().foldModal
+      },
+      set(v) {
+        useUiStore().foldModal = v
+      },
     },
     leaveModal: {
-      get() { return useUiStore().leaveModal },
-      set(v) { useUiStore().leaveModal = v }
+      get() {
+        return useUiStore().leaveModal
+      },
+      set(v) {
+        useUiStore().leaveModal = v
+      },
     },
     callTheBetModal: {
-      get() { return useUiStore().callTheBetModal },
-      set(v) { useUiStore().callTheBetModal = v }
+      get() {
+        return useUiStore().callTheBetModal
+      },
+      set(v) {
+        useUiStore().callTheBetModal = v
+      },
     },
     checkModal: {
-      get() { return useUiStore().checkModal },
-      set(v) { useUiStore().checkModal = v }
+      get() {
+        return useUiStore().checkModal
+      },
+      set(v) {
+        useUiStore().checkModal = v
+      },
     },
     dontAskCall: {
-      get() { return useUiStore().dontAskCall },
-      set(v) { useUiStore().dontAskCall = v }
+      get() {
+        return useUiStore().dontAskCall
+      },
+      set(v) {
+        useUiStore().dontAskCall = v
+      },
     },
     dontAskFold: {
-      get() { return useUiStore().dontAskFold },
-      set(v) { useUiStore().dontAskFold = v }
+      get() {
+        return useUiStore().dontAskFold
+      },
+      set(v) {
+        useUiStore().dontAskFold = v
+      },
     },
-
   },
 }
 </script>

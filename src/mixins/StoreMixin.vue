@@ -1,18 +1,15 @@
 <script>
-import {mapActions, mapState} from "pinia"
+import { mapActions, mapState } from "pinia"
 import DialogMixin from "./DialogMixin.vue"
-import {useAuthStore} from "stores/auth-store"
-import {useLightningStore} from "stores/lightning-store"
-import {usePokerStore} from "stores/poker-store";
+import { useAuthStore } from "stores/auth-store"
+import { useLightningStore } from "stores/lightning-store"
+import { usePokerStore } from "stores/poker-store"
 
 export default {
   name: "StoreMixin",
   mixins: [DialogMixin],
 
   methods: {
-
-
-
     lightningInvoice(satoshi) {
       return this.sendWebsocketMessage({
         WsLightningInvoiceRequest: null,
@@ -34,13 +31,9 @@ export default {
       "sendWebsocketMessage",
       "resumeSession",
     ]),
-
-
-
   },
   computed: {
-
-    ...mapState(usePokerStore, ['room']),
+    ...mapState(usePokerStore, ["room", "balance"]),
     ...mapState(useAuthStore, [
       "email",
       "connectedToWebsocket",
@@ -57,10 +50,8 @@ export default {
       "invoiceIsUnpaid",
       "invoiceExpiry",
       "invoice",
-      "bolt11"
+      "bolt11",
     ]),
-
-
   },
 }
 </script>

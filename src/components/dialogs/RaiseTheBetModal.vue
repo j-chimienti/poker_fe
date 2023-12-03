@@ -1,21 +1,46 @@
 <template>
-<q-dialog v-model="raiseTheBetModalVisible" v-if="table">
-  <div class="bg-primary account-popup text-white">
-  <div class="player-action-title row justify-center">Raise the bet</div>
-  <div class="row justify-center">
-    <q-form @submit="onRaise">
-      <q-input type="number" v-model.number="raiseAmount"/>
-    </q-form>
-  </div>
-  </div>
-</q-dialog>
+  <q-dialog v-model="raiseTheBetModalVisible" v-if="table">
+    <q-card class="bg-primary account-popup text-white">
+      <q-card-section class="player-action-title row justify-center"
+        >Raise the bet</q-card-section
+      >
+      <q-card-section>
+        <q-form @submit="onRaise">
+          <div class="row flex-center">
+            <q-btn @click="raiseAmount += 10">+</q-btn>
+            <q-input
+              type="number"
+              item-aligned
+              v-model.number="raiseAmount"
+              style="max-width: 200px"
+            />
+            <q-btn @click="raiseAmount -= 10">-</q-btn>
+          </div>
+          <div class="column">
+            <q-btn
+              @click="onRaise"
+              type="submit"
+              label="raise"
+              color="secondary"
+              class="q-mb-sm"
+            />
+            <q-btn
+              label="cancel"
+              @click="raiseTheBetModalVisible = false"
+              color="secondary"
+            />
+          </div>
+        </q-form>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
-import {raise} from "src/services/apiService";
-import {mapState} from "pinia";
-import {usePokerStore} from "stores/poker-store";
-import DialogMixin from "src/mixins/DialogMixin.vue";
+import { raise } from "src/services/apiService"
+import { mapState } from "pinia"
+import { usePokerStore } from "stores/poker-store"
+import DialogMixin from "src/mixins/DialogMixin.vue"
 
 export default {
   name: "RaiseTheBetModal",
@@ -25,15 +50,14 @@ export default {
     return { raiseAmount: minRaise }
   },
   computed: {
-    ...mapState(usePokerStore, ['table']),
-
+    ...mapState(usePokerStore, ["table"]),
   },
   methods: {
     onRaise() {
       raise(this.table.id, this.raiseAmount)
-      this.raiseTheBetModalVisible = false;
+      this.raiseTheBetModalVisible = false
     },
-  }
+  },
 }
 </script>
 

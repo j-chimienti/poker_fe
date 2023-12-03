@@ -3,9 +3,10 @@
     <div v-if="player && player.playerAccountId">
       <div class="my-turn">{{ name }}</div>
       <div class="player-state">
-        {{ isMyTurn ? countdownText : player.state }}
+        {{ isMyTurn ? countdownText : getText }}
       </div>
       <div v-if="playerIsMe" class="you-text">You</div>
+      <div v-if="isWaitingForNextRound">Waiting for next round...</div>
     </div>
     <div v-else>
       <q-btn
@@ -30,30 +31,7 @@ import { getAvatar } from "src/services/avatarService"
 import ApiMixin from "src/mixins/ApiMixin.vue"
 import RouterMixin from "src/mixins/RouterMixin.vue"
 import PokerPlayerCards from "components/PokerPlayerCards.vue"
-
-import avatar1 from "../assets/avatars/1.png"
-import avatar2 from "../assets/avatars/2.png"
-import avatar3 from "../assets/avatars/3.png"
-import avatar4 from "../assets/avatars/4.png"
-import avatar5 from "../assets/avatars/5.png"
-import avatar6 from "../assets/avatars/6.png"
-import avatar7 from "../assets/avatars/7.png"
-import avatar8 from "../assets/avatars/8.png"
-import avatar9 from "../assets/avatars/9.png"
-import avatar10 from "../assets/avatars/10.png"
-
-const avatars = {
-  1: avatar1,
-  2: avatar2,
-  3: avatar3,
-  4: avatar4,
-  5: avatar5,
-  6: avatar6,
-  7: avatar7,
-  8: avatar8,
-  9: avatar9,
-  10: avatar10,
-}
+import { playerStates, rounds } from "src/constants"
 
 export default {
   name: "PokerPlayer",
@@ -82,6 +60,12 @@ export default {
     },
   },
   computed: {
+    isWaitingForNextRound() {
+      return (
+        this.round !== rounds.PRE_FLOP &&
+        this.player.state === playerStates.SITTING
+      )
+    },
     getKlass() {
       const arr = [
         "player-avatar",
@@ -95,12 +79,6 @@ export default {
     isActive() {
       const pid = this.$get(this.player, "playerAccountId", null)
       return pid === this.playerTurn
-    },
-    playerImage() {
-      const { player } = this
-      const img = this.$get(player, "image", null)
-      const pos = this.$get(player, "position", 1)
-      return Boolean(img) ? img : avatars[pos]
     },
     countdownText() {
       return this.countdownBetTimeoutText
@@ -120,10 +98,27 @@ export default {
     isMyTurn() {
       return this.player.playerAccountId === this.playerTurn
     },
+    getText() {
+      if (this.round === rounds.PRE_FLOP) {
+        const bbO = this.bigBlindPlayerOpt
+        const sbO = this.smallBlindPlayerOpt
+        if (bbO && bbO.player.playerAccountId === this.player.playerAccountId)
+          return "BB"
+        else if (
+          sbO &&
+          sbO.player.playerAccountId === this.player.playerAccountId
+        )
+          return "SB"
+        else return this.player.state
+      } else return this.player.state
+    },
 
     ...mapState(usePokerStore, [
       "joinedTable",
       "pokerPlayers",
+      "bigBlindPlayerOpt",
+      "smallBlindPlayerOpt",
+      "round",
       "table",
       "playerTurn",
       "pokerPlayersByPosition",

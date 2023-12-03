@@ -37,7 +37,9 @@ export async function messageFactory(res) {
     Notify.create(message)
   }
   if (placeBet) {
-    // todo: remove
+    // const { callAmount, tableId, betBy, canCall, canCheck } = placeBet
+    pokerStore.onYourBet(placeBet)
+    // todo: set values
   }
   //   const {timeoutSeconds, tableId} = placeBet
   //   Notify.create({

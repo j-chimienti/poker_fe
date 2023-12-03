@@ -24,6 +24,7 @@ export const faceCards = ["A", "K", "Q", "J"]
 
 export const actions = {
   JOIN: "JOIN",
+  CHECK: "CHECK",
   LEAVE: "LEAVE",
   FOLD: "FOLD",
   CALL: "CALL",
