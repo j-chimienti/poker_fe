@@ -128,7 +128,7 @@ export const usePokerStore = defineStore("poker", {
       return _get(this.table, "playerTurn", null)
     },
     playerTurnId() {
-      return _get(this.table, "playerTurn.playerId", null)
+      return _get(this.playerTurn, "playerId", null)
     },
     myCards() {
       const playerOpt = this.joinedTable
