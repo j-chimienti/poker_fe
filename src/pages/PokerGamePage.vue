@@ -36,6 +36,7 @@
     <div class="row flex-center player-actions" v-if="joinedTable">
       <q-btn
         class="player-buttons"
+        v-if="canRaise"
         :disabled="!myTurn"
         @click="raiseTheBetModalVisible = true"
         color="secondary"
@@ -99,7 +100,8 @@ export default {
   mixins: [ApiMixin, DialogMixin],
   computed: {
     getCallLabel() {
-      return `call ${this.callAmount}`
+      if (this.canCall) return `call ${this.canCall}`
+      return "cannot call"
     },
     pot() {
       return formatToUSD(this.table.pot)
@@ -114,6 +116,7 @@ export default {
       "chatVisible",
       "canCheck",
       "canCall",
+      "canRaise",
     ]),
   },
   data() {

@@ -86,13 +86,6 @@ export const usePokerStore = defineStore("poker", {
         } else this.table = this.mapToTable(t)
       }
     },
-    onYourBet({ callAmount, tableId, betBy, canCall, canCheck }) {
-      if (this.table && this.table.id === tableId) {
-        this.canCheck = canCheck
-        this.canCall = canCall
-        Object.assign(this.table, { callAmount, betTimeout: betBy })
-      }
-    },
   },
   getters: {
     callAmount() {
@@ -132,7 +125,7 @@ export const usePokerStore = defineStore("poker", {
       return useAuthStore().playerId === this.playerTurnId
     },
     playerTurn() {
-      return _get(this.table, "playerTurn", "")
+      return _get(this.table, "playerTurn", null)
     },
     playerTurnId() {
       return _get(this.table, "playerTurn.playerId", null)
@@ -165,13 +158,23 @@ export const usePokerStore = defineStore("poker", {
     },
     playerOpt() {
       const playerId = useAuthStore().playerId
-      return _get(this.table, `pokerPlayers.${playerId}.player`, null)
+      return this.pokerPlayerById(playerId)
     },
     pokerPlayerById: () => (playerId) => {
       return _get(this.table, `pokerPlayers.${playerId}.player`, null)
     },
     playerIsMe: (state) => (playerId) => {
       return playerId === useAuthStore().playerId
+    },
+    // returns amount needed to call
+    canCall() {
+      return _get(this.playerTurn, "canCall", -1)
+    },
+    canCheck() {
+      return _get(this.playerTurn, "canCall", false)
+    },
+    canRaise() {
+      return _get(this.playerTurn, "canRaise", -1)
     },
   },
   state: () => {
@@ -181,8 +184,6 @@ export const usePokerStore = defineStore("poker", {
       chatMessages: {},
       chatVisible: false,
       room: pages.lobby,
-      canCall: false,
-      canCheck: false,
     }
   },
 })

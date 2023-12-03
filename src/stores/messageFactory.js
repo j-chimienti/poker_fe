@@ -38,7 +38,7 @@ export async function messageFactory(res) {
   }
   if (placeBet) {
     // const { callAmount, tableId, betBy, canCall, canCheck } = placeBet
-    pokerStore.onYourBet(placeBet)
+    // pokerStore.onYourBet(placeBet)
     // todo: set values
   }
   //   const {timeoutSeconds, tableId} = placeBet
