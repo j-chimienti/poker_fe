@@ -129,7 +129,7 @@ export const usePokerStore = defineStore("poker", {
       return _get(this.table, "hand", -1)
     },
     myTurn() {
-      return useAuthStore().playerId === this.playerTurn
+      return useAuthStore().playerId === this.playerTurnId
     },
     playerTurn() {
       return _get(this.table, "playerTurn", "")
