@@ -72,7 +72,8 @@ export default boot(({ router, store }) => {
           subscribeTable(id)
         }
       } else {
-        confirmRefreshPage()
+        getTable(id)
+        subscribeTable(id)
       }
     } else if (to.name === pages.home) {
       const pokerStore = usePokerStore()
