@@ -78,7 +78,7 @@ export default {
     },
     isActive() {
       const pid = this.$get(this.player, "playerAccountId", null)
-      return pid === this.playerTurn
+      return pid === this.playerTurnId
     },
     countdownText() {
       return this.countdownBetTimeoutText
@@ -96,7 +96,7 @@ export default {
       return this.player.playerAccountId === this.playerId
     },
     isMyTurn() {
-      return this.player.playerAccountId === this.playerTurn
+      return this.player.playerAccountId === this.playerTurnId
     },
     getText() {
       if (this.round === rounds.PRE_FLOP) {
@@ -121,6 +121,7 @@ export default {
       "round",
       "table",
       "playerTurn",
+      "playerTurnId",
       "pokerPlayersByPosition",
     ]),
     ...mapState(useAuthStore, ["playerId"]),
