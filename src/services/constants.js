@@ -30,5 +30,6 @@ export const actions = {
   CALL: "CALL",
   RAISE: "RAISE",
   DEAL: "DEAL",
+  BET: "BET",
   NEW_ROUND: "NEW_ROUND",
 }

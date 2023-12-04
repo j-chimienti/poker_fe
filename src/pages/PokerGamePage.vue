@@ -37,6 +37,7 @@
     <PlayerBalance />
     <MyCards />
     <RaiseTheBetModal />
+    <BetModal />
     <CallTheBetModal />
     <PlayAnotherHandModal />
     <FoldModal />
@@ -62,6 +63,7 @@ import DialogMixin from "src/mixins/DialogMixin.vue"
 import { useUiStore } from "stores/ui-store"
 import PlayAnotherHandModal from "components/dialogs/PlayAnotherHandModal.vue"
 import PlayerPokerButtons from "pages/PlayerPokerButtons.vue"
+import BetModal from "components/dialogs/BetModal.vue"
 
 export default {
   mixins: [ApiMixin, DialogMixin],
@@ -121,6 +123,7 @@ export default {
   },
 
   components: {
+    BetModal,
     PlayerPokerButtons,
     PlayAnotherHandModal,
     FoldModal,

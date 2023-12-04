@@ -174,6 +174,9 @@ export const usePokerStore = defineStore("poker", {
     canCall() {
       return _get(this.table, "playerTurn.canCall", null)
     },
+    canBet() {
+      return _get(this.table, "playerTurn.canBet", null)
+    },
     canCheck() {
       return _get(this.table, "playerTurn.canCheck", null)
     },

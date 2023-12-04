@@ -8,6 +8,7 @@ export const useUiStore = defineStore("ui", {
     loginModalVisible: false,
     accountModalVisible: false,
     raiseTheBetModalVisible: false,
+    betModalVisible: false,
     foldModal: false,
     leaveModal: false,
     callTheBetModal: false,
@@ -30,6 +31,9 @@ export const useUiStore = defineStore("ui", {
     },
     onRaise() {
       this.raiseTheBetModalVisible = true
+    },
+    onBet() {
+      this.betModalVisible = true
     },
   },
 })

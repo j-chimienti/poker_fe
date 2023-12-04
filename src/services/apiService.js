@@ -60,10 +60,11 @@ export function raise(id, amount) {
     amount,
   })
 }
-export function deal(id) {
+export function bet(id, amount) {
   return useAuthStore().sendWebsocketMessage({
-    action: actions.DEAL,
+    action: actions.BET,
     tableId: id,
+    amount,
   })
 }
 

@@ -10,6 +10,14 @@
     />
     <q-btn
       class="player-buttons"
+      v-if="canBet"
+      :disabled="!myTurn"
+      @click="onBet"
+      color="secondary"
+      label="raise"
+    />
+    <q-btn
+      class="player-buttons"
       v-if="canCheck"
       :disabled="!myTurn"
       @click="onCheck(table.id)"
@@ -41,7 +49,13 @@ import { useUiStore } from "stores/ui-store"
 export default {
   name: "PlayerPokerButtons",
   methods: {
-    ...mapActions(useUiStore, ["onCall", "onFold", "onCheck", "onRaise"]),
+    ...mapActions(useUiStore, [
+      "onCall",
+      "onFold",
+      "onCheck",
+      "onRaise",
+      "onBet",
+    ]),
   },
   computed: {
     getCallLabel() {
@@ -58,6 +72,7 @@ export default {
       "canCheck",
       "canCall",
       "canRaise",
+      "canBet",
     ]),
   },
 }
