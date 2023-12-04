@@ -38,12 +38,16 @@ export default {
   mixins: [DialogMixin, ApiMixin],
   methods: {
     onFold() {
-      this.fold(this.room)
-      this.foldModal = false
+      if (!this.tableId) {
+        alert("cannot fold, missing table")
+      } else {
+        this.fold(this.tableId)
+        this.foldModal = false
+      }
     },
   },
   computed: {
-    ...mapState(usePokerStore, ["table"]),
+    ...mapState(usePokerStore, ["tableId"]),
   },
 }
 </script>

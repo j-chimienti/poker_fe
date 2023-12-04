@@ -91,6 +91,9 @@ export const usePokerStore = defineStore("poker", {
     callAmount() {
       return _get(this.table, "callAmount", -1)
     },
+    tableId() {
+      return _get(this.table, "id", null)
+    },
     balance() {
       return formatToUSD(_get(this.playerOpt, "balance", 0), 2)
     },
@@ -131,8 +134,11 @@ export const usePokerStore = defineStore("poker", {
       return _get(this.playerTurn, "playerId", null)
     },
     myCards() {
-      const playerOpt = this.joinedTable
-      return _get(playerOpt, "cards", [])
+      return _get(
+        this.table,
+        "pokerPlayer." + useAuthStore().playerId + ".cards",
+        []
+      )
     },
 
     bigBlindPlayerOpt() {
@@ -158,23 +164,21 @@ export const usePokerStore = defineStore("poker", {
     },
     playerOpt() {
       const playerId = useAuthStore().playerId
-      return this.pokerPlayerById(playerId)
+      return _get(this.table, "pokerPlayers." + playerId, null)
     },
-    pokerPlayerById: () => (playerId) => {
-      return _get(this.table, `pokerPlayers.${playerId}.player`, null)
-    },
+
     playerIsMe: (state) => (playerId) => {
       return playerId === useAuthStore().playerId
     },
     // returns amount needed to call
     canCall() {
-      return _get(this.playerTurn, "canCall", -1)
+      return _get(this.table, "playerTurn.canCall", null)
     },
     canCheck() {
-      return _get(this.playerTurn, "canCall", false)
+      return _get(this.table, "playerTurn.canCheck", null)
     },
     canRaise() {
-      return _get(this.playerTurn, "canRaise", -1)
+      return _get(this.table, "playerTurn.canRaise", null)
     },
   },
   state: () => {

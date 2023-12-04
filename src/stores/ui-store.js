@@ -28,5 +28,8 @@ export const useUiStore = defineStore("ui", {
       if (this.dontAskFold) fold(tableId)
       else this.foldModal = true
     },
+    onRaise() {
+      this.raiseTheBetModalVisible = true
+    },
   },
 })

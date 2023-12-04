@@ -8,15 +8,14 @@
       <div v-if="playerIsMe" class="you-text">You</div>
       <div v-if="isWaitingForNextRound">Waiting for next round...</div>
     </div>
-    <div v-else>
+    <div v-else-if="!joinedTable">
       <q-btn
         label="join"
         class="join-btn"
-        v-if="!joinedTable"
         @click="joinTable(table.id, player.position)"
       />
-      <q-img v-else src="../assets/logo-icon-dark.png" width="50px" />
     </div>
+    <q-img v-else src="../assets/logo-icon-dark.png" width="50px" />
   </div>
 </template>
 <script>

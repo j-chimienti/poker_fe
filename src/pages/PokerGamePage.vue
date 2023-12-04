@@ -32,40 +32,8 @@
     </div>
 
     <div class="table-pot row flex-center">Pot: {{ pot }}</div>
-    <div class="row flex-center">Hand: {{ table.hand }}</div>
-    <div class="row flex-center player-actions" v-if="joinedTable">
-      <q-btn
-        class="player-buttons"
-        v-if="canRaise"
-        :disabled="!myTurn"
-        @click="raiseTheBetModalVisible = true"
-        color="secondary"
-        label="raise"
-      />
-      <q-btn
-        class="player-buttons"
-        v-if="canCheck"
-        :disabled="!myTurn"
-        @click="onCheck(table.id)"
-        color="secondary"
-        label="check"
-      />
-      <q-btn
-        v-if="canCall"
-        class="player-buttons"
-        :disabled="!myTurn"
-        @click="onCall(table.id)"
-        color="secondary"
-        :label="getCallLabel"
-      />
-      <q-btn
-        class="player-buttons"
-        :disabled="!myTurn"
-        @click="onFold(table.id)"
-        color="secondary"
-        label="fold"
-      />
-    </div>
+    <div class="row flex-center small q-my-sm">Hand: {{ table.hand }}</div>
+    <PlayerPokerButtons />
     <PlayerBalance />
     <MyCards />
     <RaiseTheBetModal />
@@ -81,38 +49,33 @@ import { usePokerStore } from "stores/poker-store"
 import { leave } from "src/services/apiService"
 import { mapActions, mapState } from "pinia"
 import ChatMessages from "components/ChatMessages.vue"
-import SendMessageForm from "components/SendMessageForm.vue"
 import ApiMixin from "src/mixins/ApiMixin.vue"
 import MyCards from "components/MyCards.vue"
 import SplashScreen from "components/SplashScreen.vue"
 import { formatToUSD } from "src/services/moneyUtils"
 import PlayerBalance from "components/PlayerBalance.vue"
 import TableMaxBet from "components/TableMaxBet.vue"
-import TweenedNumber from "components/TweenedNumber.vue"
 import RaiseTheBetModal from "components/dialogs/RaiseTheBetModal.vue"
 import CallTheBetModal from "components/dialogs/CallTheBetModal.vue"
 import FoldModal from "components/dialogs/FoldModal.vue"
 import DialogMixin from "src/mixins/DialogMixin.vue"
 import { useUiStore } from "stores/ui-store"
 import PlayAnotherHandModal from "components/dialogs/PlayAnotherHandModal.vue"
+import PlayerPokerButtons from "pages/PlayerPokerButtons.vue"
 
 export default {
   mixins: [ApiMixin, DialogMixin],
   computed: {
-    getCallLabel() {
-      if (this.canCall) return `call ${this.canCall}`
-      return "cannot call"
-    },
     pot() {
       return formatToUSD(this.table.pot)
     },
     ...mapState(usePokerStore, [
       "table",
-      "joinedTable",
       "round",
       "playerOpt",
       "myTurn",
       "chatVisible",
+      "playerTurn",
       "canCheck",
       "canCall",
       "canRaise",
@@ -158,16 +121,15 @@ export default {
   },
 
   components: {
+    PlayerPokerButtons,
     PlayAnotherHandModal,
     FoldModal,
     CallTheBetModal,
     RaiseTheBetModal,
-    TweenedNumber,
     TableMaxBet,
     PlayerBalance,
     SplashScreen,
     MyCards,
-    SendMessageForm,
     ChatMessages,
     PokerTable,
   },
@@ -175,13 +137,6 @@ export default {
 </script>
 
 <style>
-.player-actions {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 .player-actions-navbar {
   position: fixed;
   top: 16px;
@@ -201,23 +156,5 @@ export default {
   text-align: center;
 
   color: #ffffff;
-}
-
-.player-buttons {
-  /* Auto layout */
-
-  padding: 14px 20px;
-  gap: 10px;
-
-  width: 115px;
-  height: 48px;
-  /* Mango Orange */
-
-  /* Cartoon Shadow */
-
-  box-shadow: -3px 3px 0px 1px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-  margin-left: 5px;
-  margin-right: 5px;
 }
 </style>
