@@ -36,32 +36,13 @@ export const usePokerStore = defineStore("poker", {
       } else tableCards = cardsMapped
       const playerCards = Object.entries(t.pokerPlayers).map((res) => {
         const [idx, p] = res
-        const playerId = useAuthStore().playerId
-        const stateCards = _get(
-          this.table,
-          `pokerPlayers.${idx}.player.cards`,
-          []
-        )
-        const playerCardsMapped = p.player.cards.map((c) => new Card(c))
-        const bestCards = _get(p.player, "showCards", []).map(
+        const showCards = _get(p.player, "showCards", []).map(
           (c) => new Card(c)
         )
-        let pc
-        if (p.player.playerAccountId === playerId) {
-          if (
-            tableHand === t.hand &&
-            stateCards.length > 0 &&
-            playerCardsMapped.length === stateCards.length
-          ) {
-            pc = stateCards
-          } else {
-            pc = playerCardsMapped
-          }
-        } else pc = p.player.cards
-
+        const cards = p.player.cards.map((c) => new Card(c))
         const updatedPlayer = Object.assign({}, p.player, {
-          bestCards,
-          cards: pc,
+          showCards,
+          cards,
         }) // cards: pc
         const updatedP = Object.assign({}, p, { player: updatedPlayer })
         return [idx, updatedP]
