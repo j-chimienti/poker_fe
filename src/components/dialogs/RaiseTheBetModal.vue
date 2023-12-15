@@ -7,14 +7,14 @@
       <q-card-section>
         <q-form @submit="onRaise">
           <div class="row flex-center">
-            <q-btn @click="raiseAmount += 10">+</q-btn>
+            <q-btn @click="raiseAmountForm += 10">+</q-btn>
             <q-input
               type="number"
               item-aligned
-              v-model.number="raiseAmount"
+              v-model.number="raiseAmountForm"
               style="max-width: 200px"
             />
-            <q-btn @click="raiseAmount -= 10">-</q-btn>
+            <q-btn @click="raiseAmountForm -= 10">-</q-btn>
           </div>
           <div class="column">
             <q-btn
@@ -46,15 +46,14 @@ export default {
   name: "RaiseTheBetModal",
   mixins: [DialogMixin],
   data() {
-    const minRaise = this.$get(this.table, "bet.min", 100)
-    return { raiseAmount: minRaise }
+    return { raiseAmountForm: this.raiseAmount }
   },
   computed: {
-    ...mapState(usePokerStore, ["table"]),
+    ...mapState(usePokerStore, ["raiseAmount", "tableId"]),
   },
   methods: {
     onRaise() {
-      raise(this.table.id, this.raiseAmount)
+      raise(this.tableId, this.raiseAmountForm)
       this.raiseTheBetModalVisible = false
     },
   },
