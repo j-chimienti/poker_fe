@@ -1,12 +1,11 @@
 <template>
   <div :class="getKlass">
     <div v-if="player && player.playerAccountId">
-      <div class="my-turn">{{ name }}</div>
+      <div class="my-turn">{{ name }} {{ player.balance }}</div>
       <div class="player-state">
         {{ isMyTurn ? countdownText : getText }}
       </div>
       <div v-if="playerIsMe" class="you-text">You</div>
-      <div v-if="isWaitingForNextRound">Waiting for next round...</div>
     </div>
     <div v-else-if="!joinedTable">
       <q-btn
@@ -73,6 +72,8 @@ export default {
         "flex-center",
       ]
       if (this.isActive) return arr.concat(["active"])
+      // tooo: disable look
+      else if (this.isWaitingForNextRound) arr.push("disabled")
       return arr
     },
     isActive() {

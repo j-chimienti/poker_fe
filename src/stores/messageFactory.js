@@ -20,7 +20,7 @@ export async function messageFactory(res) {
 
   if (chatMessage) pokerStore.onChatMessage(chatMessage)
 
-  if (msg) {
+  if (msg && typeof msg === "string") {
     Notify.create({
       type: status === "failed" ? "negative" : "info",
       message: msg,
@@ -49,17 +49,4 @@ export async function messageFactory(res) {
   //   })
   // }
   if (tables) pokerStore.setTables(tables)
-  // if (btcusd) lightingStore.setBitcoinPrice(btcusd)
-  // if (invoice) {
-  //   lightingStore.setInvoice(invoice)
-  //   if (invoice.status === LIGHTNING_INVOICES_STATUS.paid) {
-  //     Notify.create({ type: "positive", message: "Invoice paid" })
-  //     // bjStore.invoiceModalVisible = false
-  //     // if (authStore.isSessionUser) {
-  //     //   bjStore.bet = 100
-  //     // }
-  //   } else if (invoice.status === LIGHTNING_INVOICES_STATUS.expired) {
-  //     Notify.create({ message: "Invoice expired" })
-  //   }
-  // }
 }
