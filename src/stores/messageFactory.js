@@ -9,7 +9,7 @@ export async function messageFactory(res) {
     // invoice = null,
     tables = null,
     table = null,
-    placeBet = null,
+    playerTurn = null,
     failedToJoinTable = null,
     gameResult = null,
     chatMessage = null,
@@ -36,17 +36,30 @@ export async function messageFactory(res) {
     const { table, message = "" } = failedToJoinTable
     Notify.create(message)
   }
-  if (placeBet) {
-    // const { callAmount, tableId, betBy, canCall, canCheck } = placeBet
-    // pokerStore.onYourBet(placeBet)
+  if (playerTurn) {
+    // playerId: String,
+    //   playerName: String,
+    //   canCall: Option[Int],
+    //   canCheck: Boolean,
+    //   canRaise: Option[Int],
+    //   canBet: Option[Int],
+    //   playerBalance: Int
+    const {
+      playerId,
+      playerName,
+      canCall,
+      canCheck,
+      canRaise,
+      canBet,
+      playerBalance,
+    } = playerTurn
     // todo: set values
+    if (playerId && pokerStore.playerIsMe(playerId))
+      Notify.create({
+        message: `your turn`,
+        // timeout: timeoutSeconds * 1000,
+        progress: true,
+      })
   }
-  //   const {timeoutSeconds, tableId} = placeBet
-  //   Notify.create({
-  //     message: `place bet in ${timeoutSeconds}s`,
-  //     timeout: timeoutSeconds * 1000,
-  //     progress: true
-  //   })
-  // }
   if (tables) pokerStore.setTables(tables)
 }
