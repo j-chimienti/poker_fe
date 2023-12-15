@@ -136,14 +136,14 @@ export const usePokerStore = defineStore("poker", {
     myCards() {
       return _get(
         this.table,
-        "pokerPlayers." + useAuthStore().playerId + ".cards",
+        "pokerPlayers." + useAuthStore().playerId + ".player.cards",
         []
       )
     },
     bestCards() {
       return _get(
         this.table,
-        "pokerPlayers." + useAuthStore().playerId + ".bestCards",
+        "pokerPlayers." + useAuthStore().playerId + ".player.bestCards",
         []
       )
     },
