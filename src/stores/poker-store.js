@@ -23,9 +23,8 @@ export const usePokerStore = defineStore("poker", {
     },
     mapToTable(t) {
       const cardsMapped = t.cards.map((c) => new Card(c))
-      const tableHand = _get(this.table, "hand", -1)
       let tableCards
-      if (tableHand === t.hand) {
+      if (this.hand === t.hand) {
         if (t.cards.length === this.table.cards.length) {
           tableCards = this.table.cards
         } else {
@@ -57,20 +56,23 @@ export const usePokerStore = defineStore("poker", {
       )
     },
     setTable(t) {
-      if (this.room === t.id) {
-        if (
-          this.table &&
-          this.table.modifiedAt &&
-          new Date(this.table.modifiedAt) > new Date(t.modifiedAt)
-        ) {
-          console.log("skipping set older update")
-        } else this.table = this.mapToTable(t)
-      }
+      const { room } = this
+      if (room === t.id)
+        if (new Date(this.tableModified) <= new Date(t.modifiedAt))
+          this.table = this.mapToTable(t)
+        else console.log("skipping set older update")
+      else
+        console.log(
+          `invalid set table, not in room. room=${room} table=${t.id}`
+        )
     },
   },
   getters: {
     tableId() {
       return _get(this.table, "id", null)
+    },
+    tableModified() {
+      return _get(this.table, "modifiedAt", null)
     },
     balance() {
       return formatToUSD(_get(this.playerOpt, "balance", 0), 2)
@@ -113,9 +115,6 @@ export const usePokerStore = defineStore("poker", {
     },
     myCards() {
       return _get(this.playerOpt, "cards", [])
-    },
-    showCards() {
-      return _get(this.playerOpt, "showCards", [])
     },
 
     bigBlindPlayerOpt() {
