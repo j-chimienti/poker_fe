@@ -12,11 +12,9 @@
 <script>
 import { mapState } from "pinia"
 import { usePokerStore } from "stores/poker-store"
-import PlayingCard from "components/PlayingCard.vue"
 
 export default {
   name: "MyCards",
-  components: { PlayingCard },
   computed: {
     ...mapState(usePokerStore, ["myCards", "bestCards"]),
     getCards() {
