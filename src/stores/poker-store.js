@@ -34,7 +34,7 @@ export const usePokerStore = defineStore("poker", {
         }
       } else tableCards = cardsMapped
       const playerCards = Object.entries(t.pokerPlayers).map((res) => {
-        const [idx, p] = res
+        const [playerId, p] = res
         const showCards = _get(p.player, "showCards", []).map(
           (c) => new Card(c)
         )
@@ -44,7 +44,7 @@ export const usePokerStore = defineStore("poker", {
           cards,
         }) // cards: pc
         const updatedP = Object.assign({}, p, { player: updatedPlayer })
-        return [idx, updatedP]
+        return [playerId, updatedP]
       })
       const pokerPlayers = Object.fromEntries(playerCards)
       return Object.assign({}, t, { cards: tableCards, pokerPlayers })

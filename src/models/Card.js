@@ -13,11 +13,11 @@ function parse(cardString) {
 function parseCardString(s) {
   const [rank, suite] = parse(s)
   const isFace = faceCards.includes(rank)
-  return Card({
+  return {
     suite: symbolsMap[suite],
     value: isFace ? null : Number(rank),
     face: isFace ? rank : null,
-  })
+  }
 }
 
 /**
@@ -30,24 +30,16 @@ function parseCardString(s) {
  * @constructor
  */
 export default function Card(obj) {
-  if (typeof obj === "string") return parseCardString(obj)
-  const { suite, value, face = null } = obj
+  const { suite, value, face } = parseCardString(obj)
   const isFaceDown = value === -1
   if (isFaceDown) return FaceDownCard()
-  else {
-    // const formattedSuite = findSuite(suite)
-    // const formattedRank = formatRank(value, face)
-    const image = mapCardToImage({ suite, value, face })
-    return {
-      id: v1(),
-      suite,
-      rank: value,
-      // value,
-      face,
-      // formattedSuite,
-      // formattedRank,
-      image,
-    }
+  const image = mapCardToImage({ suite, value, face })
+  return {
+    id: v1(),
+    suite,
+    rank: value,
+    face,
+    image,
   }
 }
 
@@ -56,11 +48,7 @@ export function FaceDownCard() {
     id: v1(),
     suite: null,
     rank: null,
-    value: null,
     face: null,
-    formattedSuite: null,
-    formattedRank: null,
     image: faceDownCardImg,
-    faceDown: true,
   }
 }
