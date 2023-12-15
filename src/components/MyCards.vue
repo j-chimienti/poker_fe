@@ -18,7 +18,7 @@ export default {
   name: "MyCards",
   components: { PlayingCard },
   computed: {
-    ...mapState(usePokerStore, ["myCards, bestCards"]),
+    ...mapState(usePokerStore, ["myCards", "bestCards"]),
     getCards() {
       if (this.bestCards.length) return this.bestCards
       else if (this.myCards.length) return this.myCards
