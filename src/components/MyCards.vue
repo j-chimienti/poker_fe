@@ -1,34 +1,30 @@
 <template>
- <div class="my-cards" v-if="playerOpt">
-   <q-img v-for="card in getCards" :src="card.image" :key="card.id" width="122px" height="176px"/>
- </div>
+  <div class="my-cards" v-if="getCards.length">
+    <q-img
+      v-for="card in getCards"
+      :src="card.image"
+      :key="card.id"
+      width="122px"
+      height="176px"
+    />
+  </div>
 </template>
 <script>
-import {get} from "lodash";
-import {mapState} from "pinia";
-import {usePokerStore} from "stores/poker-store";
-import PlayingCard from "components/PlayingCard.vue";
+import { mapState } from "pinia"
+import { usePokerStore } from "stores/poker-store"
+import PlayingCard from "components/PlayingCard.vue"
 
 export default {
-  name: 'MyCards',
-  components: {PlayingCard},
+  name: "MyCards",
+  components: { PlayingCard },
   computed: {
-
-    ...mapState(usePokerStore, ['playerOpt']),
+    ...mapState(usePokerStore, ["myCards, bestCards"]),
     getCards() {
-      const cards = get(this.playerOpt, 'cards', [])
-      if (this.hasBestCards.length) return this.hasBestCards
-      else if (cards.length)
-      return cards
+      if (this.bestCards.length) return this.bestCards
+      else if (this.myCards.length) return this.myCards
       return []
     },
-
-    hasBestCards() {
-      return get(this.playerOpt, "bestCards", [])
-
-    },
   },
-
 }
 </script>
 
