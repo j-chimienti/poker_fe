@@ -134,18 +134,10 @@ export const usePokerStore = defineStore("poker", {
       return _get(this.playerTurn, "playerId", null)
     },
     myCards() {
-      return _get(
-        this.table,
-        "pokerPlayers." + useAuthStore().playerId + ".player.cards",
-        []
-      )
+      return _get(this.playerOpt, "cards", [])
     },
     bestCards() {
-      return _get(
-        this.table,
-        "pokerPlayers." + useAuthStore().playerId + ".player.bestCards",
-        []
-      )
+      return _get(this.playerOpt, "bestCards", [])
     },
 
     bigBlindPlayerOpt() {
@@ -171,7 +163,7 @@ export const usePokerStore = defineStore("poker", {
     },
     playerOpt() {
       const playerId = useAuthStore().playerId
-      return _get(this.table, "pokerPlayers." + playerId, null)
+      return _get(this.table, `pokerPlayers.${playerId}.player`, null)
     },
 
     playerIsMe: (state) => (playerId) => {
