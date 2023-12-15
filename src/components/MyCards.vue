@@ -16,10 +16,9 @@ import { usePokerStore } from "stores/poker-store"
 export default {
   name: "MyCards",
   computed: {
-    ...mapState(usePokerStore, ["myCards", "bestCards"]),
+    ...mapState(usePokerStore, ["myCards"]),
     getCards() {
-      if (this.bestCards.length) return this.bestCards
-      else if (this.myCards.length) return this.myCards
+      if (this.myCards.length) return this.myCards
       return []
     },
   },

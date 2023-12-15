@@ -114,8 +114,8 @@ export const usePokerStore = defineStore("poker", {
     myCards() {
       return _get(this.playerOpt, "cards", [])
     },
-    bestCards() {
-      return _get(this.playerOpt, "bestCards", [])
+    showCards() {
+      return _get(this.playerOpt, "showCards", [])
     },
 
     bigBlindPlayerOpt() {
