@@ -88,12 +88,6 @@ export const usePokerStore = defineStore("poker", {
     },
   },
   getters: {
-    callAmount() {
-      return _get(this.table, "callAmount", -1)
-    },
-    raiseAmount() {
-      return _get(this.table, "playerTurn.canRaise", null)
-    },
     tableId() {
       return _get(this.table, "id", null)
     },

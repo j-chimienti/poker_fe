@@ -46,10 +46,10 @@ export default {
   name: "RaiseTheBetModal",
   mixins: [DialogMixin],
   data() {
-    return { raiseAmountForm: this.raiseAmount }
+    return { raiseAmountForm: this.canRaise || -1 }
   },
   computed: {
-    ...mapState(usePokerStore, ["raiseAmount", "tableId"]),
+    ...mapState(usePokerStore, ["canRaise", "tableId"]),
   },
   methods: {
     onRaise() {
