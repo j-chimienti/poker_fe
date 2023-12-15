@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="raiseTheBetModalVisible" v-if="table">
+  <q-dialog v-model="raiseTheBetModalVisible">
     <q-card class="bg-primary account-popup text-white">
       <q-card-section class="player-action-title row justify-center"
         >Raise the bet</q-card-section
