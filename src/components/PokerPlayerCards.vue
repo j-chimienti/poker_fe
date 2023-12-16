@@ -2,7 +2,7 @@
   <div :class="'object' + player.position + ' pokercards'">
     <div style="position: relative" v-if="showCards.length">
       <q-img
-        v-for="(card, idx) in getCards"
+        v-for="(card, idx) in showCards"
         :src="card.image"
         :class="getStyle(idx, card)"
         :key="card.id"
@@ -32,13 +32,6 @@ export default {
     },
     cards() {
       return get(this.player, "cards", [])
-    },
-    getCards() {
-      return this.showCards.length
-        ? this.showCards
-        : this.cards.length
-        ? this.cards
-        : []
     },
   },
 
