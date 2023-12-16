@@ -30,6 +30,7 @@ function parseCardString(s) {
  * @constructor
  */
 export default function Card(obj) {
+  if (typeof obj !== "string") console.log("bad input", typeof obj, obj)
   const { suite, value, face } = parseCardString(obj)
   const isFaceDown = value === -1
   if (isFaceDown) return FaceDownCard()
