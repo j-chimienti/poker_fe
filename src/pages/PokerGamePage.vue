@@ -33,8 +33,8 @@
 
     <div class="table-pot row flex-center">Pot: {{ pot }}</div>
     <div class="row flex-center small q-my-sm">Hand: {{ table.hand }}</div>
-    <div class="row flex-center small q-my-sm" v-if="nextHandStart">
-      next hand: {{ nextHandStartTextD }}
+    <div class="row flex-center small q-my-sm" v-if="countdown">
+      next hand: {{ countdown }}
     </div>
     <PlayerPokerButtons />
     <PlayerBalance />
@@ -92,7 +92,7 @@ export default {
     return {
       countdownBetTimeoutText: "",
       testCheckbox: false,
-      nextHandStartTextD: this.nextHandStartText,
+      countdown: null
     }
   },
   unmounted() {
@@ -106,10 +106,18 @@ export default {
       }
       this.$q.loading.show(options)
     }
-    setInterval(() => {
-      if (this.nextHandStart) this.nextHandStartTextD = this.nextHandStartText
+    this.timer = setInterval(() => {
+      const nhs = this.nextHandStartText
+      if (nhs) {
+        this.countdown = nhs
+      } else this.countdown = null;
     }, 1000)
   },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+  }
   watch: {
     table: function (n) {
       if (n && this.$q.loading.isActive) this.$q.loading.hide()

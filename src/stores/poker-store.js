@@ -160,8 +160,10 @@ export const usePokerStore = defineStore("poker", {
       const nhs = this.nextHandStart
       if (!nhs) return null
       else {
-        const diff = (new Date(nhs).getTime() - new Date().getTime()) / 1000
-        if (diff < 0) return null
+        const diff = Math.floor(
+          (new Date(nhs).getTime() - new Date().getTime()) / 1000
+        )
+        if (diff <= 0) return null
         return diff + " s"
       }
     },
