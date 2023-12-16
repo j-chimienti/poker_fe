@@ -67,6 +67,9 @@ export const usePokerStore = defineStore("poker", {
     },
   },
   getters: {
+    pot() {
+      return _get(this.table, "pot", null)
+    },
     tableId() {
       return _get(this.table, "id", null)
     },
@@ -91,11 +94,6 @@ export const usePokerStore = defineStore("poker", {
         ),
         "playerAccountId"
       )
-    },
-    pokerPlayersByPosition() {
-      return this.pokerPlayers
-        .map((p) => p.player)
-        .sort((a, b) => a.position - b.position)
     },
 
     seats() {
@@ -170,7 +168,7 @@ export const usePokerStore = defineStore("poker", {
     playerOpt() {
       const playerId = useAuthStore().playerId
       if (!playerId) return null
-      return _get(this.pokerPlayers, `${playerId}.player`, null)
+      return _get(this.table, `pokerPlayers.${playerId}.player`, null)
     },
 
     playerIsMe: (state) => (playerId) => {

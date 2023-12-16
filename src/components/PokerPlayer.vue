@@ -128,7 +128,6 @@ export default {
       "table",
       "playerTurn",
       "playerTurnId",
-      "pokerPlayersByPosition",
     ]),
     ...mapState(useAuthStore, ["playerId"]),
   },
