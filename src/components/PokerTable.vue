@@ -5,7 +5,7 @@
         {{ table.round }}
       </div>
       <div
-        v-for="player in tablePositions"
+        v-for="player in seats"
         :key="player.position + player.playerAccountId + table.id"
       >
         <PokerPlayerCards :player="player" />
@@ -33,7 +33,7 @@ export default {
       "pokerPlayers",
       "table",
       "playerTurn",
-      "tablePositions",
+      "seats",
       "playerIsMe",
     ]),
   },

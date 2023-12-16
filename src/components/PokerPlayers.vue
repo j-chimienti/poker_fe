@@ -1,29 +1,20 @@
 <template>
-  <div v-for="spot in tablePositions" :key="spot.position">
-      <PokerPlayer  :player="spot"/>
+  <div v-for="spot in seats" :key="spot.position">
+    <PokerPlayer :player="spot" />
   </div>
 </template>
 
 <script>
-import {mapState} from "pinia";
-import {usePokerStore} from "stores/poker-store";
-import {useAuthStore} from "stores/auth-store";
-import PokerPlayer from "components/PokerPlayer.vue";
-import RouterMixin from "src/mixins/RouterMixin.vue";
-import ApiMixin from "src/mixins/ApiMixin.vue";
+import { mapState } from "pinia"
+import { usePokerStore } from "stores/poker-store"
+import PokerPlayer from "components/PokerPlayer.vue"
 
 export default {
   name: "PokerPlayers",
-  components: {PokerPlayer},
-  mixins: [RouterMixin, ApiMixin],
+  components: { PokerPlayer },
   computed: {
-    ...mapState(usePokerStore, [ 'tablePositions']),
+    ...mapState(usePokerStore, ["seats"]),
   },
-
 }
 </script>
-<style lang="scss">
-
-
-
-</style>
+<style lang="scss"></style>

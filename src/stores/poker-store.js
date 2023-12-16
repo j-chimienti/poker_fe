@@ -1,10 +1,10 @@
 import { defineStore } from "pinia"
 import { useAuthStore } from "stores/auth-store"
-import { flatten, get as _get, uniqBy } from "lodash"
+import { flatten, get as _get, range, uniqBy } from "lodash"
 import Card from "src/models/Card"
-import { openSeats } from "src/services/tableService"
 import { formatToUSD } from "src/services/moneyUtils"
 import { pages } from "src/constants"
+import { openSeats } from "src/services/tableService"
 
 export const usePokerStore = defineStore("poker", {
   actions: {
@@ -98,9 +98,25 @@ export const usePokerStore = defineStore("poker", {
         .map((p) => p.player)
         .sort((a, b) => a.position - b.position)
     },
-    tablePositions() {
-      return openSeats(this.table)
+
+    seats() {
+      const maxSeat = this.table.config.players.max
+      const start = 1
+      const tablePositions = range(start, maxSeat + 1)
+      return tablePositions.map((i) => {
+        return (
+          Object.values(this.table.pokerPlayers)
+            .map((p) => p.player)
+            .find((k) => k.position === i) || {
+            position: i,
+            cards: [],
+            id: i,
+            openSeat: true,
+          }
+        )
+      })
     },
+
     hand() {
       return _get(this.table, "hand", -1)
     },
