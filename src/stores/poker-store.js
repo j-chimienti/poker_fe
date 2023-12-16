@@ -153,6 +153,18 @@ export const usePokerStore = defineStore("poker", {
     joinedTable() {
       return Boolean(this.playerOpt)
     },
+    nextHandStart() {
+      return _get(this.table, "nextHandStart", null)
+    },
+    nextHandStartText() {
+      const nhs = this.nextHandStart
+      if (!nhs) return null
+      else {
+        const diff = new Date(nhs).getTime() - new Date().getTime()
+        if (diff < 0) return null
+        return diff
+      }
+    },
     playerOpt() {
       const playerId = useAuthStore().playerId
       return _get(this.table, `pokerPlayers.${playerId}.player`, null)

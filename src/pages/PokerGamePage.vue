@@ -33,6 +33,9 @@
 
     <div class="table-pot row flex-center">Pot: {{ pot }}</div>
     <div class="row flex-center small q-my-sm">Hand: {{ table.hand }}</div>
+    <div class="row flex-center small q-my-sm">
+      Hand: {{ nextHandStartText }}
+    </div>
     <PlayerPokerButtons />
     <PlayerBalance />
     <MyCards />
@@ -80,6 +83,7 @@ export default {
       "playerTurn",
       "canCheck",
       "canCall",
+      "nextHandStartText",
       "canRaise",
     ]),
   },

@@ -5,8 +5,6 @@ export async function messageFactory(res) {
   const {
     status = "failed",
     msg = null,
-    // btcusd = null,
-    // invoice = null,
     tables = null,
     table = null,
     playerTurn = null,
@@ -15,7 +13,6 @@ export async function messageFactory(res) {
     chatMessage = null,
   } = res
 
-  // const lightingStore = useLightningStore()
   const pokerStore = usePokerStore()
 
   if (chatMessage) pokerStore.onChatMessage(chatMessage)
