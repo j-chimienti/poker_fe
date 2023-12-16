@@ -67,6 +67,7 @@ import { useUiStore } from "stores/ui-store"
 import PlayAnotherHandModal from "components/dialogs/PlayAnotherHandModal.vue"
 import PlayerPokerButtons from "pages/PlayerPokerButtons.vue"
 import BetModal from "components/dialogs/BetModal.vue"
+import { get as _get } from "lodash"
 
 export default {
   mixins: [ApiMixin, DialogMixin],
@@ -85,6 +86,7 @@ export default {
   data() {
     return {
       countdown: null,
+      timer: null,
     }
   },
   mounted() {
@@ -96,10 +98,15 @@ export default {
       this.$q.loading.show(options)
     }
     this.timer = setInterval(() => {
-      const nhs = this.nextHandStartText
-      if (nhs) {
-        this.countdown = nhs
-      } else this.countdown = null
+      const nhs = _get(this.table, "nextHandStart", null)
+      if (!nhs) return null
+      else {
+        const diff = Math.floor(
+          (new Date(nhs).getTime() - new Date().getTime()) / 1000
+        )
+        if (diff <= 0) this.countdown = null
+        this.countdown = diff
+      }
     }, 1000)
   },
   beforeUnmount() {
