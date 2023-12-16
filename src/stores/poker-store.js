@@ -164,7 +164,7 @@ export const usePokerStore = defineStore("poker", {
           (new Date(nhs).getTime() - new Date().getTime()) / 1000
         )
         if (diff <= 0) return null
-        return diff + " s"
+        return diff
       }
     },
     playerOpt() {

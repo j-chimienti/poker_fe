@@ -34,7 +34,7 @@
     <div class="table-pot row flex-center">Pot: {{ pot }}</div>
     <div class="row flex-center small q-my-sm">Hand: {{ table.hand }}</div>
     <div class="row flex-center small q-my-sm" v-if="countdown">
-      next hand: {{ countdown }}
+      next hand: {{ countdown }}s
     </div>
     <PlayerPokerButtons />
     <PlayerBalance />
@@ -79,6 +79,7 @@ export default {
       "round",
       "playerOpt",
       "myTurn",
+      "joinedTable",
       "chatVisible",
       "playerTurn",
       "canCheck",
@@ -94,9 +95,6 @@ export default {
       testCheckbox: false,
       countdown: null,
     }
-  },
-  unmounted() {
-    clearInterval(this.interval)
   },
   mounted() {
     if (!this.table) {
