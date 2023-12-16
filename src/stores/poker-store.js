@@ -37,10 +37,15 @@ export const usePokerStore = defineStore("poker", {
         const showCards = _get(p.player, "showCards", []).map(
           (c) => new Card(c)
         )
+        // TexasHoldEmHand(cards: Seq[Card], rank: Int, strength: PokerHandRanks.Value)
+        const bestPoint = _get(p.player, "bestPoint.cards", []).map(
+          (c) => new Card(c)
+        )
         const cards = p.player.cards.map((c) => new Card(c))
         const updatedPlayer = Object.assign({}, p.player, {
           showCards,
           cards,
+          bestPoint: { ...p.player.bestPoint, cards: bestPoint },
         }) // cards: pc
         const updatedP = Object.assign({}, p, { player: updatedPlayer })
         return [playerId, updatedP]
