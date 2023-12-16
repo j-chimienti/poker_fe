@@ -1,6 +1,6 @@
 <template>
   <div :class="'object' + player.position + ' pokercards'">
-    <div style="position: relative" v-if="player.showCards.length">
+    <div style="position: relative" v-if="showCards.length">
       <q-img
         v-for="(card, idx) in getCards"
         :src="card.image"
@@ -10,12 +10,14 @@
         height="88px"
       />
     </div>
-    <div v-else-if="player.cards.length">
+    <div v-else-if="cards.length">
       <q-img src="../assets/down-cards.png" width="75px" />
     </div>
   </div>
 </template>
 <script>
+import { get } from "lodash"
+
 export default {
   name: "PokerPlayerCards",
 
@@ -25,10 +27,18 @@ export default {
     },
   },
   computed: {
+    showCards() {
+      return get(this.player, "showCards", [])
+    },
+    cards() {
+      return get(this.player, "cards", [])
+    },
     getCards() {
-      return this.player.showCards.length
-        ? this.player.showCards
-        : this.player.cards
+      return this.showCards.length
+        ? this.showCards
+        : this.cards.length
+        ? this.cards
+        : []
     },
   },
 
