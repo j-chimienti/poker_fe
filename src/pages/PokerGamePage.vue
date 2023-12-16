@@ -99,7 +99,7 @@ export default {
     }
     this.timer = setInterval(() => {
       const nhs = _get(this.table, "nextHandStart", null)
-      if (!nhs) return null
+      if (!nhs) this.countdown = null
       else {
         const diff = Math.floor(
           (new Date(nhs).getTime() - new Date().getTime()) / 1000
