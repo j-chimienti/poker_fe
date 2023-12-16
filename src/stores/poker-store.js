@@ -169,7 +169,8 @@ export const usePokerStore = defineStore("poker", {
     },
     playerOpt() {
       const playerId = useAuthStore().playerId
-      return _get(this.table, `pokerPlayers.${playerId}.player`, null)
+      if (!playerId) return null
+      return _get(this.pokerPlayers, `${playerId}.player`, null)
     },
 
     playerIsMe: (state) => (playerId) => {

@@ -113,10 +113,8 @@ export default {
       } else this.countdown = null
     }, 1000)
   },
-  beforeDestroy() {
-    if (this.timer) {
-      clearInterval(this.timer)
-    }
+  beforeUnmount() {
+    if (this.timer) clearInterval(this.timer)
   },
   watch: {
     table: function (n) {
