@@ -33,8 +33,8 @@
 
     <div class="table-pot row flex-center">Pot: {{ pot }}</div>
     <div class="row flex-center small q-my-sm">Hand: {{ table.hand }}</div>
-    <div class="row flex-center small q-my-sm" v-if="nextHandStartText">
-      next hand: {{ nextHandStartText }}
+    <div class="row flex-center small q-my-sm" v-if="nextHandStart">
+      next hand: {{ nextHandStartTextD }}
     </div>
     <PlayerPokerButtons />
     <PlayerBalance />
@@ -83,12 +83,17 @@ export default {
       "playerTurn",
       "canCheck",
       "canCall",
+      "nextHandStart",
       "nextHandStartText",
       "canRaise",
     ]),
   },
   data() {
-    return { countdownBetTimeoutText: "", testCheckbox: false }
+    return {
+      countdownBetTimeoutText: "",
+      testCheckbox: false,
+      nextHandStartTextD: this.nextHandStartText,
+    }
   },
   unmounted() {
     clearInterval(this.interval)
@@ -101,6 +106,9 @@ export default {
       }
       this.$q.loading.show(options)
     }
+    setInterval(() => {
+      if (this.nextHandStart) this.nextHandStartTextD = this.nextHandStartText
+    }, 1000)
   },
   watch: {
     table: function (n) {
