@@ -102,7 +102,7 @@ export const usePokerStore = defineStore("poker", {
       const tablePositions = range(start, maxSeat + 1)
       return tablePositions.map((i) => {
         return (
-          Object.values(this.table.pokerPlayers)
+          this.pokerPlayers
             .map((p) => p.player)
             .find((k) => k.position === i) || {
             position: i,
@@ -131,12 +131,12 @@ export const usePokerStore = defineStore("poker", {
     },
 
     bigBlindPlayerOpt() {
-      var bb = _get(this.table, "bigBlind", -1)
+      const bb = _get(this.table, "bigBlind", -1)
       return this.pokerPlayers.find((p) => p.player.position === bb)
     },
     smallBlindPlayerOpt() {
-      var bb = _get(this.table, "smallBlind", -1)
-      return this.pokerPlayers.find((p) => p.player.position === bb)
+      const sb = _get(this.table, "smallBlind", -1)
+      return this.pokerPlayers.find((p) => p.player.position === sb)
     },
 
     pokerPlayers() {
