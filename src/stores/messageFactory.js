@@ -51,12 +51,18 @@ export async function messageFactory(res) {
       playerBalance,
     } = playerTurn
     // todo: set values
-    if (playerId && pokerStore.playerIsMe(playerId))
-      Notify.create({
+    if (playerId && pokerStore.playerIsMe(playerId)) {
+      const timeoutSeconds = 30 // todo: read from be
+      const dismiss = Notify.create({
         message: `your turn`,
-        // timeout: timeoutSeconds * 1000,
+        timeout: timeoutSeconds * 1000,
         progress: true,
       })
+
+      setTimeout(() => {
+        dismiss() // will hide the notification above
+      }, 5000)
+    }
   }
   if (tables) pokerStore.setTables(tables)
 }
