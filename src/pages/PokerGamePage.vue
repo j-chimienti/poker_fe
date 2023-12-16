@@ -92,7 +92,7 @@ export default {
     return {
       countdownBetTimeoutText: "",
       testCheckbox: false,
-      countdown: null
+      countdown: null,
     }
   },
   unmounted() {
@@ -110,14 +110,14 @@ export default {
       const nhs = this.nextHandStartText
       if (nhs) {
         this.countdown = nhs
-      } else this.countdown = null;
+      } else this.countdown = null
     }, 1000)
   },
   beforeDestroy() {
     if (this.timer) {
-      clearInterval(this.timer);
+      clearInterval(this.timer)
     }
-  }
+  },
   watch: {
     table: function (n) {
       if (n && this.$q.loading.isActive) this.$q.loading.hide()
