@@ -5,6 +5,7 @@ export const pages = {
 }
 
 export const rounds = {
+  WAITING: "WAITING",
   PRE_FLOP: "PRE_FLOP",
   FLOP: "FLOP",
   TURN: "TURN",

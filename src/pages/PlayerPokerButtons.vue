@@ -1,5 +1,5 @@
 <template>
-  <div class="row flex-center player-actions">
+  <div class="row flex-center player-actions" v-if="showButtons">
     <q-btn
       class="player-buttons"
       v-if="canRaise"
@@ -45,6 +45,7 @@
 import { mapActions, mapState } from "pinia"
 import { usePokerStore } from "stores/poker-store"
 import { useUiStore } from "stores/ui-store"
+import { rounds } from "src/constants"
 
 export default {
   name: "PlayerPokerButtons",
@@ -58,6 +59,9 @@ export default {
     ]),
   },
   computed: {
+    showButtons() {
+      return this.round !== rounds.SHOWDOWN && this.round !== rounds.WAITING
+    },
     getCallLabel() {
       if (this.canCall) return `call ${this.canCall}`
       return "cannot call"
