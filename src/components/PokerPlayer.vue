@@ -5,6 +5,9 @@
       <div class="player-state">
         {{ isMyTurn ? countdownText : getText }}
       </div>
+      <div class="player-state" v-if="getBlindText">
+        {{ getBlindText }}
+      </div>
       <div v-if="playerIsMe" class="you-text">You</div>
     </div>
     <div v-else-if="!joinedTable">
@@ -98,7 +101,7 @@ export default {
     isMyTurn() {
       return this.player.playerAccountId === this.playerTurnId
     },
-    getText() {
+    getBlindText() {
       if (this.round === rounds.PRE_FLOP) {
         const bbO = this.bigBlindPlayerOpt
         const sbO = this.smallBlindPlayerOpt
@@ -109,8 +112,11 @@ export default {
           sbO.player.playerAccountId === this.player.playerAccountId
         )
           return "SB"
-        else return this.player.state
-      } else return this.player.state
+        else return null
+      } else return null
+    },
+    getText() {
+      return this.player.state
     },
 
     ...mapState(usePokerStore, [
