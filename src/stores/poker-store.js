@@ -4,7 +4,6 @@ import { flatten, get as _get, range, uniqBy } from "lodash"
 import Card from "src/models/Card"
 import { formatToUSD } from "src/services/moneyUtils"
 import { pages } from "src/constants"
-import { openSeats } from "src/services/tableService"
 
 export const usePokerStore = defineStore("poker", {
   actions: {
@@ -100,7 +99,7 @@ export const usePokerStore = defineStore("poker", {
     },
 
     seats() {
-      const maxSeat = this.table.config.players.max
+      const maxSeat = _get(this.table, "config.players.max", 0)
       const start = 1
       const tablePositions = range(start, maxSeat + 1)
       return tablePositions.map((i) => {
