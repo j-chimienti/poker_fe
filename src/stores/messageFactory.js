@@ -1,5 +1,6 @@
 import { Notify } from "quasar"
 import { usePokerStore } from "stores/poker-store"
+import { useUiStore } from "stores/ui-store"
 
 export async function messageFactory(res) {
   const {
@@ -51,17 +52,18 @@ export async function messageFactory(res) {
       playerBalance,
     } = playerTurn
     // todo: set values
-    if (playerId && pokerStore.playerIsMe(playerId)) {
+    const uiStore = useUiStore()
+    if (pokerStore.playerIsMe(playerId)) {
       const timeoutSeconds = 30 // todo: read from be
       const dismiss = Notify.create({
         message: `your turn`,
         timeout: timeoutSeconds * 1000,
         progress: true,
       })
-
-      setTimeout(() => {
-        dismiss() // will hide the notification above
-      }, 5000)
+      uiStore.dismissYourTurnNotification = dismiss
+    } else if (uiStore.dismissYourTurnNotification) {
+      uiStore.dismissYourTurnNotification()
+      uiStore.dismissYourTurnNotification = null
     }
   }
   if (tables) pokerStore.setTables(tables)

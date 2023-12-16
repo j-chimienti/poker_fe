@@ -15,6 +15,7 @@ export const useUiStore = defineStore("ui", {
     dontAskCall: false,
     dontAskFold: false,
     playAnotherHandModalVisible: false,
+    dismissYourTurnNotification: null,
   }),
   actions: {
     onCall(tableId) {
