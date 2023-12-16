@@ -32,7 +32,7 @@
     </div>
 
     <div class="table-pot row flex-center">Pot: {{ pot }}</div>
-    <div class="row flex-center small q-my-sm">Hand: {{ table.hand }}</div>
+    <div class="row flex-center small q-my-sm">Hand: {{ hand }}</div>
     <div class="row flex-center small q-my-sm" v-if="countdown">
       next hand: {{ countdown }}s
     </div>
@@ -76,23 +76,14 @@ export default {
     },
     ...mapState(usePokerStore, [
       "table",
-      "round",
-      "playerOpt",
-      "myTurn",
       "joinedTable",
-      "chatVisible",
-      "playerTurn",
-      "canCheck",
-      "canCall",
-      "nextHandStart",
       "nextHandStartText",
-      "canRaise",
+      "hand",
+      "pot",
     ]),
   },
   data() {
     return {
-      countdownBetTimeoutText: "",
-      testCheckbox: false,
       countdown: null,
     }
   },
@@ -121,7 +112,6 @@ export default {
   },
   methods: {
     ...mapActions(usePokerStore, ["openChat"]),
-    ...mapActions(useUiStore, ["onCall", "onFold", "onCheck"]),
 
     onLeave() {
       if (this.joinedTable) {
