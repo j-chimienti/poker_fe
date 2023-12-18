@@ -6,14 +6,7 @@ export default {
   name: "DialogMixin",
   computed: {
     ...mapState(useUiStore, ["dontAskAgain"]),
-    invoiceModalVisible: {
-      get() {
-        return useUiStore().invoiceModalVisible
-      },
-      set(v) {
-        useUiStore().invoiceModalVisible = v
-      },
-    },
+
     playAnotherHandModalVisible: {
       get() {
         return useUiStore().playAnotherHandModalVisible
@@ -22,14 +15,7 @@ export default {
         useUiStore().playAnotherHandModalVisible = v
       },
     },
-    debitModalVisible: {
-      get() {
-        return useUiStore().debitModalVisible
-      },
-      set(v) {
-        useUiStore().debitModalVisible = v
-      },
-    },
+
     loginModalVisible: {
       get() {
         return useUiStore().loginModalVisible
@@ -46,12 +32,12 @@ export default {
         useUiStore().accountModalVisible = v
       },
     },
-    raiseTheBetModalVisible: {
+    raiseModal: {
       get() {
-        return useUiStore().raiseTheBetModalVisible
+        return useUiStore().raiseModal
       },
       set(v) {
-        useUiStore().raiseTheBetModalVisible = v
+        useUiStore().raiseModal = v
       },
     },
     foldModal: {
@@ -70,12 +56,20 @@ export default {
         useUiStore().leaveModal = v
       },
     },
-    callTheBetModal: {
+    betModal: {
       get() {
-        return useUiStore().callTheBetModal
+        return useUiStore().betModal
       },
       set(v) {
-        useUiStore().callTheBetModal = v
+        useUiStore().betModal = v
+      },
+    },
+    callModal: {
+      get() {
+        return useUiStore().callModal
+      },
+      set(v) {
+        useUiStore().callModal = v
       },
     },
     checkModal: {

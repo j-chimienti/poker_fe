@@ -1,10 +1,8 @@
 <template>
   <div>
-    <TestData/>
-    <InvoiceModal />
-    <DebitModal />
-    <LoginModal/>
-    <AccountInfoModal/>
+    <TestData />
+    <LoginModal />
+    <AccountInfoModal />
     <div hidden>
       <img
         v-for="card in cardImages"
@@ -13,26 +11,24 @@
         :src="card.image"
       />
     </div>
-  <router-view />
+    <router-view />
   </div>
 </template>
 
 <script>
-import {defineComponent} from "vue"
-import {cardImages} from "./services/cardImageService.js"
-import InvoiceModal from "components/InvoiceModal.vue";
-import DebitModal from "components/DebitModal.vue";
-import TestData from "components/TestData.vue";
-import LoginModal from "components/auth/LoginModal.vue";
-import AccountInfoModal from "components/auth/AccountInfoModal.vue";
-import DialogMixin from "src/mixins/DialogMixin.vue";
+import { defineComponent } from "vue"
+import { cardImages } from "./services/cardImageService.js"
+import TestData from "components/TestData.vue"
+import LoginModal from "components/auth/LoginModal.vue"
+import AccountInfoModal from "components/auth/AccountInfoModal.vue"
+import DialogMixin from "src/mixins/DialogMixin.vue"
 
 export default defineComponent({
   name: "App",
   mixins: [DialogMixin],
-  components: { AccountInfoModal, LoginModal, TestData, DebitModal, InvoiceModal},
+  components: { AccountInfoModal, LoginModal, TestData },
   data() {
-    return { cardImages}
-  }
+    return { cardImages }
+  },
 })
 </script>

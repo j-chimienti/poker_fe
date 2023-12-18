@@ -82,13 +82,10 @@ export const usePokerStore = defineStore("poker", {
       return _get(this.table, "modifiedAt", null)
     },
     balance() {
-      return formatToUSD(_get(this.playerOpt, "balance", 0), 2)
+      return _get(this.playerOpt, "balance", 0)
     },
     maxBet() {
-      const bets = this.pokerPlayers
-        .map((p) => p.player.bet)
-        .sort((a, b) => b - a)
-      return bets[0] || 0
+      return _get(this.table, "maxBetOrRaise", null)
     },
     allPlayers() {
       return uniqBy(
@@ -101,10 +98,19 @@ export const usePokerStore = defineStore("poker", {
       )
     },
 
+    maxPlayers() {
+      return _get(this.table, "config.players.max", 0)
+    },
+
+    smallBlindBetAmount() {
+      return _get(this.table, "config.bet.min", 0)
+    },
+    bigBlindBetAmount() {
+      return this.smallBlindBetAmount * 2
+    },
     seats() {
-      const maxSeat = _get(this.table, "config.players.max", 0)
       const start = 1
-      const tablePositions = range(start, maxSeat + 1)
+      const tablePositions = range(start, this.maxPlayers + 1)
       return tablePositions.map((i) => {
         return (
           this.pokerPlayers

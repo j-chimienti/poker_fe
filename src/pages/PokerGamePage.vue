@@ -39,9 +39,9 @@
     <PlayerPokerButtons />
     <PlayerBalance />
     <MyCards />
-    <RaiseTheBetModal />
+    <RaiseModal />
     <BetModal />
-    <CallTheBetModal />
+    <CallModal />
     <PlayAnotherHandModal />
     <FoldModal />
   </div>
@@ -59,11 +59,10 @@ import SplashScreen from "components/SplashScreen.vue"
 import { formatToUSD } from "src/services/moneyUtils"
 import PlayerBalance from "components/PlayerBalance.vue"
 import TableMaxBet from "components/TableMaxBet.vue"
-import RaiseTheBetModal from "components/dialogs/RaiseTheBetModal.vue"
-import CallTheBetModal from "components/dialogs/CallTheBetModal.vue"
+import RaiseModal from "components/dialogs/RaiseModal.vue"
+import CallModal from "components/dialogs/CallModal.vue"
 import FoldModal from "components/dialogs/FoldModal.vue"
 import DialogMixin from "src/mixins/DialogMixin.vue"
-import { useUiStore } from "stores/ui-store"
 import PlayAnotherHandModal from "components/dialogs/PlayAnotherHandModal.vue"
 import PlayerPokerButtons from "pages/PlayerPokerButtons.vue"
 import BetModal from "components/dialogs/BetModal.vue"
@@ -119,18 +118,14 @@ export default {
   },
   methods: {
     ...mapActions(usePokerStore, ["openChat"]),
-
     onLeave() {
       if (this.joinedTable) {
         const id = this.table.id
         leave(id)
       }
+      this.goToLobby()
     },
     goToLobby() {
-      if (this.joinedTable) {
-        const id = this.table.id
-        leave(id)
-      }
       return this.$router.push({ name: "home" })
     },
   },
@@ -140,8 +135,8 @@ export default {
     PlayerPokerButtons,
     PlayAnotherHandModal,
     FoldModal,
-    CallTheBetModal,
-    RaiseTheBetModal,
+    CallModal,
+    RaiseModal,
     TableMaxBet,
     PlayerBalance,
     SplashScreen,

@@ -18,7 +18,7 @@ export const useAuthStore = defineStore("auth", {
     playerAccount: null, //{playerAccount, session}
   }),
   getters: {
-    connectedToWebsocket(state) {
+    connectedToWebsocket() {
       return _get(this.websocket, "readyState", -1) === 1
     },
     authenticated() {

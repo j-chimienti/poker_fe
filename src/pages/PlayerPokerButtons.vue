@@ -14,7 +14,7 @@
       :disabled="!myTurn"
       @click="onBet"
       color="secondary"
-      label="raise"
+      label="bet"
     />
     <q-btn
       class="player-buttons"

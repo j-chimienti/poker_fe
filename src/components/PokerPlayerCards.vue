@@ -6,8 +6,7 @@
         :src="card.image"
         :class="getStyle(idx, card)"
         :key="card.id"
-        width="61px"
-        height="88px"
+        width="75px"
       />
     </div>
     <div v-else-if="cards.length">

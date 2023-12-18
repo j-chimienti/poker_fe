@@ -29,27 +29,41 @@ function parseCardString(s) {
  * @returns {{image: (*), face: null, suite, formattedSuite: string, rank, formattedRank: (*|string), id: *, value}|{image: *, face: null, suite: null, formattedSuite: null, rank: null, formattedRank: null, id: *, faceDown: boolean, value: null}}
  * @constructor
  */
-export default function Card(obj) {
-  if (typeof obj !== "string") console.log("bad input", typeof obj, obj)
-  const { suite, value, face } = parseCardString(obj)
-  const isFaceDown = value === -1
-  if (isFaceDown) return FaceDownCard()
-  const image = mapCardToImage({ suite, value, face })
-  return {
-    id: v1(),
-    suite,
-    rank: value,
-    face,
-    image,
+export default class Card {
+  constructor(inputString) {
+    const { suite, value, face } = parseCardString(inputString)
+    const isFaceDown = value === -1
+    if (isFaceDown) return new FaceDownCard()
+    const image = mapCardToImage({ suite, value, face })
+    this.suite = suite
+    this.rank = value
+    this.face = face
+    this.image = image
+    this.isFaceDown = false
+    this.id = `${suite}${value}${face}`
+  }
+  equals(other) {
+    return (
+      other instanceof Card &&
+      other.suite === this.suite &&
+      other.rank === this.rank &&
+      other.face === this.face
+    )
   }
 }
 
-export function FaceDownCard() {
-  return {
-    id: v1(),
-    suite: null,
-    rank: null,
-    face: null,
-    image: faceDownCardImg,
+export class FaceDownCard {
+  constructor() {
+    this.suite = null
+    this.rank = null
+    this.face = null
+    this.image = faceDownCardImg
+    this.isFaceDown = true
+    this.id = "facedown"
+  }
+  // You can override the equals method if needed
+  // For example, you might want to compare only the isFaceDown property
+  equals(other) {
+    return other instanceof FaceDownCard
   }
 }

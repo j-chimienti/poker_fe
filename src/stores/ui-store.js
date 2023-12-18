@@ -1,17 +1,18 @@
 import { defineStore } from "pinia"
+import * as apiService from "src/services/apiService"
 import { call, check, fold } from "src/services/apiService"
+import { usePokerStore } from "stores/poker-store"
+import { Notify } from "quasar"
 
 export const useUiStore = defineStore("ui", {
   state: () => ({
-    invoiceModalVisible: false,
-    debitModalVisible: false,
     loginModalVisible: false,
     accountModalVisible: false,
-    raiseTheBetModalVisible: false,
-    betModalVisible: false,
+    raiseModal: false,
+    betModal: false,
     foldModal: false,
     leaveModal: false,
-    callTheBetModal: false,
+    callModal: false,
     dontAskCall: false,
     dontAskFold: false,
     playAnotherHandModalVisible: false,
@@ -20,7 +21,7 @@ export const useUiStore = defineStore("ui", {
   actions: {
     onCall(tableId) {
       if (this.dontAskCall) return call(tableId)
-      else this.callTheBetModal = true
+      else this.callModal = true
     },
     onCheck(tableId) {
       check(tableId)
@@ -31,10 +32,28 @@ export const useUiStore = defineStore("ui", {
       else this.foldModal = true
     },
     onRaise() {
-      this.raiseTheBetModalVisible = true
+      this.raiseModal = true
     },
     onBet() {
-      this.betModalVisible = true
+      this.betModal = true
+    },
+    sendBet(table, bet) {
+      const betAmount = usePokerStore().canBet
+      if (betAmount === null) {
+        Notify.create({
+          message: `Not allowed to bet`,
+          type: "warning",
+        })
+        return
+      } else if (bet < betAmount) {
+        Notify.create({
+          message: `Invalid bet amount. min is ${betAmount}`,
+          type: "warning",
+        })
+        return
+      }
+      apiService.bet(table.id, bet)
+      this.betModal = false
     },
   },
 })
