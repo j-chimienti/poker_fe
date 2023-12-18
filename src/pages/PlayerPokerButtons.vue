@@ -63,8 +63,7 @@ export default {
       return this.round !== rounds.SHOWDOWN && this.round !== rounds.WAITING
     },
     getCallLabel() {
-      if (this.canCall) return `call ${this.canCall}`
-      return "cannot call"
+      return `call ${this.canCall}`
     },
     ...mapState(usePokerStore, [
       "table",

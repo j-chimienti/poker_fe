@@ -4,7 +4,7 @@
       <q-img src="../../assets/close.png" class="close-dialog-btn" />
       <div class="player-action-title row justify-center">call the bet</div>
       <div class="player-action-text text-center">
-        calling the bet will put {{ callAmount }} into the pot
+        calling the bet will put {{ canCall }} into the pot
       </div>
       <div class="row justify-center q-my-sm">
         <q-btn
@@ -35,12 +35,12 @@ export default {
   mixins: [DialogMixin],
   methods: {
     onCall() {
-      apiService.call(this.table.id)
+      apiService.call(this.tableId)
       this.callModal = false
     },
   },
   computed: {
-    ...mapState(usePokerStore, ["table", "callAmount"]),
+    ...mapState(usePokerStore, ["tableId", "canCall"]),
   },
 }
 </script>
