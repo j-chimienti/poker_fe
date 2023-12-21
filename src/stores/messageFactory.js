@@ -4,14 +4,13 @@ import { useUiStore } from "stores/ui-store"
 
 export async function messageFactory(res) {
   const {
-    status = "failed",
-    msg = null,
-    tables = null,
-    table = null,
-    playerTurn = null,
-    failedToJoinTable = null,
-    gameResult = null,
     chatMessage = null,
+    chatMessages = null,
+    gameResult = null,
+    msg = null,
+    playerTurn = null,
+    table = null,
+    tables = null,
   } = res
 
   const pokerStore = usePokerStore()
@@ -20,7 +19,6 @@ export async function messageFactory(res) {
 
   if (msg && typeof msg === "string") {
     Notify.create({
-      type: status === "failed" ? "negative" : "info",
       message: msg,
     })
   }
@@ -30,10 +28,6 @@ export async function messageFactory(res) {
     pokerStore.setTable(table)
   }
   if (table) pokerStore.setTable(table)
-  if (failedToJoinTable) {
-    const { table, message = "" } = failedToJoinTable
-    Notify.create(message)
-  }
   if (playerTurn) {
     // playerId: String,
     //   playerName: String,
