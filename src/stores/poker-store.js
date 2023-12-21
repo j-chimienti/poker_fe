@@ -41,7 +41,9 @@ export const usePokerStore = defineStore("poker", {
         const bestPoint = _get(p.player, "bestPoint.cards", []).map(
           (c) => new Card(c)
         )
+        // todo: only update if new cards
         const cards = p.player.cards.map((c) => new Card(c))
+        console.log(this.myCards === cards)
         const updatedPlayer = Object.assign({}, p.player, {
           showCards,
           cards,

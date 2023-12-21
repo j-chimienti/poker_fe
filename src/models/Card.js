@@ -59,7 +59,7 @@ export class FaceDownCard {
     this.face = null
     this.image = faceDownCardImg
     this.isFaceDown = true
-    this.id = "facedown"
+    this.id = "facedown-" + v1()
   }
   // You can override the equals method if needed
   // For example, you might want to compare only the isFaceDown property
