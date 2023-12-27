@@ -28,7 +28,6 @@
 
 <script>
 import { usePokerStore } from "stores/poker-store"
-import { getTables, joinTable } from "src/services/apiService"
 import { mapState } from "pinia"
 import { formatToUSD } from "src/services/moneyUtils"
 import NavBar from "components/NavBar.vue"
@@ -62,12 +61,8 @@ export default {
       ]
     },
   },
-  mounted() {
-    this.interval = setInterval(getTables, 5000)
-  },
-  unmounted() {
-    clearInterval(this.interval)
-  },
+  mounted() {},
+  unmounted() {},
 }
 </script>
 

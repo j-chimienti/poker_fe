@@ -3,13 +3,6 @@ import { useAuthStore } from "stores/auth-store"
 
 import { actions } from "src/services/constants"
 
-export function getTables() {
-  return useAuthStore().sendWebsocketMessage({
-    WsGetTables: null,
-    onlyPublic: false,
-  })
-}
-
 export function joinTable(id, position) {
   return useAuthStore().sendWebsocketMessage({
     action: actions.JOIN,

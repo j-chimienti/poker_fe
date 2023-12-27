@@ -2,11 +2,7 @@ import { useAuthStore } from "stores/auth-store"
 import { Dialog, Loading, Notify } from "quasar"
 import { boot } from "quasar/wrappers"
 import { getSessionId } from "src/services/localStorageService"
-import {
-  getTables,
-  navigateToLobby,
-  navigateToTable,
-} from "src/services/apiService"
+import { navigateToLobby, navigateToTable } from "src/services/apiService"
 import { usePokerStore } from "stores/poker-store"
 import SplashScreen from "components/SplashScreen.vue"
 import { pages } from "src/constants"
