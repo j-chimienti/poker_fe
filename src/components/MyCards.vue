@@ -1,7 +1,7 @@
 <template>
-  <div class="my-cards" v-if="getCards.length">
+  <div class="my-cards">
     <q-img
-      v-for="card in getCards"
+      v-for="card in myCards"
       :src="card.image"
       :key="card.id"
       width="122px"
@@ -17,10 +17,6 @@ export default {
   name: "MyCards",
   computed: {
     ...mapState(usePokerStore, ["myCards"]),
-    getCards() {
-      if (this.myCards.length) return this.myCards
-      return []
-    },
   },
 }
 </script>

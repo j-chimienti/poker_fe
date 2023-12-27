@@ -3,14 +3,6 @@ import { useAuthStore } from "stores/auth-store"
 
 import { actions } from "src/services/constants"
 
-export function getTable(id) {
-  return useAuthStore().sendWebsocketMessage({ WsGetTable: null, id })
-}
-
-export function subscribeTable(id) {
-  return useAuthStore().sendWebsocketMessage({ WsSubscribeTable: null, id })
-}
-
 export function getTables() {
   return useAuthStore().sendWebsocketMessage({
     WsGetTables: null,
@@ -23,6 +15,20 @@ export function joinTable(id, position) {
     action: actions.JOIN,
     tableId: id,
     position,
+  })
+}
+
+export function navigateToLobby() {
+  return useAuthStore().sendWebsocketMessage({
+    WsNavigateToLobby: null,
+    name: "lobby",
+  })
+}
+
+export function navigateToTable(tableId) {
+  return useAuthStore().sendWebsocketMessage({
+    WsNavigateToTable: null,
+    id: tableId,
   })
 }
 
@@ -77,13 +83,6 @@ export function chatMessage(message, tableId) {
     WsChatMessage: null,
     message,
     tableId,
-  })
-}
-
-export function navigateToLobby() {
-  return useAuthStore().sendWebsocketMessage({
-    WsNavigateToLobby: null,
-    name: "",
   })
 }
 

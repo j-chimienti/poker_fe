@@ -3,10 +3,9 @@ import { Dialog, Loading, Notify } from "quasar"
 import { boot } from "quasar/wrappers"
 import { getSessionId } from "src/services/localStorageService"
 import {
-  getTable,
   getTables,
   navigateToLobby,
-  subscribeTable,
+  navigateToTable,
 } from "src/services/apiService"
 import { usePokerStore } from "stores/poker-store"
 import SplashScreen from "components/SplashScreen.vue"
@@ -67,14 +66,8 @@ export default boot(({ router, store }) => {
       if (!useAuthStore().connectedToWebsocket) {
         const playerOpt = await session(store)
         if (!playerOpt) confirmRefreshPage()
-        else {
-          getTable(id)
-          subscribeTable(id)
-        }
-      } else {
-        getTable(id)
-        subscribeTable(id)
-      }
+        else navigateToTable(id)
+      } else navigateToTable(id)
     } else if (to.name === pages.home) {
       const pokerStore = usePokerStore()
       pokerStore.room = pages.lobby
@@ -84,10 +77,7 @@ export default boot(({ router, store }) => {
         const playerOpt = await session()
         Loading.hide()
         if (!playerOpt) confirmRefreshPage()
-      } else {
-        getTables()
-        navigateToLobby()
-      }
+      } else navigateToLobby()
     } else if (to.path === "/callback") {
       if (to.query.code && to.query.state) {
         Loading.show(

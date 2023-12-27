@@ -49,9 +49,6 @@ export default {
       return i === 1 ? "margin-left: -50px" : ""
     },
 
-    setPlayerName(n) {
-      change_name(n)
-    },
     checkIf() {
       const until =
         this.table && this.table.betTimeout

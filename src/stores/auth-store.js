@@ -9,6 +9,7 @@ import { defineStore } from "pinia"
 import { messageFactory } from "stores/messageFactory"
 import { clearSessionId, saveSessionId } from "src/services/localStorageService"
 import { formatToUSD } from "src/services/moneyUtils"
+import { usePokerStore } from "stores/poker-store"
 
 const wsUrl = process.env.VUE_APP_WEBSOCKET_URL
 
@@ -57,8 +58,12 @@ export const useAuthStore = defineStore("auth", {
       this.websocket.send(JSON.stringify(m))
     },
     openWebsocket(sessionId) {
+      const tableId = usePokerStore().room
       return new Promise((resolve, reject) => {
-        const url = sessionId ? `${wsUrl}?session=${sessionId}` : wsUrl
+        const url1 = new URL(wsUrl)
+        if (sessionId) url1.searchParams.set("session", sessionId)
+        if (tableId) url1.searchParams.set("tableId", tableId)
+        const url = url1
         console.log("open ws", url)
         const ws = new WebSocket(url)
         ws.onopen = () => {

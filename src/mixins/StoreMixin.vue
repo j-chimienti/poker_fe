@@ -10,19 +10,6 @@ export default {
   mixins: [DialogMixin],
 
   methods: {
-    lightningInvoice(satoshi) {
-      return this.sendWebsocketMessage({
-        WsLightningInvoiceRequest: null,
-        satoshi,
-      })
-    },
-
-    lightningPayment(bolt11) {
-      return this.sendWebsocketMessage({
-        WsBolt11DebitRequest: null,
-        bolt11,
-      })
-    },
     ...mapActions(useAuthStore, [
       "login",
       "logout",
