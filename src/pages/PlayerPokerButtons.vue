@@ -60,7 +60,11 @@ export default {
   },
   computed: {
     showButtons() {
-      return this.round !== rounds.SHOWDOWN && this.round !== rounds.WAITING
+      return (
+        this.round !== rounds.SHOWDOWN &&
+        this.round !== rounds.WAITING &&
+        this.myCards.length > 0
+      )
     },
     getCallLabel() {
       return `call ${this.canCall}`
@@ -75,6 +79,7 @@ export default {
       "canCheck",
       "canCall",
       "canRaise",
+      "myCards",
       "canBet",
     ]),
   },
