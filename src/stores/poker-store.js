@@ -2,91 +2,111 @@ import { defineStore } from "pinia"
 import { useAuthStore } from "stores/auth-store"
 import { flatten, get as _get, range, uniqBy } from "lodash"
 import Card from "src/models/Card"
-import { formatToUSD } from "src/services/moneyUtils"
 import { pages } from "src/constants"
+
+const HAND_NOT_STARTED = -1
+const BIG_BLIND_MULTIPLIER = 2
+const MAX_CHAT_MESSAGES = 100
 
 export const usePokerStore = defineStore("poker", {
   actions: {
     onChatMessage(m) {
-      {
-        if (!this.chatMessages.hasOwnProperty(m.tableId))
-          Object.assign(this.chatMessages, { [m.tableId]: [m] })
-        else
-          Object.assign(this.chatMessages, {
-            [m.tableId]: this.chatMessages[m.tableId].concat(m).slice(-100),
-          })
+      if (!this.chatMessages.hasOwnProperty(m.tableId))
+        this.chatMessages[m.tableId] = [m]
+      else {
+        if (this.chatMessages[m.tableId].length >= MAX_CHAT_MESSAGES) {
+          this.chatMessages[m.tableId] = this.chatMessages[m.tableId]
+            .slice(-MAX_CHAT_MESSAGES + 1)
+            .concat(m)
+        } else {
+          this.chatMessages[m.tableId].push(m)
+        }
       }
     },
+
     openChat() {
       this.chatVisible = !this.chatVisible
     },
     mapToTable(t) {
-      const cardsMapped = t.cards.map((c) => new Card(c))
-      let tableCards
-      if (this.hand === t.hand) {
-        if (t.cards.length === this.table.cards.length) {
-          tableCards = this.table.cards
-        } else {
-          tableCards = this.table.cards.concat(
-            cardsMapped.slice(this.table.cards.length)
+      // Helper function to map cards
+      const mapCards = (cards) => cards.map((c) => new Card(c))
+
+      // Update table cards
+      let newTableCards = mapCards(t.cards)
+      let currentTable = this.table
+      let tableCards =
+        currentTable && t.hand === this.hand
+          ? JSON.stringify(newTableCards) !== JSON.stringify(currentTable.cards)
+            ? newTableCards
+            : currentTable.cards
+          : newTableCards
+
+      // Update player cards
+      const pokerPlayers = Object.fromEntries(
+        Object.entries(t.pokerPlayers).map(([playerId, p]) => {
+          const currentCards = _get(
+            currentTable,
+            `pokerPlayers.${playerId}.player.cards`,
+            []
           )
-        }
-      } else tableCards = cardsMapped
-      const playerCards = Object.entries(t.pokerPlayers).map((res) => {
-        const [playerId, p] = res
-        const showCards = _get(p.player, "showCards", []).map(
-          (c) => new Card(c)
-        )
-        // TexasHoldEmHand(cards: Seq[Card], rank: Int, strength: PokerHandRanks.Value)
-        const bestPoint = _get(p.player, "bestPoint.cards", []).map(
-          (c) => new Card(c)
-        )
-        // todo: only update if new cards
-        const cards = p.player.cards.map((c) => new Card(c))
-        const updatedPlayer = Object.assign({}, p.player, {
-          showCards,
-          cards,
-          bestPoint: { ...p.player.bestPoint, cards: bestPoint },
-        }) // cards: pc
-        const updatedP = Object.assign({}, p, { player: updatedPlayer })
-        return [playerId, updatedP]
-      })
-      const pokerPlayers = Object.fromEntries(playerCards)
-      return Object.assign({}, t, { cards: tableCards, pokerPlayers })
+          const newCards = mapCards(p.player.cards)
+          const showCards = mapCards(_get(p.player, "showCards", []))
+          const bestPoint = mapCards(_get(p.player, "bestPoint.cards", []))
+          const cards =
+            JSON.stringify(currentCards) !== JSON.stringify(newCards)
+              ? newCards
+              : currentCards
+
+          const updatedPlayer = {
+            ...p.player,
+            showCards,
+            cards,
+            bestPoint: { ...p.player.bestPoint, cards: bestPoint },
+          }
+
+          return [playerId, { ...p, player: updatedPlayer }]
+        })
+      )
+
+      // Return the updated table
+      return { ...t, cards: tableCards, pokerPlayers }
     },
     setTables(tables) {
       this.tables = tables
-      tables.map((table) =>
+      tables.forEach((table) =>
         table.id === this.room ? this.setTable(table) : null
       )
     },
     setTable(t) {
-      const { room } = this
-      if (room === t.id)
-        if (new Date(this.tableModified) <= new Date(t.modifiedAt))
-          this.table = this.mapToTable(t)
-        else console.log("skipping set older update")
-      else
-        console.log(
-          `invalid set table, not in room. room=${room} table=${t.id}`
-        )
+      if (this.room !== t.id) return
+      if (new Date(this.tableModified) <= new Date(t.modifiedAt))
+        this.table = this.mapToTable(t)
     },
   },
   getters: {
+    nextHandStartText() {
+      const nhs = this.nextHandStart
+      if (!nhs) return null
+      const diff = Math.floor(
+        (new Date(nhs).getTime() - new Date().getTime()) / 1000
+      )
+      return diff > 0 ? diff : null
+    },
+
     pot() {
-      return _get(this.table, "pot", null)
+      return this.table?.pot ?? null
     },
     tableId() {
-      return _get(this.table, "id", null)
+      return this.table?.id ?? null
     },
     tableModified() {
-      return _get(this.table, "modifiedAt", null)
+      return this.table?.modifiedAt ?? null
     },
     balance() {
-      return _get(this.playerOpt, "balance", 0)
+      return this.playerOpt?.balance ?? 0
     },
     maxBet() {
-      return _get(this.table, "maxBetOrRaise", null)
+      return this.table?.maxBetOrRaise ?? 0
     },
     allPlayers() {
       return uniqBy(
@@ -98,16 +118,14 @@ export const usePokerStore = defineStore("poker", {
         "playerAccountId"
       )
     },
-
     maxPlayers() {
-      return _get(this.table, "config.players.max", 0)
+      return this.table?.config.players.max ?? 0
     },
-
     smallBlindBetAmount() {
-      return _get(this.table, "config.bet.min", 0)
+      return this.table?.config.bet.min ?? 0
     },
     bigBlindBetAmount() {
-      return this.smallBlindBetAmount * 2
+      return this.smallBlindBetAmount * BIG_BLIND_MULTIPLIER
     },
     seats() {
       const start = 1
@@ -125,79 +143,67 @@ export const usePokerStore = defineStore("poker", {
         )
       })
     },
-
     hand() {
-      return _get(this.table, "hand", -1)
+      return this.table?.hand ?? HAND_NOT_STARTED
     },
     myTurn() {
       return useAuthStore().playerId === this.playerTurnId
     },
     playerTurn() {
-      return _get(this.table, "playerTurn", null)
+      return this.table?.playerTurn ?? null
     },
     playerTurnId() {
-      return _get(this.playerTurn, "playerId", null)
+      return this.playerTurn?.playerId ?? null
     },
     myCards() {
-      return _get(this.playerOpt, "cards", [])
+      return this.playerOpt?.cards ?? []
     },
-
     bigBlindPlayerOpt() {
-      const bb = _get(this.table, "bigBlind", -1)
+      const bb = this.table?.bigBlind ?? -1
       return this.pokerPlayers.find((p) => p.player.position === bb)
     },
     smallBlindPlayerOpt() {
-      const sb = _get(this.table, "smallBlind", -1)
+      const sb = this.table?.smallBlind ?? -1
       return this.pokerPlayers.find((p) => p.player.position === sb)
     },
-
     pokerPlayers() {
-      return Object.values(_get(this.table, "pokerPlayers", {}))
+      return Object.values(this.table?.pokerPlayers || {})
     },
     round() {
-      return _get(this.table, "round", null)
+      return this.table?.round || null
     },
     cards() {
-      return _get(this.table, "cards", [])
+      return this.table?.cards || []
     },
     joinedTable() {
       return Boolean(this.playerOpt)
     },
     nextHandStart() {
-      return _get(this.table, "nextHandStart", null)
-    },
-    nextHandStartText() {
-      const nhs = this.nextHandStart
+      const nhs = this.table?.nextHandStart
       if (!nhs) return null
-      else {
-        const diff = Math.floor(
-          (new Date(nhs).getTime() - new Date().getTime()) / 1000
-        )
-        if (diff <= 0) return null
-        return diff
-      }
+      const diff = Math.floor(
+        (new Date(nhs).getTime() - new Date().getTime()) / 1000
+      )
+      return diff > 0 ? diff : null
     },
     playerOpt() {
       const playerId = useAuthStore().playerId
-      if (!playerId) return null
-      return _get(this.table, `pokerPlayers.${playerId}.player`, null)
+      return playerId ? this.table?.pokerPlayers?.[playerId]?.player : null
     },
-
     playerIsMe: (state) => (playerId) => {
       return playerId === useAuthStore().playerId
     },
-    // returns amount needed to call
     canCall() {
-      return _get(this.table, "playerTurn.canCall", null)
+      return this.table?.playerTurn?.canCall ?? null
     },
     canBet() {
-      return _get(this.table, "playerTurn.canBet", null)
+      return this.table?.playerTurn?.canBet ?? null
     },
     canCheck() {
-      return _get(this.table, "playerTurn.canCheck", null)
+      return this.table?.playerTurn?.canCheck ?? null
     },
     canRaise() {
-      return _get(this.table, "playerTurn.canRaise", null)
+      return this.table?.playerTurn?.canRaise ?? null
     },
   },
   state: () => {

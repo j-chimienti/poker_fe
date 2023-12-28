@@ -1,29 +1,27 @@
 <template>
-<div class="max-bet flex justify-between">
-  <div style="text-transform: capitalize">current bet:</div>
-  <div>{{maxBet}}</div>
-</div>
+  <div class="max-bet flex justify-between">
+    <div style="text-transform: capitalize">current bet:</div>
+    <div v-if="maxBet">{{ maxBetFormatted }}</div>
+  </div>
 </template>
 
-<script>
-import {mapState} from "pinia";
-import {usePokerStore} from "stores/poker-store";
+<script setup>
+import { computed } from "vue"
+import { usePokerStore } from "stores/poker-store"
+import { formatToUSD } from "src/services/moneyUtils"
 
-export default {
-  name: "TableMaxBet",
-  computed: {
-    ...mapState(usePokerStore, ['maxBet'])
-  }
-}
+const store = usePokerStore()
+const maxBet = store.maxBet
+const maxBetFormatted = computed(() => formatToUSD(store.maxBet))
 </script>
 
 <style scoped>
 .max-bet {
-  background: #FFFFFF;
+  background: #ffffff;
   /* Cartoon Shadow */
   box-shadow: -3px 3px 0px 1px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
-  font-family: 'Mukta';
+  font-family: "Mukta";
   padding-top: 8px;
   padding-left: 11px;
   padding-right: 11px;
@@ -32,7 +30,6 @@ export default {
   font-size: 24px;
   line-height: 40px;
   /* Eucalyptus */
-  color: #248F5C;
-
+  color: #248f5c;
 }
 </style>

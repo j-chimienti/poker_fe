@@ -31,8 +31,7 @@
       <PokerTable />
     </div>
 
-    <div class="table-pot row flex-center">Pot: {{ pot }}</div>
-    <div class="row flex-center small q-my-sm">Hand: {{ hand }}</div>
+    <div class="table-pot row flex-center">Pot: {{ formattedPot }}</div>
     <div class="row flex-center small q-my-sm" v-if="countdown">
       next hand: {{ countdown }}s
     </div>
@@ -71,8 +70,8 @@ import { get as _get } from "lodash"
 export default {
   mixins: [ApiMixin, DialogMixin],
   computed: {
-    pot() {
-      return formatToUSD(this.table.pot)
+    formattedPot() {
+      return formatToUSD(this.pot)
     },
     ...mapState(usePokerStore, [
       "table",
@@ -89,13 +88,6 @@ export default {
     }
   },
   mounted() {
-    if (!this.table) {
-      const options = {
-        spinner: SplashScreen,
-        message: "Loading. Hang on...",
-      }
-      this.$q.loading.show(options)
-    }
     this.timer = setInterval(() => {
       const nhs = _get(this.table, "nextHandStart", null)
       if (!nhs) this.countdown = null
@@ -111,11 +103,7 @@ export default {
   beforeUnmount() {
     if (this.timer) clearInterval(this.timer)
   },
-  watch: {
-    table: function (n) {
-      if (n && this.$q.loading.isActive) this.$q.loading.hide()
-    },
-  },
+
   methods: {
     ...mapActions(usePokerStore, ["openChat"]),
     onLeave() {

@@ -62,12 +62,13 @@ export const useAuthStore = defineStore("auth", {
       return new Promise((resolve, reject) => {
         const url1 = new URL(wsUrl)
         if (sessionId) url1.searchParams.set("session", sessionId)
+        // not used
         if (tableId) url1.searchParams.set("tableId", tableId)
         const url = url1
-        console.log("open ws", url)
+        console.log("open ws", url.href)
         const ws = new WebSocket(url)
         ws.onopen = () => {
-          console.log("opened ws", url)
+          console.log("opened ws", url.href)
           this.websocket = ws
           return resolve(ws)
         }

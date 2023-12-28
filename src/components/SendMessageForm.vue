@@ -1,48 +1,56 @@
 <template>
-  <q-form @submit="sendMessage" class="chat-message-form">
-    <q-input v-model="msg" placeholder="Say something...">
+  <q-form @submit.prevent="sendMessage">
+    <q-input
+      v-model.lazy="msg"
+      borderless
+      :error="hasError"
+      placeholder="Say something..."
+    >
       <template v-slot:append>
-        <q-btn type="submit" label="send" @click="sendMessage"/>
+        <q-btn
+          type="submit"
+          icon="send"
+          flat
+          :disabled="hasError"
+          @click="sendMessage"
+        />
       </template>
     </q-input>
   </q-form>
 </template>
-<script>
-import {chatMessage} from "src/services/apiService";
-import RouterMixin from "src/mixins/RouterMixin.vue";
 
-export default {
-  name: 'SendMessageForm',
-  data() { return {msg: ''}},
-  mixins: [RouterMixin],
-  methods: {
-    sendMessage() {
-      if (this.msg) {
-        chatMessage(this.msg, this.tableId)
-        this.msg = ''
-      }
-    }
+<script setup>
+import { ref, computed, watch } from "vue"
+import { chatMessage } from "src/services/apiService"
+import { usePokerStore } from "stores/poker-store"
+import { Notify } from "quasar"
+
+const msg = ref("")
+const isDirty = ref(false) // Track if the user has interacted with the input
+let pokerStore = usePokerStore()
+const tableId = computed(() => pokerStore.room)
+
+const hasError = computed(() => {
+  return isDirty.value && (msg.value.length < 1 || msg.value.length > 240)
+})
+
+// Watch for changes in msg to set isDirty
+watch(msg, (newValue, oldValue) => {
+  if (oldValue === "" && newValue !== "") {
+    isDirty.value = true
   }
+})
+
+const sendMessage = () => {
+  isDirty.value = true // Set isDirty when trying to send the message
+  if (!hasError.value) {
+    chatMessage(msg.value, tableId.value)
+    msg.value = ""
+    isDirty.value = false // Reset isDirty after message is sent
+  } else Notify.create("invalid " + msg.value.length)
 }
 </script>
 
-<style>
-.chat-message-form {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  top: 576px;
-  bottom: 33px;
-  color: black !important;
-  background: #FFFFFF;
-  mix-blend-mode: normal;
-  padding-left: 15px;
-  /* Rangoon Green
-
-  Rangoon Green
-  */
-  border: 4px solid #141818;
-  border-radius: 8px;
-}
-
+<style scoped>
+/* Add your styles here */
 </style>
