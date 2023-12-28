@@ -18,6 +18,9 @@
         </div>
       </q-card-section>
       <q-card-section>
+        <ChangeName />
+      </q-card-section>
+      <q-card-section>
         <q-btn @click="onClick" class="login-btn" label="login"></q-btn>
       </q-card-section>
       <q-card-section>
@@ -31,6 +34,7 @@
 import { computed } from "vue"
 import { useUiStore } from "stores/ui-store"
 import { useAuthStore } from "stores/auth-store"
+import ChangeName from "components/ChangeName.vue"
 
 const uiStore = useUiStore()
 const authStore = useAuthStore()

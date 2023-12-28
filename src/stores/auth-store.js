@@ -35,10 +35,10 @@ export const useAuthStore = defineStore("auth", {
       return _get(this.playerAccount, "id", null)
     },
     email() {
-      return _get(this.playerAccount, "email", "N/A")
+      return _get(this.playerAccount, "email", null)
     },
     name() {
-      return _get(this.playerAccount, "name", "N/A")
+      return _get(this.playerAccount, "name", null)
     },
     sessionId() {
       return _get(this.playerAccount, "sessionId", null)
@@ -47,7 +47,7 @@ export const useAuthStore = defineStore("auth", {
       return _get(this.playerAccount, "picture", null)
     },
     avatar() {
-      return this.picture || "todo"
+      return this.picture
     },
     loading() {
       return this.playerAccount === null

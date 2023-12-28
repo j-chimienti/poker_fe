@@ -67,7 +67,7 @@ export function bet(id, amount) {
   })
 }
 
-export function change_name(name) {
+export function changeName(name) {
   return useAuthStore().sendWebsocketMessage({ WsChangeName: null, name })
 }
 
