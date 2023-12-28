@@ -9,16 +9,11 @@
     />
   </div>
 </template>
-<script>
-import { mapState } from "pinia"
+<script setup>
 import { usePokerStore } from "stores/poker-store"
+import { computed } from "vue"
 
-export default {
-  name: "MyCards",
-  computed: {
-    ...mapState(usePokerStore, ["myCards"]),
-  },
-}
+const myCards = computed(() => usePokerStore().myCards)
 </script>
 
 <style>

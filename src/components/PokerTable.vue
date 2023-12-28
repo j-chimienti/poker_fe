@@ -1,8 +1,8 @@
 <template>
   <div class="poker-table">
     <div style="position: relative; width: 100%; height: 100%">
-      <div v-if="table.round !== 'WAITING'" class="table-round">
-        {{ table.round }}
+      <div v-if="round !== rounds.WAITING" class="table-round">
+        {{ round }}
       </div>
       <div
         v-for="player in seats"
@@ -16,35 +16,20 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed } from "vue"
 import PokerHand from "./PokerHand.vue"
 import PokerPlayers from "components/PokerPlayers.vue"
 import PokerPlayerCards from "components/PokerPlayerCards.vue"
-import { mapState } from "pinia"
 import { usePokerStore } from "stores/poker-store"
-import MyCards from "components/MyCards.vue"
-import TableMaxBet from "components/TableMaxBet.vue"
+import { rounds } from "src/constants"
 
-export default {
-  name: "PokerTable",
-  computed: {
-    ...mapState(usePokerStore, [
-      "playerTurnId",
-      "pokerPlayers",
-      "table",
-      "playerTurn",
-      "seats",
-      "playerIsMe",
-    ]),
-  },
-  components: {
-    TableMaxBet,
-    MyCards,
-    PokerPlayers,
-    PokerPlayerCards,
-    PokerHand,
-  },
-}
+const pokerStore = usePokerStore()
+const round = computed(() => pokerStore.round)
+const pokerPlayers = computed(() => pokerStore.pokerPlayers)
+const table = computed(() => pokerStore.table)
+const playerTurn = computed(() => pokerStore.playerTurn)
+const seats = computed(() => pokerStore.seats)
 </script>
 
 <style scoped>

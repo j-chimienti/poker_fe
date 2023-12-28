@@ -1,21 +1,11 @@
 <template>
-  <q-btn
-    push
-    dense
-    data-cy="logoutBtn"
-    @click="logout"
-    icon="logout"
-  >
-  </q-btn>
+  <q-btn push dense data-cy="logoutBtn" @click="logout" icon="logout" />
 </template>
 
-<script>
-import StoreMixin from "../../mixins/StoreMixin.vue"
+<script setup>
+import { useAuthStore } from "stores/auth-store"
 
-export default {
-  name: "LogoutBtn",
-  mixins: [StoreMixin],
-}
+const logout = useAuthStore().logout()
 </script>
 
 <style scoped></style>

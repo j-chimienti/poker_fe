@@ -1,20 +1,20 @@
 <template>
-<q-dialog v-model="loginModalVisible" persistent full-height full-width>
-<LoginForm/>
-</q-dialog>
+  <q-dialog v-model="loginModalVisible">
+    <LoginForm />
+  </q-dialog>
 </template>
 
-<script>
-import DialogMixin from "src/mixins/DialogMixin.vue";
-import LoginForm from "components/auth/LoginForm.vue";
+<script setup>
+import LoginForm from "components/auth/LoginForm.vue"
+import { computed } from "vue"
+import { useUiStore } from "stores/ui-store"
 
-export default {
-  name: "LoginModal",
-  components: {LoginForm},
-  mixins: [DialogMixin]
-}
+const uiStore = useUiStore()
+
+const loginModalVisible = computed({
+  get: () => uiStore.loginModalVisible,
+  set: (value) => (uiStore.loginModalVisible = value),
+})
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

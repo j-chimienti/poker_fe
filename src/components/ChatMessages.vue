@@ -40,7 +40,6 @@ import { get } from "lodash"
 const props = defineProps({
   tableId: {
     type: String,
-    required: true,
   },
 })
 

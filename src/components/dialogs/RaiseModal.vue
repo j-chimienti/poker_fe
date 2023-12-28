@@ -64,11 +64,7 @@
               label="raise"
               color="secondary"
             />
-            <q-btn
-              label="cancel"
-              @click="raiseModal = false"
-              color="secondary"
-            />
+            <q-btn label="cancel" @click="closeModal" color="secondary" />
           </div>
         </q-form>
       </q-card-section>
@@ -76,58 +72,59 @@
   </q-dialog>
 </template>
 
-<script>
-import { raise } from "src/services/apiService"
-import { mapState } from "pinia"
+<script setup>
+import { ref, computed, watch } from "vue"
 import { usePokerStore } from "stores/poker-store"
-import DialogMixin from "src/mixins/DialogMixin.vue"
+import { useUiStore } from "stores/ui-store"
+import { raise } from "src/services/apiService"
 
-export default {
-  name: "RaiseModal",
-  mixins: [DialogMixin],
-  data() {
-    return { raiseAmountForm: this.canRaise || -1 }
-  },
-  computed: {
-    ...mapState(usePokerStore, [
-      "canRaise",
-      "tableId",
-      "balance",
-      "smallBlindBetAmount",
-    ]),
-  },
-  methods: {
-    decrement() {
-      const j = this.canRaise || this.smallBlindBetAmount
-      if (j < this.raiseAmountForm) this.raiseAmountForm -= 10
-    },
-    increment() {
-      this.raiseAmountForm += 10
-    },
-    onButtonClick(amount) {
-      if (amount === "all-in") {
-        this.raiseAmountForm = this.balance
-      } else {
-        this.raiseAmountForm = amount
-      }
-      this.onRaise()
-    },
-    onRaise() {
-      raise(this.tableId, this.raiseAmountForm)
-      this.raiseModal = false
-    },
-    validateMinRaise(a) {
-      const j = this.canRaise || this.smallBlindBetAmount
-      return j < a
-    },
-  },
-  watch: {
-    canRaise: function (n, o) {
-      if (n) {
-        this.raiseAmountForm = n
-      }
-    },
-  },
+const pokerStore = usePokerStore()
+const uiStore = useUiStore()
+
+const raiseModal = computed({
+  get: () => uiStore.raiseModal,
+  set: (value) => (uiStore.raiseModal = value),
+})
+const closeModal = uiStore.toggleModal("raiseModal", false)
+const canRaise = computed(() => pokerStore.canRaise)
+const tableId = computed(() => pokerStore.tableId)
+const balance = computed(() => pokerStore.balance)
+const smallBlindBetAmount = computed(() => pokerStore.smallBlindBetAmount)
+
+const raiseAmountForm = ref(canRaise.value || -1)
+
+watch(canRaise, (newValue) => {
+  raiseAmountForm.value = newValue || -1
+})
+
+const decrement = () => {
+  const minRaise = canRaise.value || smallBlindBetAmount.value
+  if (minRaise < raiseAmountForm.value) {
+    raiseAmountForm.value -= 10
+  }
+}
+
+const increment = () => {
+  raiseAmountForm.value += 10
+}
+
+const onButtonClick = (amount) => {
+  if (amount === "all-in") {
+    raiseAmountForm.value = balance.value
+  } else {
+    raiseAmountForm.value = amount
+  }
+  onRaise()
+}
+
+const onRaise = () => {
+  raise(tableId.value, raiseAmountForm.value)
+  raiseModal.value = false
+}
+
+const validateMinRaise = (amount) => {
+  const minRaise = canRaise.value || smallBlindBetAmount.value
+  return minRaise < amount
 }
 </script>
 

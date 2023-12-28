@@ -59,7 +59,7 @@
               color="secondary"
               class="q-mb-sm"
             />
-            <q-btn label="cancel" @click="betModal = false" color="secondary" />
+            <q-btn label="cancel" @click="closeModal" color="secondary" />
           </div>
         </q-form>
       </q-card-section>
@@ -67,46 +67,50 @@
   </q-dialog>
 </template>
 
-<script>
-import { mapState } from "pinia"
+<script setup>
+import { ref, watch, computed } from "vue"
 import { usePokerStore } from "stores/poker-store"
 import { useUiStore } from "stores/ui-store"
-import DialogMixin from "src/mixins/DialogMixin.vue"
 
-export default {
-  name: "BetModal",
-  mixins: [DialogMixin],
-  data() {
-    const minRaise = this.canBet || this.bigBlindBetAmount
-    return { betAmount: minRaise }
-  },
-  computed: {
-    ...mapState(usePokerStore, [
-      "table",
-      "canBet",
-      "bigBlindBetAmount",
-      "balance",
-    ]),
-  },
-  methods: {
-    onButtonClick(amount) {
-      if (amount === "all-in") {
-        this.betAmount = this.balance
-      } else {
-        this.betAmount = amount
-      }
-      this.onBet()
-    },
-    onBet() {
-      useUiStore().sendBet(this.table, this.betAmount)
-    },
-  },
-  watch: {
-    canBet: function (n, o) {
-      this.betAmount = n
-    },
-  },
+const pokerStore = usePokerStore()
+const uiStore = useUiStore()
+
+const betAmount = ref(0)
+
+// Computed properties
+const canBet = computed(() => pokerStore.canBet)
+const bigBlindBetAmount = computed(() => pokerStore.bigBlindBetAmount)
+const balance = computed(() => pokerStore.balance)
+const table = computed(() => pokerStore.table)
+
+// Initialize betAmount with the minimum raise or big blind bet amount
+const initBetAmount = () => {
+  betAmount.value = canBet.value || bigBlindBetAmount.value
 }
+watch(canBet, initBetAmount)
+
+const closeModal = uiStore.toggleModal("betModal", false)
+
+const betModal = computed({
+  get: () => uiStore.betModal,
+  set: (value) => (uiStore.betModal = value),
+})
+
+const onButtonClick = (amount) => {
+  if (amount === "all-in") {
+    betAmount.value = balance.value
+  } else {
+    betAmount.value = amount
+  }
+  onBet()
+}
+
+const onBet = () => {
+  uiStore.sendBet(table.value, betAmount.value)
+}
+
+// Initial setup
+initBetAmount()
 </script>
 
 <style scoped>

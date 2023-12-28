@@ -4,7 +4,7 @@
       <q-img src="../../assets/close.png" class="close-dialog-btn" />
       <div class="player-action-title row justify-center">call the bet</div>
       <div class="player-action-text text-center">
-        calling the bet will put {{ canCall }} into the pot
+        calling the bet will put {{ formatToUSD(canCall) }} into the pot
       </div>
       <div class="row justify-center q-my-sm">
         <q-btn
@@ -24,24 +24,26 @@
   </q-dialog>
 </template>
 
-<script>
-import { mapState } from "pinia"
+<script setup>
+import { computed } from "vue"
 import { usePokerStore } from "stores/poker-store"
-import DialogMixin from "src/mixins/DialogMixin.vue"
+import { useUiStore } from "stores/ui-store"
 import * as apiService from "src/services/apiService"
+import { formatToUSD } from "src/services/moneyUtils"
 
-export default {
-  name: "CallModal",
-  mixins: [DialogMixin],
-  methods: {
-    onCall() {
-      apiService.call(this.tableId)
-      this.callModal = false
-    },
-  },
-  computed: {
-    ...mapState(usePokerStore, ["tableId", "canCall"]),
-  },
+const pokerStore = usePokerStore()
+const uiStore = useUiStore()
+const dontAskCall = computed(() => uiStore.dontAskCall)
+const callModal = computed({
+  get: () => uiStore.callModal,
+  set: (value) => (uiStore.callModal = value),
+})
+const tableId = computed(() => pokerStore.tableId)
+const canCall = computed(() => pokerStore.canCall)
+
+const onCall = () => {
+  apiService.call(tableId.value)
+  uiStore.toggleModal("callModal", false)
 }
 </script>
 

@@ -15,24 +15,25 @@
       <img
         class="cursor-pointer"
         src="../assets/account.png"
-        @click="accountModalVisible = true"
+        @click="openAccountModal"
       />
     </div>
   </div>
+  <AccountInfoModal />
 </template>
-<script>
-import StoreMixin from "../mixins/StoreMixin.vue"
-import { mapActions } from "pinia"
+<script setup>
+import { useUiStore } from "stores/ui-store"
 import { usePokerStore } from "stores/poker-store"
+import { computed } from "vue"
+import AccountInfoModal from "components/dialogs/AccountInfoModal.vue"
 
-export default {
-  name: "NavBar",
-  computed: {},
-  mixins: [StoreMixin],
-  methods: {
-    ...mapActions(usePokerStore, ["openChat"]),
-  },
-}
+const uiStore = useUiStore()
+
+const openChat = () => usePokerStore().openChat()
+
+const openAccountModal = () => uiStore.toggleModal("accountModalVisible", true)
+
+const accountModalVisible = computed(() => uiStore.accountModalVisible)
 </script>
 
 <style>

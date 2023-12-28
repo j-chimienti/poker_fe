@@ -21,59 +21,52 @@
   </TransitionGroup>
 </template>
 
-<script>
-import PlayingCard from "./PlayingCard.vue"
+<script setup>
+import { computed } from "vue"
 import { usePokerStore } from "stores/poker-store"
-import { mapState } from "pinia"
 import { range } from "lodash"
+import gsap from "gsap"
 
-export default {
-  name: "PokerHand",
-  computed: {
-    ...mapState(usePokerStore, ["cards"]),
-    cardsAndHoles() {
-      const r = range(0, 5)
-      return r.map((idx) => {
-        let card = null
-        try {
-          card = this.cards.length >= idx ? this.cards[idx] : null
-        } catch (e) {
-          alert("bad idx " + idx)
-        }
-        return {
-          card,
-          idx,
-        }
-      })
-    },
-  },
-  components: { PlayingCard },
-  methods: {
-    beforeEnter(el) {
-      el.style.opacity = 0
-      el.style.transform = "translate(-100px, -100px)"
-    },
-    onEnter(el, done) {
-      const delay = this.cards.length > 3 ? 0 : el.dataset.index * 1
-      this.$gsap.to(el, {
-        y: 0,
-        x: 0,
-        opacity: 1,
-        delay,
-        duration: 0.8,
-        onComplete: done,
-      })
-    },
-    onLeave(el, done) {
-      this.$gsap.to(el, {
-        y: "-100px",
-        opacity: 0,
-        duration: 0.8,
-        delay: 0,
-        onComplete: done,
-      })
-    },
-  },
+const pokerStore = usePokerStore()
+const cards = computed(() => pokerStore.cards)
+
+const cardsAndHoles = computed(() => {
+  return range(0, 5).map((idx) => {
+    let card = null
+    try {
+      card = cards.value.length > idx ? cards.value[idx] : null
+    } catch (e) {
+      console.error("bad idx " + idx)
+    }
+    return { card, idx }
+  })
+})
+
+const beforeEnter = (el) => {
+  el.style.opacity = 0
+  el.style.transform = "translate(-100px, -100px)"
+}
+
+const onEnter = (el, done) => {
+  const delay = cards.value.length > 3 ? 0 : el.dataset.index * 1
+  gsap.to(el, {
+    y: 0,
+    x: 0,
+    opacity: 1,
+    delay,
+    duration: 0.8,
+    onComplete: done,
+  })
+}
+
+const onLeave = (el, done) => {
+  gsap.to(el, {
+    y: "-100px",
+    opacity: 0,
+    duration: 0.8,
+    delay: 0,
+    onComplete: done,
+  })
 }
 </script>
 

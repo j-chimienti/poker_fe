@@ -26,43 +26,31 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { usePokerStore } from "stores/poker-store"
-import { mapState } from "pinia"
 import { formatToUSD } from "src/services/moneyUtils"
 import NavBar from "components/NavBar.vue"
 import ChatMessages from "components/ChatMessages.vue"
+import { useRouter } from "vue-router"
+import { computed } from "vue"
 
-export default {
-  components: { ChatMessages, NavBar },
-  methods: {
-    joinTable(id) {
-      return this.$router.push({ name: "table", params: { id } })
-    },
-  },
-  computed: {
-    ...mapState(usePokerStore, ["tables"]),
-    rows() {
-      // todo: avg pot
-      return this.tables.map((t) => {
-        const playersCount = Object.keys(t.pokerPlayers).length
-        const stakes = `${formatToUSD(t.config.bet.min)} / ${formatToUSD(
-          t.config.bet.min * 2
-        )}`
-        const players = `${t.config.players.min} / ${t.config.players.max}`
-        return Object.assign({}, t, { stakes, players, playersCount })
-      })
-    },
-    columns() {
-      return [
-        { name: "name", field: "name", label: "Name" },
-        { name: "stakes", field: "stakes", label: "Stakes" },
-        { name: "players", field: "players", label: "Players" },
-      ]
-    },
-  },
-  mounted() {},
-  unmounted() {},
+const pokerStore = usePokerStore()
+const router = useRouter()
+
+const tables = computed(() => pokerStore.tables)
+const rows = computed(() =>
+  tables.value.map((table) => ({
+    ...table,
+    playersCount: Object.keys(table.pokerPlayers).length,
+    stakes: `${formatToUSD(table.config.bet.min)} / ${formatToUSD(
+      table.config.bet.min * 2
+    )}`,
+    players: `${table.config.players.min} / ${table.config.players.max}`,
+  }))
+)
+
+const joinTable = (id) => {
+  router.push({ name: "table", params: { id } })
 }
 </script>
 

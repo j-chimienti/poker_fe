@@ -14,129 +14,102 @@
       <q-btn
         label="join"
         class="join-btn"
-        @click="joinTable(table.id, player.position)"
+        @click="joinTable(tableId, player.position)"
       />
     </div>
     <q-img v-else src="../assets/logo-icon-dark.png" width="50px" />
   </div>
 </template>
-<script>
-import { mapState } from "pinia"
+<script setup>
+import { computed, onMounted, ref } from "vue"
 import { usePokerStore } from "stores/poker-store"
 import { useAuthStore } from "stores/auth-store"
 import { secondsUntil } from "src/services/dateService"
-import TweenedNumber from "components/TweenedNumber.vue"
 import { displayName } from "src/services/playerService"
-import { change_name } from "src/services/apiService"
 import { getAvatar } from "src/services/avatarService"
-import ApiMixin from "src/mixins/ApiMixin.vue"
-import RouterMixin from "src/mixins/RouterMixin.vue"
-import PokerPlayerCards from "components/PokerPlayerCards.vue"
 import { playerStates, rounds } from "src/constants"
+import { get } from "lodash"
+import { joinTable } from "src/services/apiService"
 
-export default {
-  name: "PokerPlayer",
-  mixins: [RouterMixin, ApiMixin],
-  components: { PokerPlayerCards, TweenedNumber },
-  data() {
-    return { showing: false, countdownBetTimeoutText: "" }
+const props = defineProps({
+  player: {
+    type: Object,
+    required: true,
   },
-  mounted() {
-    setInterval(this.checkIf, 1000)
-  },
-  methods: {
-    getStyle(i) {
-      return i === 1 ? "margin-left: -50px" : ""
-    },
+})
 
-    checkIf() {
-      const until =
-        this.table && this.table.betTimeout
-          ? secondsUntil(this.table.betTimeout)
-          : 0
-      this.countdownBetTimeoutText = until <= 0 ? "" : until
-    },
-  },
-  computed: {
-    isWaitingForNextRound() {
-      return (
-        this.round !== rounds.PRE_FLOP &&
-        this.player.state === playerStates.SITTING
-      )
-    },
-    getKlass() {
-      const arr = [
-        "player-avatar",
-        "object" + this.player.position,
-        "row",
-        "flex-center",
-      ]
-      if (this.isActive) return arr.concat(["active"])
-      // tooo: disable look
-      else if (this.isWaitingForNextRound) arr.push("disabled")
-      return arr
-    },
-    isActive() {
-      const pid = this.$get(this.player, "playerAccountId", null)
-      return pid === this.playerTurnId
-    },
-    countdownText() {
-      return this.countdownBetTimeoutText
-        ? `... ${this.countdownBetTimeoutText}s`
-        : "..."
-    },
-    name() {
-      return displayName(this.player)
-    },
-    img() {
-      return getAvatar(this.player)
-    },
+const pokerStore = usePokerStore()
+const authStore = useAuthStore()
 
-    playerIsMe() {
-      return this.player.playerAccountId === this.playerId
-    },
-    isMyTurn() {
-      return this.player.playerAccountId === this.playerTurnId
-    },
-    getBlindText() {
-      if (this.round === rounds.PRE_FLOP) {
-        const bbO = this.bigBlindPlayerOpt
-        const sbO = this.smallBlindPlayerOpt
-        if (bbO && bbO.player.playerAccountId === this.player.playerAccountId)
-          return "BB"
-        else if (
-          sbO &&
-          sbO.player.playerAccountId === this.player.playerAccountId
-        )
-          return "SB"
-        else return null
-      } else return null
-    },
-    getText() {
-      return this.player.state
-    },
+const countdownBetTimeoutText = ref("")
 
-    ...mapState(usePokerStore, [
-      "joinedTable",
-      "pokerPlayers",
-      "bigBlindPlayerOpt",
-      "smallBlindPlayerOpt",
-      "round",
-      "table",
-      "playerTurn",
-      "playerTurnId",
-    ]),
-    ...mapState(useAuthStore, ["playerId"]),
-  },
+const joinedTable = computed(() => pokerStore.joinedTable)
+const tableId = computed(() => pokerStore.tableId)
 
-  props: {
-    player: {
-      type: Object,
-      required: true,
-    },
-  },
-}
+onMounted(() => {
+  setInterval(() => {
+    const until =
+      pokerStore.table && pokerStore.table.betTimeout
+        ? secondsUntil(pokerStore.table.betTimeout)
+        : 0
+    countdownBetTimeoutText.value = until <= 0 ? "" : until
+  }, 1000)
+})
+
+const getKlass = computed(() => {
+  const arr = [
+    "player-avatar",
+    "object" + props.player.position,
+    "row",
+    "flex-center",
+  ]
+  if (isActive.value) return arr.concat(["active"])
+  else if (isWaitingForNextRound.value) arr.push("disabled")
+  return arr
+})
+
+const isActive = computed(() => {
+  const pid = get(props.player, "playerAccountId", null)
+  return pid === pokerStore.playerTurnId
+})
+
+const isWaitingForNextRound = computed(() => {
+  return (
+    pokerStore.round !== rounds.PRE_FLOP &&
+    props.player.state === playerStates.SITTING
+  )
+})
+
+const countdownText = computed(() =>
+  countdownBetTimeoutText.value
+    ? `... ${countdownBetTimeoutText.value}s`
+    : "..."
+)
+
+const name = computed(() => displayName(props.player))
+const img = computed(() => getAvatar(props.player))
+const playerIsMe = computed(
+  () => props.player.playerAccountId === authStore.playerId
+)
+const isMyTurn = computed(
+  () => props.player.playerAccountId === pokerStore.playerTurnId
+)
+
+const getBlindText = computed(() => {
+  if (pokerStore.round === rounds.PRE_FLOP) {
+    const bbO = pokerStore.bigBlindPlayerOpt
+    const sbO = pokerStore.smallBlindPlayerOpt
+    if (bbO && bbO.player.playerAccountId === props.player.playerAccountId)
+      return "BB"
+    else if (sbO && sbO.player.playerAccountId === props.player.playerAccountId)
+      return "SB"
+    else return null
+  } else return null
+})
+
+const getText = computed(() => props.player.state)
 </script>
+
 <style lang="scss">
 .player-avatar {
   background-image: url(src/assets/join-disk.png);

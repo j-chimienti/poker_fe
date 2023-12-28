@@ -1,6 +1,5 @@
 <template>
   <div>
-    <TestData />
     <LoginModal />
     <AccountInfoModal />
     <div hidden>
@@ -15,20 +14,8 @@
   </div>
 </template>
 
-<script>
-import { defineComponent } from "vue"
+<script setup>
 import { cardImages } from "./services/cardImageService.js"
-import TestData from "components/TestData.vue"
 import LoginModal from "components/auth/LoginModal.vue"
-import AccountInfoModal from "components/auth/AccountInfoModal.vue"
-import DialogMixin from "src/mixins/DialogMixin.vue"
-
-export default defineComponent({
-  name: "App",
-  mixins: [DialogMixin],
-  components: { AccountInfoModal, LoginModal, TestData },
-  data() {
-    return { cardImages }
-  },
-})
+import AccountInfoModal from "components/dialogs/AccountInfoModal.vue"
 </script>

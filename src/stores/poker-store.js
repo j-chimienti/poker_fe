@@ -94,7 +94,7 @@ export const usePokerStore = defineStore("poker", {
     },
 
     pot() {
-      return this.table?.pot ?? null
+      return this.table?.pot ?? 0
     },
     tableId() {
       return this.table?.id ?? null

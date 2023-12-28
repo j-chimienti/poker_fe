@@ -9,22 +9,21 @@
   </div>
 </template>
 
-<script>
-import StoreMixin from "../../mixins/StoreMixin.vue"
-import { authorize } from "../../services/apiService"
+<script setup>
+import { useQuasar } from "quasar"
+import { authorize } from "src/services/apiService"
 
-export default {
-  name: "SocialAuth",
-  mixins: [StoreMixin],
-  methods: {
-    onSubmit(provider) {
-      authorize().catch(() => {
-        this.$q.notify({
-          message: "Error logging in",
-        })
-      })
-    },
-  },
+const $q = useQuasar()
+
+const onSubmit = async (provider) => {
+  try {
+    await authorize()
+    // Additional logic after successful authorization
+  } catch (error) {
+    $q.notify({
+      message: "Error logging in",
+    })
+  }
 }
 </script>
 

@@ -4,17 +4,13 @@
   </div>
 </template>
 
-<script>
-import { mapState } from "pinia"
+<script setup>
+import { computed } from "vue"
 import { usePokerStore } from "stores/poker-store"
 import PokerPlayer from "components/PokerPlayer.vue"
 
-export default {
-  name: "PokerPlayers",
-  components: { PokerPlayer },
-  computed: {
-    ...mapState(usePokerStore, ["seats"]),
-  },
-}
+const pokerStore = usePokerStore()
+const seats = computed(() => pokerStore.seats)
 </script>
+
 <style lang="scss"></style>

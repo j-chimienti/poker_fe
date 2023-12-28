@@ -15,7 +15,7 @@
             color="secondary"
             class="q-mb-sm"
           />
-          <q-btn label="cancel" @click="foldModal = false" color="secondary" />
+          <q-btn label="cancel" @click="closeFoldModal" color="secondary" />
         </div>
       </q-card-section>
       <q-card-section>
@@ -27,28 +27,32 @@
   </q-dialog>
 </template>
 
-<script>
-import { mapState } from "pinia"
+<script setup>
+import { computed } from "vue"
 import { usePokerStore } from "stores/poker-store"
-import DialogMixin from "src/mixins/DialogMixin.vue"
-import ApiMixin from "src/mixins/ApiMixin.vue"
+import { useUiStore } from "stores/ui-store"
+import { fold } from "src/services/apiService"
 
-export default {
-  name: "FoldModal",
-  mixins: [DialogMixin, ApiMixin],
-  methods: {
-    onFold() {
-      if (!this.tableId) {
-        alert("cannot fold, missing table")
-      } else {
-        this.fold(this.tableId)
-        this.foldModal = false
-      }
-    },
-  },
-  computed: {
-    ...mapState(usePokerStore, ["tableId"]),
-  },
+const pokerStore = usePokerStore()
+const uiStore = useUiStore()
+const foldModal = computed({
+  get: () => uiStore.foldModal,
+  set: (value) => (uiStore.foldModal = value),
+})
+const tableId = computed(() => pokerStore.tableId)
+const dontAskFold = computed(() => uiStore.dontAskFold)
+
+function closeFoldModal() {
+  uiStore.toggleModal("foldModal", false)
+}
+
+const onFold = () => {
+  if (!tableId.value) {
+    alert("cannot fold, missing table")
+  } else {
+    fold(tableId.value)
+    closeFoldModal()
+  }
 }
 </script>
 

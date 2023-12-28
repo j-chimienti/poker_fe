@@ -1,5 +1,5 @@
 <template>
-  <div class="row flex-center player-actions" v-if="showButtons">
+  <div class="row flex-center player-actions" v-if="myTurn">
     <q-btn
       class="player-buttons"
       v-if="canRaise"
@@ -30,7 +30,7 @@
       :disabled="!myTurn"
       @click="onCall(table.id)"
       color="secondary"
-      :label="getCallLabel"
+      label="call"
     />
     <q-btn
       class="player-buttons"
@@ -41,46 +41,29 @@
     />
   </div>
 </template>
-<script>
-import { mapActions, mapState } from "pinia"
+
+<script setup>
 import { usePokerStore } from "stores/poker-store"
 import { useUiStore } from "stores/ui-store"
-import { rounds } from "src/constants"
+import { computed } from "vue"
 
-export default {
-  name: "PlayerPokerButtons",
-  methods: {
-    ...mapActions(useUiStore, [
-      "onCall",
-      "onFold",
-      "onCheck",
-      "onRaise",
-      "onBet",
-    ]),
-  },
-  computed: {
-    showButtons() {
-      return this.myTurn
-    },
-    getCallLabel() {
-      return `call ${this.canCall}`
-    },
-    ...mapState(usePokerStore, [
-      "table",
-      "round",
-      "playerOpt",
-      "myTurn",
-      "chatVisible",
-      "playerTurn",
-      "canCheck",
-      "canCall",
-      "canRaise",
-      "myCards",
-      "canBet",
-    ]),
-  },
-}
+const pokerStore = usePokerStore()
+const uiStore = useUiStore()
+
+const table = computed(() => pokerStore.table)
+const myTurn = computed(() => pokerStore.myTurn)
+const canCheck = computed(() => pokerStore.canCheck)
+const canCall = computed(() => pokerStore.canCall)
+const canRaise = computed(() => pokerStore.canRaise)
+const canBet = computed(() => pokerStore.canBet)
+
+const onCall = uiStore.onCall
+const onFold = uiStore.onFold
+const onCheck = uiStore.onCheck
+const onRaise = uiStore.onRaise
+const onBet = uiStore.onBet
 </script>
+
 <style>
 .player-actions {
   position: fixed;

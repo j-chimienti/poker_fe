@@ -14,31 +14,22 @@
     </div>
   </div>
 </template>
-<script>
+<script setup>
+import { computed } from "vue"
 import { get } from "lodash"
 
-export default {
-  name: "PokerPlayerCards",
+const props = defineProps({
+  player: Object,
+})
 
-  methods: {
-    getStyle(i) {
-      return i === 1 ? "right-child" : "left-child"
-    },
-  },
-  computed: {
-    showCards() {
-      return get(this.player, "showCards", [])
-    },
-    cards() {
-      return get(this.player, "cards", [])
-    },
-  },
+const showCards = computed(() => get(props.player, "showCards", []))
+const cards = computed(() => get(props.player, "cards", []))
 
-  props: {
-    player: {},
-  },
+const getStyle = (i) => {
+  return i === 1 ? "right-child" : "left-child"
 }
 </script>
+
 <style>
 .left-child {
   position: absolute;

@@ -1,53 +1,50 @@
 <template>
-      <span v-if="balance !== null" :class="balanceKlass">{{balanceDisplay.toLocaleString()}}</span>
+  <span v-if="balance !== null" :class="balanceKlass">{{
+    balanceDisplay.toLocaleString()
+  }}</span>
 </template>
 
-<script>
+<script setup>
+import { ref, watch, onMounted } from "vue"
 import gsap from "gsap"
-export default {
-  name: "TweenedNumber",
-  props: {
-    balance: {
-      type: Number,
-    }
-  },
-  mounted() {
-    this.balanceDisplay = this.balance || 0
-  },
-  data() {
-    return {
-      balanceDisplay: this.balance || 0,
-      balanceKlass: null,
-    }
-  },
-  methods: {
-    tweenNumber(old, newValue) {
-      if (old === newValue) return null
-      else {
-        if (old === null) old = 0
-        const counter = { var: old }
-        const klass = newValue > old ? "text-green" : "text-red"
-        this.balanceKlass = klass
-        this.balanceDisplay = newValue
 
-        gsap.to(counter, 2, {
-          var: parseInt(newValue),
-          onUpdate: () => {
-            this.balanceDisplay = parseInt(counter.var)
-          },
-          onComplete: () => {
-            this.balanceKlass = null
-          },
-        })
-      }
-    },
+const props = defineProps({
+  balance: {
+    type: Number,
+    default: 0,
   },
-  watch: {
-    balance: function (newValue, oldValue) {
-      this.tweenNumber(oldValue, newValue)
+})
+
+const balanceDisplay = ref(props.balance)
+const balanceKlass = ref(null)
+
+const tweenNumber = (old, newValue) => {
+  if (old === newValue) return
+  if (old === null) old = 0
+  const counter = { var: old }
+  balanceKlass.value = newValue > old ? "text-green" : "text-red"
+
+  gsap.to(counter, 2, {
+    var: parseInt(newValue),
+    onUpdate: () => {
+      balanceDisplay.value = parseInt(counter.var)
     },
-  },
+    onComplete: () => {
+      balanceKlass.value = null
+    },
+  })
 }
+
+watch(
+  () => props.balance,
+  (newValue, oldValue) => {
+    tweenNumber(oldValue, newValue)
+  }
+)
+
+onMounted(() => {
+  balanceDisplay.value = props.balance
+})
 </script>
 
 <style scoped></style>

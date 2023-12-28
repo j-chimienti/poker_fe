@@ -19,9 +19,17 @@ export const useUiStore = defineStore("ui", {
     dismissYourTurnNotification: null,
   }),
   actions: {
+    openLoginModal() {
+      return this.toggleModal("loginModalVisible", true)
+    },
+    toggleModal(modalName, value) {
+      if (this[modalName] !== undefined) {
+        this[modalName] = value
+      }
+    },
     onCall(tableId) {
       if (this.dontAskCall) return call(tableId)
-      else this.callModal = true
+      else this.toggleModal("callModal", true)
     },
     onCheck(tableId) {
       check(tableId)
@@ -53,7 +61,7 @@ export const useUiStore = defineStore("ui", {
         return
       }
       apiService.bet(table.id, bet)
-      this.betModal = false
+      this.toggleModal("betModal", true)
     },
   },
 })

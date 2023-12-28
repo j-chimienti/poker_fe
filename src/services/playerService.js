@@ -5,11 +5,3 @@ export function displayName({ name = "", position }) {
   if (n.toLowerCase().includes("session")) return `player ${position}`
   return n
 }
-
-export function canPlaceBet(player) {
-  return (
-    player &&
-    player.state &&
-    ![status.FOLDED, status.SITTING, status.LEAVING].includes(player.state)
-  )
-}
