@@ -8,20 +8,13 @@ const routes = [
         name: "home",
         component: () => import("components/TexasHoldEmLobby.vue"),
       },
-    ],
-  },
-  {
-    path: "/table/:id",
-    component: () => import("layouts/HomeLayout.vue"),
-    children: [
       {
+        path: "table/:id",
         name: "table",
-        path: "",
         component: () => import("pages/PokerGamePage.vue"),
       },
     ],
   },
-
   // Always leave this as last one,
   // but you can also remove it
   {
