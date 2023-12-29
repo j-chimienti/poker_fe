@@ -11,6 +11,7 @@
     "build:ios": "quasar build -m capacitor -T ios --ide",
     "run:ios": "quasar dev -m capacitor -T ios",
     "lint": "eslint --ext .js,.vue ./",
+    "lint:fix": "eslint --ext .js,.vue src --fix",
     "cypress": "CYPRESS_BASE_URL=http://localhost:8080 cypress open",
     "cypress:run": "CYPRESS_BASE_URL=http://localhost:8080 cypress run --spec test/cypress/e2e/blackjack",
     "cypress:prod": "CYPRESS_BASE_URL=https://bjack.space cypress run --spec test/cypress/e2e/blackjack",

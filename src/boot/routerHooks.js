@@ -1,11 +1,11 @@
-import { useAuthStore } from "stores/auth-store"
-import { Dialog, Loading, Notify } from "quasar"
-import { boot } from "quasar/wrappers"
-import { getSessionId } from "src/services/localStorageService"
-import { navigateToLobby, navigateToTable } from "src/services/apiService"
-import { usePokerStore } from "stores/poker-store"
+import {useAuthStore} from "src/auth/auth-store"
+import {Dialog, Loading, Notify} from "quasar"
+import {boot} from "quasar/wrappers"
+import {getSessionId} from "src/services/localStorageService"
+import {navigateToLobby, navigateToTable} from "src/services/apiService"
+import {usePokerStore} from "stores/poker-store"
 import SplashScreen from "components/SplashScreen.vue"
-import { pages } from "src/constants"
+import {pages} from "src/constants"
 
 export function confirmRefreshPage() {
   Dialog.create({

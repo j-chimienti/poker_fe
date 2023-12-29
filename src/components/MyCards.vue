@@ -10,8 +10,8 @@
   </div>
 </template>
 <script setup>
-import { usePokerStore } from "stores/poker-store"
-import { computed } from "vue"
+import {usePokerStore} from "stores/poker-store"
+import {computed} from "vue"
 
 const myCards = computed(() => usePokerStore().myCards)
 </script>

@@ -22,9 +22,9 @@
 </template>
 
 <script setup>
-import { computed } from "vue"
-import { usePokerStore } from "stores/poker-store"
-import { range } from "lodash"
+import {computed} from "vue"
+import {usePokerStore} from "stores/poker-store"
+import {range} from "lodash"
 import gsap from "gsap"
 
 const pokerStore = usePokerStore()

@@ -20,10 +20,10 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue"
-import { chatMessage } from "src/services/apiService"
-import { usePokerStore } from "stores/poker-store"
-import { Notify } from "quasar"
+import {computed, ref, watch} from "vue"
+import {chatMessage} from "src/services/apiService"
+import {usePokerStore} from "stores/poker-store"
+import {Notify} from "quasar"
 
 const msg = ref("")
 const isDirty = ref(false) // Track if the user has interacted with the input

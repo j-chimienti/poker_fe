@@ -71,10 +71,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import {ref} from "vue"
 import SocialAuth from "./SocialAuth.vue"
-import { useQuasar } from "quasar"
-import { useAuthStore } from "stores/auth-store"
+import {useQuasar} from "quasar"
+import {useAuthStore} from "src/auth/auth-store"
 
 const $q = useQuasar()
 

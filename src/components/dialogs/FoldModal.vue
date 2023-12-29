@@ -28,10 +28,10 @@
 </template>
 
 <script setup>
-import { computed } from "vue"
-import { usePokerStore } from "stores/poker-store"
-import { useUiStore } from "stores/ui-store"
-import { fold } from "src/services/apiService"
+import {computed} from "vue"
+import {usePokerStore} from "stores/poker-store"
+import {useUiStore} from "stores/ui-store"
+import {fold} from "src/services/apiService"
 
 const pokerStore = usePokerStore()
 const uiStore = useUiStore()

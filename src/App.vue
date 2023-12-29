@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { cardImages } from "./services/cardImageService.js"
-import LoginModal from "components/auth/LoginModal.vue"
+import {cardImages} from "./services/cardImageService.js"
+import LoginModal from "src/auth/LoginModal.vue"
 import AccountInfoModal from "components/dialogs/AccountInfoModal.vue"
 </script>

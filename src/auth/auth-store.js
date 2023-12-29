@@ -1,15 +1,14 @@
 /* eslint-disable */
 // eslint-disable-next-line import/no-cycle
-import { get as _get } from "lodash"
-import { Notify } from "quasar"
+import {get as _get} from "lodash"
+import {Notify} from "quasar"
 
 import * as apiService from "../services/apiService"
 
-import { defineStore } from "pinia"
-import { messageFactory } from "stores/messageFactory"
-import { clearSessionId, saveSessionId } from "src/services/localStorageService"
-import { formatToUSD } from "src/services/moneyUtils"
-import { usePokerStore } from "stores/poker-store"
+import {defineStore} from "pinia"
+import {messageFactory} from "stores/messageFactory"
+import {clearSessionId, saveSessionId} from "src/services/localStorageService"
+import {usePokerStore} from "stores/poker-store"
 
 const wsUrl = process.env.VUE_APP_WEBSOCKET_URL
 

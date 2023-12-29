@@ -1,4 +1,4 @@
-import { boot } from "quasar/wrappers"
+import {boot} from "quasar/wrappers"
 import axios from "axios"
 
 const baseURL = process.env.USE_PROXY_URL === "true"  ?

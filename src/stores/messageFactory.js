@@ -1,6 +1,6 @@
-import { Notify } from "quasar"
-import { usePokerStore } from "stores/poker-store"
-import { useUiStore } from "stores/ui-store"
+import {Notify} from "quasar"
+import {usePokerStore} from "stores/poker-store"
+import {useUiStore} from "stores/ui-store"
 
 export async function messageFactory(res) {
   const {

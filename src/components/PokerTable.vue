@@ -17,18 +17,17 @@
 </template>
 
 <script setup>
-import { computed } from "vue"
+import {computed} from "vue"
 import PokerHand from "./PokerHand.vue"
 import PokerPlayers from "components/PokerPlayers.vue"
 import PokerPlayerCards from "components/PokerPlayerCards.vue"
-import { usePokerStore } from "stores/poker-store"
-import { rounds } from "src/constants"
+import {usePokerStore} from "stores/poker-store"
+import {rounds} from "src/constants"
 
 const pokerStore = usePokerStore()
 const round = computed(() => pokerStore.round)
 const pokerPlayers = computed(() => pokerStore.pokerPlayers)
 const table = computed(() => pokerStore.table)
-const playerTurn = computed(() => pokerStore.playerTurn)
 const seats = computed(() => pokerStore.seats)
 </script>
 

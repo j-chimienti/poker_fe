@@ -1,7 +1,7 @@
-import { v1 } from "uuid"
-import { mapCardToImage } from "src/services/cardImageService"
+import {v1} from "uuid"
+import {mapCardToImage} from "src/services/cardImageService"
 import faceDownCardImg from "../assets/playing-cards/Card Back.png"
-import { faceCards } from "src/services/constants"
+import {faceCards} from "src/constants"
 
 const symbolsMap = { "♦": "diamond", "♥": "heart", "♠": "spade", "♣": "club" }
 function parse(cardString) {

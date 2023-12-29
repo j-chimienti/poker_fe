@@ -1,4 +1,4 @@
-import { LocalStorage } from "quasar"
+import {LocalStorage} from "quasar"
 
 const KEYS = {
   BLACKJACK_SESSION_ID: "BLACKJACK_SESSION_ID",

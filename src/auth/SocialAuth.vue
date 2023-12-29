@@ -10,15 +10,15 @@
 </template>
 
 <script setup>
-import { authorize } from "src/services/apiService"
-import { useQuasar } from "quasar"
+import {useQuasar} from "quasar"
+import {authorize} from "src/services/apiService"
 
 const $q = useQuasar()
 
 const onSubmit = async (provider) => {
   try {
     await authorize()
-    // Handle successful authorization if needed
+    // Additional logic after successful authorization
   } catch (error) {
     $q.notify({
       message: "Error logging in",
@@ -43,6 +43,7 @@ $btn-height: 3rem;
     font-weight: bold;
     margin: 0.75em 0;
     width: 90%;
+    max-width: 400px;
     height: $btn-height;
     position: relative;
     .btn-icon {

@@ -1,8 +1,8 @@
-import { defineStore } from "pinia"
-import { useAuthStore } from "stores/auth-store"
-import { flatten, get as _get, range, uniqBy } from "lodash"
+import {defineStore} from "pinia"
+import {useAuthStore} from "src/auth/auth-store"
+import {flatten, get as _get, range, uniqBy} from "lodash"
 import Card from "src/models/Card"
-import { pages } from "src/constants"
+import {pages} from "src/constants"
 
 const HAND_NOT_STARTED = -1
 const BIG_BLIND_MULTIPLIER = 2

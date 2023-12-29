@@ -1,7 +1,7 @@
 import {boot} from "quasar/wrappers"
 import {Notify} from "quasar";
 import {Plugins} from '@capacitor/core';
-import {useAuthStore} from "stores/auth-store";
+import {useAuthStore} from "src/auth/auth-store";
 import {confirmRefreshPage} from "boot/routerHooks";
 
 const { App } = Plugins;

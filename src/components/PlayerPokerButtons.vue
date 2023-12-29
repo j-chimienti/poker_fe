@@ -43,9 +43,9 @@
 </template>
 
 <script setup>
-import { usePokerStore } from "stores/poker-store"
-import { useUiStore } from "stores/ui-store"
-import { computed } from "vue"
+import {usePokerStore} from "stores/poker-store"
+import {useUiStore} from "stores/ui-store"
+import {computed} from "vue"
 
 const pokerStore = usePokerStore()
 const uiStore = useUiStore()

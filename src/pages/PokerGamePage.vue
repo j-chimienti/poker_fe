@@ -43,12 +43,12 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from "vue"
-import { usePokerStore } from "stores/poker-store"
-import { useRouter } from "vue-router"
-import { formatToUSD } from "src/services/moneyUtils"
-import { leave } from "src/services/apiService"
-import { get as _get } from "lodash"
+import {computed, onBeforeUnmount, onMounted, ref} from "vue"
+import {usePokerStore} from "stores/poker-store"
+import {useRouter} from "vue-router"
+import {formatToUSD} from "src/services/moneyUtils"
+import {leave} from "src/services/apiService"
+import {get as _get} from "lodash"
 
 // Components
 import PokerTable from "components/PokerTable.vue"

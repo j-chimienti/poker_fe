@@ -6,9 +6,9 @@
 </template>
 
 <script setup>
-import { computed } from "vue"
-import { usePokerStore } from "stores/poker-store"
-import { formatToUSD } from "src/services/moneyUtils"
+import {computed} from "vue"
+import {usePokerStore} from "stores/poker-store"
+import {formatToUSD} from "src/services/moneyUtils"
 
 const store = usePokerStore()
 const maxBet = store.maxBet

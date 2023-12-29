@@ -5,8 +5,8 @@
 </template>
 
 <script setup>
-import { computed } from "vue"
-import { usePokerStore } from "stores/poker-store"
+import {computed} from "vue"
+import {usePokerStore} from "stores/poker-store"
 import PokerPlayer from "components/PokerPlayer.vue"
 
 const pokerStore = usePokerStore()

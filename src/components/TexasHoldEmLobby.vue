@@ -27,12 +27,12 @@
 </template>
 
 <script setup>
-import { usePokerStore } from "stores/poker-store"
-import { formatToUSD } from "src/services/moneyUtils"
+import {usePokerStore} from "stores/poker-store"
+import {formatToUSD} from "src/services/moneyUtils"
 import NavBar from "components/NavBar.vue"
 import ChatMessages from "components/ChatMessages.vue"
-import { useRouter } from "vue-router"
-import { computed } from "vue"
+import {useRouter} from "vue-router"
+import {computed} from "vue"
 
 const pokerStore = usePokerStore()
 const router = useRouter()

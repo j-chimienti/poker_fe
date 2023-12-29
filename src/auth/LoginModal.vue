@@ -5,9 +5,9 @@
 </template>
 
 <script setup>
-import LoginForm from "components/auth/LoginForm.vue"
-import { computed } from "vue"
-import { useUiStore } from "stores/ui-store"
+import LoginForm from "src/auth/LoginForm.vue"
+import {computed} from "vue"
+import {useUiStore} from "stores/ui-store"
 
 const uiStore = useUiStore()
 

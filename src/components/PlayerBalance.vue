@@ -15,8 +15,8 @@
 </template>
 
 <script setup>
-import { computed } from "vue"
-import { usePokerStore } from "stores/poker-store"
+import {computed} from "vue"
+import {usePokerStore} from "stores/poker-store"
 
 const pokerStore = usePokerStore()
 const balance = computed(() => pokerStore.balance)

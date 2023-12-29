@@ -15,8 +15,8 @@
   </div>
 </template>
 <script setup>
-import { computed } from "vue"
-import { get } from "lodash"
+import {computed} from "vue"
+import {get} from "lodash"
 
 const props = defineProps({
   player: Object,

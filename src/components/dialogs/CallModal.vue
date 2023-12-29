@@ -25,11 +25,11 @@
 </template>
 
 <script setup>
-import { computed } from "vue"
-import { usePokerStore } from "stores/poker-store"
-import { useUiStore } from "stores/ui-store"
+import {computed} from "vue"
+import {usePokerStore} from "stores/poker-store"
+import {useUiStore} from "stores/ui-store"
 import * as apiService from "src/services/apiService"
-import { formatToUSD } from "src/services/moneyUtils"
+import {formatToUSD} from "src/services/moneyUtils"
 
 const pokerStore = usePokerStore()
 const uiStore = useUiStore()

@@ -1,5 +1,5 @@
-import { createPinia, PiniaPlugin } from "pinia"
-import { usePokerStore } from "../poker-store"
+import {createPinia, PiniaPlugin} from "pinia"
+import {usePokerStore} from "../poker-store"
 
 const pinia = createPinia()
 pinia.use(PiniaPlugin)
