@@ -1,19 +1,14 @@
 <template>
   <q-dialog v-model="accountModalVisible">
     <q-card>
-      <q-card-section>
-        <q-img
-          class="cursor-pointer"
-          src="src/assets/close-icon.png"
-          width="56px"
-          height="56px"
-          v-close-popup
-        />
+      <q-card-section class="row flex-center">
+        <q-btn flat round dense icon="close" v-close-popup />
+        <div class="text-h3">account</div>
+        <q-space />
       </q-card-section>
       <q-card-section>
-        <div class="text-h3 text-center">account</div>
         <div class="row flex-center">
-          <div>
+          <div class="q-mr-sm">
             <q-avatar>
               <img :src="avatar" />
             </q-avatar>
@@ -48,18 +43,21 @@
 
         <!-- User Name and Edit Icon -->
 
-        <div class="text-center">${{ formatToUSD(balance) }}</div>
+        <div class="text-center">balance: {{ formatToUSD(balance) }}</div>
 
         <!-- Account Balance -->
         <!--        <div class="col-12">-->
         <!--          <div>{{ formatToUSD(balance) }}</div>-->
         <!--        </div>-->
       </q-card-section>
-      <q-card-section>
-        <q-btn @click="onClick" class="login-btn" label="login"></q-btn>
-      </q-card-section>
-      <q-card-section>
-        <q-btn @click="onClick" class="login-btn" label="signup"></q-btn>
+      <q-card-section class="column">
+        <q-btn
+          @click="onClick"
+          class="q-mb-sm"
+          color="secondary"
+          label="login"
+        ></q-btn>
+        <q-btn @click="onClick" color="secondary" label="signup"></q-btn>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -71,14 +69,15 @@ import {useUiStore} from "stores/ui-store"
 import {useAuthStore} from "src/auth/auth-store"
 import {usePokerStore} from "stores/poker-store"
 import {changeName} from "src/services/apiService"
-import {formatToUSD} from "../../services/moneyUtils"
+import {formatToUSD} from "src/services/moneyUtils"
 
 const uiStore = useUiStore()
 const authStore = useAuthStore()
 
 const userName = ref(authStore.name)
-const userProfilePic = ref(authStore.picture)
 const balance = computed(() => usePokerStore().balance)
+const name = computed(() => authStore.name)
+const avatar = computed(() => authStore.avatar)
 
 const accountModalVisible = computed({
   get: () => uiStore.accountModalVisible,
@@ -107,32 +106,12 @@ const editUserName = () => {
 }
 
 const saveUserName = () => {
-  editingName.value = false
-  changeName(userName.value)
+  if (userName.value) {
+    editingName.value = false
+    changeName(userName.value)
+  }
   // Additional logic to handle user name change
 }
-
-const name = computed(() => authStore.name)
-const avatar = computed(() => authStore.avatar)
 </script>
 
-<style scoped>
-.account-popup {
-  width: 446px;
-  height: 351px;
-
-  /* Box Shadows / Dark */
-
-  box-shadow: 0px 0px 22px 5px rgba(0, 0, 0, 0.5);
-  border-radius: 22px;
-}
-.login-btn {
-  width: 338px;
-  height: 48px;
-  /* Mango Orange */
-
-  background: #ff7a41;
-  box-shadow: -3px 3px 0px 1px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-}
-</style>
+<style scoped></style>

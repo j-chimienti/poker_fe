@@ -1,3 +1,5 @@
+import {pages} from "src/constants"
+
 const routes = [
   {
     path: "/",
@@ -5,12 +7,12 @@ const routes = [
     children: [
       {
         path: "",
-        name: "home",
+        name: pages.lobby,
         component: () => import("components/TexasHoldEmLobby.vue"),
       },
       {
         path: "table/:id",
-        name: "table",
+        name: pages.table,
         component: () => import("pages/PokerGamePage.vue"),
       },
     ],

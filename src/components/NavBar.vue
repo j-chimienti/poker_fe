@@ -1,23 +1,20 @@
 <template>
-  <div class="header row">
-    <img
-      src="../assets/logo.png"
-      width="474"
-      @click="$router.push({ name: 'home' })"
-      height="58"
-    />
-    <div style="position: absolute; top: 27px; right: 28px">
-      <img
-        src="../assets/msg-home.png"
-        @click="openChat"
-        class="q-mr-md cursor-pointer"
-      />
-      <img
-        class="cursor-pointer"
-        src="../assets/account.png"
-        @click="openAccountModal"
-      />
-    </div>
+  <div class="toolbar q-pa-md">
+    <q-toolbar class="flex justify-between">
+      <img src="../assets/logo.png" class="toolbar-logo" />
+      <div class="toolbar-icons">
+        <img
+          src="../assets/msg-home.png"
+          @click="openChat"
+          class="cursor-pointer q-mr-md"
+        />
+        <img
+          src="../assets/account.png"
+          @click="openAccountModal"
+          class="cursor-pointer"
+        />
+      </div>
+    </q-toolbar>
   </div>
   <AccountInfoModal />
 </template>
@@ -37,8 +34,28 @@ const accountModalVisible = computed(() => uiStore.accountModalVisible)
 </script>
 
 <style>
-.header {
-  height: 112px;
+.toolbar {
   box-shadow: 0px 0px 22px 5px rgba(0, 0, 0, 0.5);
+}
+.toolbar-logo {
+  max-width: 20vw; /* Adjust as needed */
+  max-height: auto; /* Maintain aspect ratio */
+}
+
+.toolbar-icons {
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .toolbar-logo {
+    max-width: 30vw; /* Larger percentage for smaller screens */
+  }
+
+  .toolbar-icons img {
+    width: 24px; /* Smaller icons for small screens */
+    height: 24px;
+  }
 }
 </style>

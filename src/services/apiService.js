@@ -1,7 +1,7 @@
 import {api} from "boot/axios"
 import {useAuthStore} from "src/auth/auth-store"
 
-import {actions} from "src/constants"
+import {actions, pages} from "src/constants"
 
 export function joinTable(id, position) {
   return useAuthStore().sendWebsocketMessage({
@@ -14,7 +14,7 @@ export function joinTable(id, position) {
 export function navigateToLobby() {
   return useAuthStore().sendWebsocketMessage({
     WsNavigateToLobby: null,
-    name: "lobby",
+    name: pages.lobby,
   })
 }
 

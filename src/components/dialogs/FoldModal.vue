@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import {computed} from "vue"
+import {computed, watch} from "vue"
 import {usePokerStore} from "stores/poker-store"
 import {useUiStore} from "stores/ui-store"
 import {fold} from "src/services/apiService"
@@ -52,6 +52,14 @@ const onFold = () => {
   } else {
     fold(tableId.value)
     closeFoldModal()
+  }
+}
+const myTurn = computed(() => pokerStore.myTurn)
+watch(myTurn, onMyTurnUpdate)
+
+function onMyTurnUpdate(n, o) {
+  if (foldModal.value && !n && o) {
+    uiStore.toggleModal("foldModal", false)
   }
 }
 </script>

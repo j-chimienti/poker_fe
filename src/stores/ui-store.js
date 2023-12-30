@@ -17,6 +17,7 @@ export const useUiStore = defineStore("ui", {
     dontAskFold: false,
     playAnotherHandModalVisible: false,
     dismissYourTurnNotification: null,
+    confirmLeaveTableModalVisible: false,
   }),
   actions: {
     openLoginModal() {

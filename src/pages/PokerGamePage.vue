@@ -5,7 +5,7 @@
       class="cursor-pointer"
       src="../assets/logo-game-page.png"
       width="204px"
-      @click="goToLobby"
+      @click="requestToLeaveTable"
     />
   </div>
   <div class="player-actions-navbar column">
@@ -14,7 +14,7 @@
       src="../assets/exit.png"
       width="77px"
       height="77px"
-      @click="onLeave"
+      @click="requestToLeaveTable"
     />
     <q-img
       class="cursor-pointer"
@@ -40,6 +40,8 @@
   <BetModal />
   <CallModal />
   <FoldModal />
+  <ConfirmLeaveTableModal />
+  <PageTitle />
 </template>
 
 <script setup>
@@ -47,7 +49,6 @@ import {computed, onBeforeUnmount, onMounted, ref} from "vue"
 import {usePokerStore} from "stores/poker-store"
 import {useRouter} from "vue-router"
 import {formatToUSD} from "src/services/moneyUtils"
-import {leave} from "src/services/apiService"
 import {get as _get} from "lodash"
 
 // Components
@@ -61,6 +62,10 @@ import RaiseModal from "components/dialogs/RaiseModal.vue"
 import CallModal from "components/dialogs/CallModal.vue"
 import FoldModal from "components/dialogs/FoldModal.vue"
 import BetModal from "components/dialogs/BetModal.vue"
+import ConfirmLeaveTableModal from "components/dialogs/ConfirmLeaveTableModal.vue"
+import {useUiStore} from "stores/ui-store"
+import {pages} from "src/constants"
+import PageTitle from "components/PageTitle.vue"
 
 const pokerStore = usePokerStore()
 const router = useRouter()
@@ -95,14 +100,10 @@ onBeforeUnmount(() => {
 })
 
 const openChat = () => pokerStore.openChat()
-const onLeave = () => {
+const requestToLeaveTable = () => {
   if (joinedTable.value) {
-    leave(tableId.value)
-  }
-  goToLobby()
-}
-const goToLobby = () => {
-  router.push({ name: "home" })
+    useUiStore().confirmLeaveTableModalVisible = true
+  } else router.push({ name: pages.lobby })
 }
 </script>
 

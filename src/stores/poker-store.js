@@ -3,6 +3,7 @@ import {useAuthStore} from "src/auth/auth-store"
 import {flatten, get as _get, range, uniqBy} from "lodash"
 import Card from "src/models/Card"
 import {pages} from "src/constants"
+import {formatToUSD} from "src/services/moneyUtils"
 
 const HAND_NOT_STARTED = -1
 const BIG_BLIND_MULTIPLIER = 2
@@ -105,6 +106,9 @@ export const usePokerStore = defineStore("poker", {
     balance() {
       return this.playerOpt?.balance ?? 0
     },
+    balanceUSD() {
+      return formatToUSD(this.balance)
+    },
     maxBet() {
       return this.table?.maxBetOrRaise ?? 0
     },
@@ -195,6 +199,11 @@ export const usePokerStore = defineStore("poker", {
     },
     canCall() {
       return this.table?.playerTurn?.canCall ?? null
+    },
+    callAmountUSD() {
+      const c = this.canCall
+      if (c) return formatToUSD(c)
+      return 0
     },
     canBet() {
       return this.table?.playerTurn?.canBet ?? null

@@ -1,12 +1,10 @@
 <template>
   <q-dialog v-model="raiseModal">
-    <q-card class="bg-primary text-white">
-      <q-btn flat round dense icon="close" v-close-popup />
-      <q-card-section class="player-action-title row justify-center">
-        Raise the bet
-        <q-img src="../../assets/minus-sign.png" width="20px" />
+    <q-card>
+      <q-card-section class="row justify-center">
+        <q-btn flat round dense icon="close" v-close-popup />
+        <div class="player-action-title">Raise the bet</div>
       </q-card-section>
-      <q-card-section> canRaise={{ canRaise }} </q-card-section>
       <q-card-section>
         <q-btn-group spread>
           <q-btn
@@ -125,6 +123,14 @@ const onRaise = () => {
 const validateMinRaise = (amount) => {
   const minRaise = canRaise.value || smallBlindBetAmount.value
   return minRaise < amount
+}
+const myTurn = computed(() => pokerStore.myTurn)
+watch(myTurn, onMyTurnUpdate)
+
+function onMyTurnUpdate(n, o) {
+  if (raiseModal.value && !n && o) {
+    uiStore.toggleModal("raiseModal", false)
+  }
 }
 </script>
 

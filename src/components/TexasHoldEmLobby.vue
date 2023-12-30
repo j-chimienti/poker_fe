@@ -16,10 +16,17 @@
             </div>
             <div class="row full-height">
               <span>{{ table.players }}</span>
+              <q-space />
+              <q-space />
               <span>{{ table.stakes }}</span>
             </div>
           </div>
-          <q-btn @click="joinTable(table.id)" label="join" class="join-btn" />
+          <q-btn
+            @click="goToTable(table.id)"
+            label="join"
+            class="join-btn"
+            size="lg"
+          />
         </div>
       </div>
     </div>
@@ -33,6 +40,7 @@ import NavBar from "components/NavBar.vue"
 import ChatMessages from "components/ChatMessages.vue"
 import {useRouter} from "vue-router"
 import {computed} from "vue"
+import {pages} from "src/constants"
 
 const pokerStore = usePokerStore()
 const router = useRouter()
@@ -42,15 +50,15 @@ const rows = computed(() =>
   tables.value.map((table) => ({
     ...table,
     playersCount: Object.keys(table.pokerPlayers).length,
-    stakes: `${formatToUSD(table.config.bet.min)} / ${formatToUSD(
+    stakes: `${formatToUSD(table.config.bet.min)}/${formatToUSD(
       table.config.bet.min * 2
     )}`,
-    players: `${table.config.players.min} / ${table.config.players.max}`,
+    players: `${table.config.players.min}/${table.config.players.max}`,
   }))
 )
 
-const joinTable = (id) => {
-  router.push({ name: "table", params: { id } })
+const goToTable = (id) => {
+  router.push({ name: pages.table, params: { id } })
 }
 </script>
 

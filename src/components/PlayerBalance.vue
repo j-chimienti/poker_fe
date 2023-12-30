@@ -19,7 +19,7 @@ import {computed} from "vue"
 import {usePokerStore} from "stores/poker-store"
 
 const pokerStore = usePokerStore()
-const balance = computed(() => pokerStore.balance)
+const balance = computed(() => pokerStore.balanceUSD)
 </script>
 
 <style scoped>

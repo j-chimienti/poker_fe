@@ -108,6 +108,14 @@ const onButtonClick = (amount) => {
 const onBet = () => {
   uiStore.sendBet(table.value, betAmount.value)
 }
+const myTurn = computed(() => pokerStore.myTurn)
+watch(myTurn, onMyTurnUpdate)
+
+function onMyTurnUpdate(n, o) {
+  if (betModal.value && !n && o) {
+    uiStore.toggleModal("betModal", false)
+  }
+}
 
 // Initial setup
 initBetAmount()

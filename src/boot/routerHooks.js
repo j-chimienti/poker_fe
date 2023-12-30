@@ -64,7 +64,7 @@ export default boot(({ router, store }) => {
         if (!playerOpt) confirmRefreshPage()
         else navigateToTable(id)
       } else navigateToTable(id)
-    } else if (to.name === pages.home) {
+    } else if (to.name === pages.lobby) {
       const pokerStore = usePokerStore()
       pokerStore.room = pages.lobby
       pokerStore.table = null
@@ -86,10 +86,10 @@ export default boot(({ router, store }) => {
         Loading.hide()
         if (playerOpt) Notify.create("logged in " + playerOpt.name)
         else Notify.create("failed to login")
-        return { name: "home" }
+        return { name: pages.lobby }
       } else {
         Notify.create("missing query params code or state")
-        return { name: "home" }
+        return { name: pages.lobby }
       }
     }
     return true
