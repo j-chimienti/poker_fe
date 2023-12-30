@@ -68,9 +68,9 @@
 </template>
 
 <script setup>
-import {computed, ref, watch} from "vue"
-import {usePokerStore} from "stores/poker-store"
-import {useUiStore} from "stores/ui-store"
+import { computed, ref, watch } from "vue"
+import { usePokerStore } from "stores/poker-store"
+import { useUiStore } from "stores/ui-store"
 
 const pokerStore = usePokerStore()
 const uiStore = useUiStore()

@@ -19,9 +19,9 @@
   <AccountInfoModal />
 </template>
 <script setup>
-import {useUiStore} from "stores/ui-store"
-import {usePokerStore} from "stores/poker-store"
-import {computed} from "vue"
+import { useUiStore } from "stores/ui-store"
+import { usePokerStore } from "stores/poker-store"
+import { computed } from "vue"
 import AccountInfoModal from "components/dialogs/AccountInfoModal.vue"
 
 const uiStore = useUiStore()

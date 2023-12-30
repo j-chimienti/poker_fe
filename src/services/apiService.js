@@ -1,7 +1,7 @@
-import {api} from "boot/axios"
-import {useAuthStore} from "src/auth/auth-store"
+import { api } from "boot/axios"
+import { useAuthStore } from "src/auth/auth-store"
 
-import {actions, pages} from "src/constants"
+import { actions, pages } from "src/constants"
 
 export function joinTable(id, position) {
   return useAuthStore().sendWebsocketMessage({

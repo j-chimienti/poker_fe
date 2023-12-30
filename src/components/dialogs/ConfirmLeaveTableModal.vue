@@ -1,10 +1,10 @@
 <script setup>
-import {useUiStore} from "stores/ui-store"
-import {computed} from "vue"
-import {usePokerStore} from "stores/poker-store"
+import { useUiStore } from "stores/ui-store"
+import { computed } from "vue"
+import { usePokerStore } from "stores/poker-store"
 import * as apiService from "src/services/apiService"
-import {useRouter} from "vue-router"
-import {pages} from "src/constants"
+import { useRouter } from "vue-router"
+import { pages } from "src/constants"
 
 const uiStore = useUiStore()
 const router = useRouter()

@@ -71,10 +71,10 @@
 </template>
 
 <script setup>
-import {computed, ref, watch} from "vue"
-import {usePokerStore} from "stores/poker-store"
-import {useUiStore} from "stores/ui-store"
-import {raise} from "src/services/apiService"
+import { computed, ref, watch } from "vue"
+import { usePokerStore } from "stores/poker-store"
+import { useUiStore } from "stores/ui-store"
+import { raise } from "src/services/apiService"
 
 const pokerStore = usePokerStore()
 const uiStore = useUiStore()

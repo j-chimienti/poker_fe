@@ -1,6 +1,6 @@
 <script setup>
-import {computed, watch} from "vue"
-import {usePokerStore} from "stores/poker-store"
+import { computed, watch } from "vue"
+import { usePokerStore } from "stores/poker-store"
 
 const myTurn = computed(() => usePokerStore().myTurn)
 const original = document.title

@@ -1,4 +1,4 @@
-import {pages} from "src/constants"
+import { pages } from "src/constants"
 
 const routes = [
   {

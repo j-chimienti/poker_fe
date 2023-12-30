@@ -64,12 +64,12 @@
 </template>
 
 <script setup>
-import {computed, ref} from "vue"
-import {useUiStore} from "stores/ui-store"
-import {useAuthStore} from "src/auth/auth-store"
-import {usePokerStore} from "stores/poker-store"
-import {changeName} from "src/services/apiService"
-import {formatToUSD} from "src/services/moneyUtils"
+import { computed, ref } from "vue"
+import { useUiStore } from "stores/ui-store"
+import { useAuthStore } from "src/auth/auth-store"
+import { usePokerStore } from "stores/poker-store"
+import { changeName } from "src/services/apiService"
+import { formatToUSD } from "src/services/moneyUtils"
 
 const uiStore = useUiStore()
 const authStore = useAuthStore()

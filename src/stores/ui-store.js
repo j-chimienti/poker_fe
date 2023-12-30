@@ -1,8 +1,8 @@
-import {defineStore} from "pinia"
+import { defineStore } from "pinia"
 import * as apiService from "src/services/apiService"
-import {call, check, fold} from "src/services/apiService"
-import {usePokerStore} from "stores/poker-store"
-import {Notify} from "quasar"
+import { call, check, fold } from "src/services/apiService"
+import { usePokerStore } from "stores/poker-store"
+import { Notify } from "quasar"
 
 export const useUiStore = defineStore("ui", {
   state: () => ({
