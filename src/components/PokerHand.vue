@@ -22,9 +22,9 @@
 </template>
 
 <script setup>
-import {computed} from "vue"
-import {usePokerStore} from "stores/poker-store"
-import {range} from "lodash"
+import { computed } from "vue"
+import { usePokerStore } from "stores/poker-store"
+import { range } from "lodash"
 import gsap from "gsap"
 
 const pokerStore = usePokerStore()
@@ -44,7 +44,7 @@ const cardsAndHoles = computed(() => {
 
 const beforeEnter = (el) => {
   el.style.opacity = 0
-  el.style.transform = "translate(-100px, -100px)"
+  el.style.transform = "translate(0, -20vh)"
 }
 
 const onEnter = (el, done) => {
@@ -54,14 +54,14 @@ const onEnter = (el, done) => {
     x: 0,
     opacity: 1,
     delay,
-    duration: 0.8,
+    duration: 2,
     onComplete: done,
   })
 }
 
 const onLeave = (el, done) => {
   gsap.to(el, {
-    y: "-100px",
+    y: "-20vh",
     opacity: 0,
     duration: 0.8,
     delay: 0,

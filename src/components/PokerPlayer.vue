@@ -21,15 +21,15 @@
   </div>
 </template>
 <script setup>
-import {computed, onMounted, ref} from "vue"
-import {usePokerStore} from "stores/poker-store"
-import {useAuthStore} from "src/auth/auth-store"
-import {secondsUntil} from "src/services/dateService"
-import {displayName} from "src/services/playerService"
-import {getAvatar} from "src/services/avatarService"
-import {playerStates, rounds} from "src/constants"
-import {get} from "lodash"
-import {joinTable} from "src/services/apiService"
+import { computed, onMounted, ref } from "vue"
+import { usePokerStore } from "stores/poker-store"
+import { useAuthStore } from "src/auth/auth-store"
+import { secondsUntil } from "src/services/dateService"
+import { displayName } from "src/services/playerService"
+import { getAvatar } from "src/services/avatarService"
+import { playerStates, rounds } from "src/constants"
+import { get } from "lodash"
+import { joinTable } from "src/services/apiService"
 
 const props = defineProps({
   player: {
@@ -59,7 +59,7 @@ onMounted(() => {
 const getKlass = computed(() => {
   const arr = [
     "player-avatar",
-    "object" + props.player.position,
+    "player" + props.player.position,
     "row",
     "flex-center",
   ]

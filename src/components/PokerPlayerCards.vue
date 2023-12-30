@@ -1,5 +1,5 @@
 <template>
-  <div :class="'object' + player.position + ' pokercards'">
+  <div :class="'player' + player.position + ' pokercards'">
     <div style="position: relative" v-if="showCards.length">
       <q-img
         v-for="(card, idx) in showCards"
@@ -15,8 +15,8 @@
   </div>
 </template>
 <script setup>
-import {computed} from "vue"
-import {get} from "lodash"
+import { computed } from "vue"
+import { get } from "lodash"
 
 const props = defineProps({
   player: Object,

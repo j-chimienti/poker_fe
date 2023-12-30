@@ -1,86 +1,78 @@
 @for $i from 1 through 10 {
-  .object#{$i} {
+  .player#{$i} {
     position: absolute;
   }
 
 }
 
-.object1, .object2 {
-  top: -15%;
+// Mixin for handling pokercards position variations
+@mixin pokercard-position($top:null, $right:null, $bottom:null, $left:null) {
   &.pokercards {
-    top: -25%;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
   }
 }
 
-.object1 {
+
+// Specific styles for each player
+.player1 {
+  top: -15%;
   left: 25%;
+  @include pokercard-position(-25%, null, null, null);
 }
 
-.object2 {
+.player2 {
+  top: -15%;
   right: 25%;
+  @include pokercard-position(-25%, null, null, null);
 }
 
-.object3 {
+.player3 {
   top: -5%;
   right: 5%;
-  &.pokercards {
-    top: -25%;
-  }
+  @include pokercard-position(-25%, null, null, null);
 }
 
-.object4 {
+.player4 {
   top: 40%;
   right: 0;
-  &.pokercards {
-    right: -10%;
-  }
+  @include pokercard-position(null, -10%, null, null);
 }
 
-.object5 {
+.player5 {
   bottom: -5%;
   right: 5%;
-  &.pokercards {
-    right: 0;
-  }
+  @include pokercard-position(null, 0, null, null);
 }
 
-.object6 {
+.player6 {
   bottom: -15%;
   right: 25%;
-  &.pokercards {
-    bottom: -25%;
-  }
+  @include pokercard-position(null, null, -25%, null);
 }
 
-.object7 {
+.player7 {
   bottom: -15%;
   left: 25%;
-  &.pokercards {
-    bottom: -25%;
-  }
+  @include pokercard-position(null, null, -25%, null);
 }
 
-
-.object8 {
+.player8 {
   bottom: -5%;
   left: 5%;
-  &.pokercards {
-    left: -5%;
-  }
+  @include pokercard-position(null, null, null, -5%);
 }
 
-.object9 {
+.player9 {
   top: 40%;
   left: 0;
-  &.pokercards {
-    left: -5%;
-  }
+  @include pokercard-position(null, null, null, -5%);
 }
 
-.object10 {
+.player10 {
   top: -5%;
   left: 5%;
-  &.pokercards {
-    left: -5%;
-  }
+  @include pokercard-position(null, null, null, -5%);
 }

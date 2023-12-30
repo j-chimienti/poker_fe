@@ -69,7 +69,7 @@
               label="raise"
               color="secondary"
             />
-            <q-btn label="cancel" @click="closeModal" color="secondary" />
+            <q-btn label="cancel" v-close-popup color="secondary" />
           </div>
         </q-form>
       </q-card-section>
@@ -90,7 +90,6 @@ const raiseModal = computed({
   get: () => uiStore.raiseModal,
   set: (value) => (uiStore.raiseModal = value),
 })
-const closeModal = uiStore.toggleModal("raiseModal", false)
 const canRaise = computed(() => pokerStore.canRaise)
 const tableId = computed(() => pokerStore.tableId)
 const balance = computed(() => pokerStore.balance)

@@ -24,3 +24,6 @@ watch(myTurn, function (n) {
   }
 })
 </script>
+<template>
+  <div hidden></div>
+</template>
