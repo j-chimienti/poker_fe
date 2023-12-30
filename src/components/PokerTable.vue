@@ -8,27 +8,30 @@
         v-for="player in seats"
         :key="player.position + player.playerAccountId + table.id"
       >
-        <PokerPlayerCards :player="player" />
+        <PokerPlayerCards v-if="player.playerAccountId" :player="player" />
       </div>
-      <div class="pokerHand row flex-center"><PokerHand /></div>
-      <PokerPlayers />
+      <div class="pokerHand row flex-center"><TableCommunityCards /></div>
+      <div v-for="spot in seats" :key="spot.position">
+        <PokerPlayer :player="spot" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {computed} from "vue"
-import PokerHand from "./PokerHand.vue"
-import PokerPlayers from "components/PokerPlayers.vue"
+import { computed } from "vue"
+import TableCommunityCards from "./TableCommunityCards.vue"
 import PokerPlayerCards from "components/PokerPlayerCards.vue"
-import {usePokerStore} from "stores/poker-store"
-import {rounds} from "src/constants"
+import { usePokerStore } from "stores/poker-store"
+import { rounds } from "src/constants"
+import PokerPlayer from "components/PokerPlayer.vue"
+import OpenSeat from "components/OpenSeat.vue"
 
+const seats = computed(() => pokerStore.seats)
 const pokerStore = usePokerStore()
 const round = computed(() => pokerStore.round)
 const pokerPlayers = computed(() => pokerStore.pokerPlayers)
 const table = computed(() => pokerStore.table)
-const seats = computed(() => pokerStore.seats)
 </script>
 
 <style scoped>

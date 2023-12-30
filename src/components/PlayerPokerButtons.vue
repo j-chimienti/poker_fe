@@ -1,53 +1,49 @@
 <template>
-  <transition>
-    <div class="row flex-center player-actions" v-if="myTurn">
-      <q-btn
-        class="player-buttons"
-        v-if="canRaise"
-        :disabled="!myTurn"
-        @click="onRaise"
-        color="secondary"
-        label="raise"
-      />
-      <q-btn
-        class="player-buttons"
-        v-if="canBet"
-        :disabled="!myTurn"
-        @click="onBet"
-        color="secondary"
-        label="bet"
-      />
-      <q-btn
-        class="player-buttons"
-        v-if="canCheck"
-        :disabled="!myTurn"
-        @click="onCheck(table.id)"
-        color="secondary"
-        label="check"
-      />
-      <q-btn
-        v-if="canCall"
-        class="player-buttons"
-        :disabled="!myTurn"
-        @click="onCall(table.id)"
-        color="secondary"
-        label="call"
-      />
-      <q-btn
-        class="player-buttons"
-        :disabled="!myTurn"
-        @click="onFold(table.id)"
-        color="secondary"
-        label="fold"
-      />
-    </div>
-  </transition>
+  <div class="row flex-center player-actions">
+    <q-btn
+      class="player-buttons"
+      v-if="canRaise"
+      :disabled="!myTurn"
+      @click="onRaise"
+      color="secondary"
+      label="raise"
+    />
+    <q-btn
+      class="player-buttons"
+      v-if="canBet"
+      :disabled="!myTurn"
+      @click="onBet"
+      color="secondary"
+      label="bet"
+    />
+    <q-btn
+      class="player-buttons"
+      :disabled="!myTurn || !canCheck"
+      @click="onCheck(table.id)"
+      color="secondary"
+      label="check"
+    />
+    <q-btn
+      class="player-buttons"
+      :disabled="!myTurn || !canCall"
+      @click="onCall(table.id)"
+      color="secondary"
+      label="call"
+    />
+    <q-btn
+      class="player-buttons"
+      :disabled="!myTurn"
+      @click="onFold(table.id)"
+      color="secondary"
+      label="fold"
+    />
+  </div>
 </template>
 
 <script setup>
-import {usePokerStore} from "stores/poker-store"
-import {useUiStore} from "stores/ui-store"
-import {computed} from "vue"
+import { usePokerStore } from "stores/poker-store"
+import { useUiStore } from "stores/ui-store"
+import { computed } from "vue"
 
 const pokerStore = usePokerStore()
 const uiStore = useUiStore()

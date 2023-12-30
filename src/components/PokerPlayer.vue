@@ -1,142 +1,162 @@
 <template>
-  <div :class="getKlass">
-    <div v-if="player && player.playerAccountId">
-      <div class="my-turn">{{ name }} {{ player.balance }}</div>
-      <div class="player-state">
-        {{ isMyTurn ? countdownText : getText }}
-      </div>
-      <div class="player-state" v-if="getBlindText">
-        {{ getBlindText }}
-      </div>
+  <div
+    class="player-avatar row flex-center"
+    :class="playerClasses.concat(`player${player.position}`)"
+  >
+    <OpenSeat
+      v-if="player.openSeat"
+      :table-id="tableId"
+      :position="player.position"
+    />
+    <div v-else class="column">
+      <q-chip rounded color="secondary">
+        <div v-if="blindText">
+          <span>{{ blindText }} </span>
+          <q-space />
+        </div>
+        {{ player.name }}
+        <q-space />
+        {{ formatToUSD(player.balance) }}
+      </q-chip>
       <div v-if="playerIsMe" class="you-text">You</div>
-    </div>
-    <div v-else-if="!joinedTable">
-      <q-btn
-        label="join"
-        class="join-btn"
-        @click="joinTable(tableId, player.position)"
+      <q-chip
+        rounded
+        color="secondary"
+        :icon="isMyTurn ? 'timer' : null"
+        :label="getStateLabel"
       />
     </div>
-    <q-img v-else src="../assets/logo-icon-dark.png" width="50px" />
   </div>
 </template>
+
 <script setup>
-import { computed, onMounted, ref } from "vue"
+import { computed, onMounted, onUnmounted, ref } from "vue"
 import { usePokerStore } from "stores/poker-store"
 import { useAuthStore } from "src/auth/auth-store"
+import { playerStates, rounds } from "src/constants"
 import { secondsUntil } from "src/services/dateService"
 import { displayName } from "src/services/playerService"
-import { getAvatar } from "src/services/avatarService"
-import { playerStates, rounds } from "src/constants"
-import { get } from "lodash"
-import { joinTable } from "src/services/apiService"
+import OpenSeat from "components/OpenSeat.vue"
+import { formatToUSD } from "../services/moneyUtils"
 
 const props = defineProps({
-  player: {
-    type: Object,
-    required: true,
-  },
+  player: { type: Object, required: true },
+})
+
+const getStateLabel = computed(() => {
+  if (isMyTurn.value) {
+    if (!countdownBetTimeoutText.value) return ""
+    return countdownBetTimeoutText.value + "s"
+  }
+  return props.player.state
 })
 
 const pokerStore = usePokerStore()
 const authStore = useAuthStore()
-
 const countdownBetTimeoutText = ref("")
 
-const joinedTable = computed(() => pokerStore.joinedTable)
-const tableId = computed(() => pokerStore.tableId)
-
-onMounted(() => {
-  setInterval(() => {
-    const until =
-      pokerStore.table && pokerStore.table.betTimeout
-        ? secondsUntil(pokerStore.table.betTimeout)
-        : 0
-    countdownBetTimeoutText.value = until <= 0 ? "" : until
-  }, 1000)
-})
-
-const getKlass = computed(() => {
-  const arr = [
-    "player-avatar",
-    "player" + props.player.position,
+const playerClasses = computed(() => {
+  return [
+    `player${props.player.position}`,
     "row",
     "flex-center",
+    isActive.value ? "active" : "",
+    isWaitingForNextRound.value ? "disabled" : "",
   ]
-  if (isActive.value) return arr.concat(["active"])
-  else if (isWaitingForNextRound.value) arr.push("disabled")
-  return arr
 })
 
-const isActive = computed(() => {
-  const pid = get(props.player, "playerAccountId", null)
-  return pid === pokerStore.playerTurnId
-})
-
-const isWaitingForNextRound = computed(() => {
-  return (
-    pokerStore.round !== rounds.PRE_FLOP &&
-    props.player.state === playerStates.SITTING
-  )
-})
-
-const countdownText = computed(() =>
-  countdownBetTimeoutText.value
-    ? `... ${countdownBetTimeoutText.value}s`
-    : "..."
+const isActive = computed(
+  () => props.player.playerAccountId === pokerStore.playerTurnId
 )
 
+const isWaitingForNextRound = computed(
+  () =>
+    pokerStore.round !== rounds.PRE_FLOP &&
+    props.player.state === playerStates.SITTING
+)
 const name = computed(() => displayName(props.player))
-const img = computed(() => getAvatar(props.player))
 const playerIsMe = computed(
   () => props.player.playerAccountId === authStore.playerId
 )
+
+const blindText = computed(() => {
+  const { bigBlindPlayerOpt, smallBlindPlayerOpt } = pokerStore
+  if (pokerStore.round === rounds.PRE_FLOP) {
+    return bigBlindPlayerOpt?.player.playerAccountId ===
+      props.player.playerAccountId
+      ? "BB"
+      : smallBlindPlayerOpt?.player.playerAccountId ===
+        props.player.playerAccountId
+      ? "SB"
+      : null
+  }
+  return null
+})
 const isMyTurn = computed(
   () => props.player.playerAccountId === pokerStore.playerTurnId
 )
 
-const getBlindText = computed(() => {
-  if (pokerStore.round === rounds.PRE_FLOP) {
-    const bbO = pokerStore.bigBlindPlayerOpt
-    const sbO = pokerStore.smallBlindPlayerOpt
-    if (bbO && bbO.player.playerAccountId === props.player.playerAccountId)
-      return "BB"
-    else if (sbO && sbO.player.playerAccountId === props.player.playerAccountId)
-      return "SB"
-    else return null
-  } else return null
-})
+const tableId = computed(() => pokerStore.tableId)
 
-const getText = computed(() => props.player.state)
+let interval = null
+onMounted(() => {
+  interval = setInterval(updateCountdown, 1000)
+})
+onUnmounted(() => {
+  clearInterval(interval)
+})
+function updateCountdown() {
+  const until = pokerStore.table?.betTimeout
+    ? secondsUntil(pokerStore.table.betTimeout)
+    : 0
+  countdownBetTimeoutText.value = until > 0 ? until : ""
+}
 </script>
 
 <style lang="scss">
+.player-state,
+.my-turn {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
 .player-avatar {
   background-image: url(src/assets/join-disk.png);
   background-size: contain;
   width: 129px;
   height: 129px;
+  border-radius: 100%;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+  &.active {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); // Subtle shadow for depth
+  }
+
   &.active {
     border: 6px solid $mango_orange;
-    border-radius: 100%;
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    width: 100px; // Smaller size on mobile devices
+    height: 100px;
   }
 }
 
-.player-state {
+.player-state,
+.my-turn {
   width: 67px;
   height: 24px;
   background: #ff7a41;
-  /* Cartoon Shadow */
   border-radius: 8px;
   display: flex;
   justify-content: center;
+  align-items: center; // Center content vertically
   margin-top: -67px;
   margin-left: 67px;
-}
+  transition: margin 0.3s ease; // Smooth transition for responsive changes
 
-.my-turn {
-  margin-top: -67px;
-  margin-left: 67px;
+  @media (max-width: 768px) {
+    margin-top: -50px; // Adjust position for smaller screens
+    margin-left: 50px;
+  }
 }
 
 .you-text {
@@ -145,13 +165,23 @@ const getText = computed(() => props.player.state)
   font-weight: 700;
   font-size: 32px;
   line-height: 18px;
-  /* or 56% */
-
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   color: #ffffff;
   text-transform: capitalize;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+
+  @media (max-width: 768px) {
+    font-size: 24px; // Smaller font size on mobile
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter, .fade-leave-to /* <- this is for Vue 3 */ {
+  opacity: 0;
 }
 </style>

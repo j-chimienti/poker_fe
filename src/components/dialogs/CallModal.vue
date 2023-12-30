@@ -45,11 +45,16 @@ import * as apiService from "src/services/apiService"
 
 const pokerStore = usePokerStore()
 const uiStore = useUiStore()
-const dontAskCall = computed(() => uiStore.dontAskCall)
 const callModal = computed({
   get: () => uiStore.callModal,
   set: (value) => (uiStore.callModal = value),
 })
+
+const dontAskCall = computed({
+  get: () => uiStore.dontAskCall,
+  set: (value) => (uiStore.dontAskCall = value),
+})
+
 const tableId = computed(() => pokerStore.tableId)
 const callAmountUSD = computed(() => pokerStore.callAmountUSD)
 

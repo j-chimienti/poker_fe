@@ -1,22 +1,34 @@
 <template>
   <div :class="'player' + player.position + ' pokercards'">
-    <div style="position: relative" v-if="showCards.length">
-      <q-img
+    <TransitionGroup
+      @enter="onEnterPlayerCards"
+      @leave="onLeaveCards"
+      v-if="showCards.length"
+    >
+      <div
         v-for="(card, idx) in showCards"
-        :src="card.image"
+        :key="card.id + idx"
+        :data-index="idx"
         :class="getStyle(idx, card)"
-        :key="card.id"
-        width="75px"
-      />
-    </div>
-    <div v-else-if="cards.length">
-      <q-img src="../assets/down-cards.png" width="75px" />
-    </div>
+      >
+        <q-img :src="card.image" width="75px" />
+      </div>
+    </TransitionGroup>
+    <Transition v-else @leave="onLeaveDownCards" @enter="onEnterDownCards">
+      <q-img v-if="cards.length" src="../assets/down-cards.png" width="75px" />
+    </Transition>
   </div>
 </template>
 <script setup>
 import { computed } from "vue"
 import { get } from "lodash"
+import {
+  onEnterCards,
+  onEnterDownCards,
+  onEnterPlayerCards,
+  onLeaveCards,
+  onLeaveDownCards,
+} from "src/services/animationService"
 
 const props = defineProps({
   player: Object,

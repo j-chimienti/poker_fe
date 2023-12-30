@@ -48,7 +48,10 @@ const foldModal = computed({
   set: (value) => (uiStore.foldModal = value),
 })
 const tableId = computed(() => pokerStore.tableId)
-const dontAskFold = computed(() => uiStore.dontAskFold)
+const dontAskFold = computed({
+  get: () => uiStore.dontAskFold,
+  set: (v) => (uiStore.dontAskFold = v),
+})
 
 function closeFoldModal() {
   uiStore.toggleModal("foldModal", false)
