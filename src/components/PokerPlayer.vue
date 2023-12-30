@@ -9,10 +9,10 @@
       :position="player.position"
     />
     <div v-else-if="player.state === status.FOLDED">
-      <q-chip color="secondary">folded</q-chip>
-      <q-chip rounded color="secondary">{{ player.name }}</q-chip>
+      <q-chip dense color="secondary">folded</q-chip>
+      <q-chip dense rounded color="secondary">{{ player.name }}</q-chip>
     </div>
-    <div v-else>
+    <div v-else class="column">
       <q-avatar v-if="blindText" color="secondary">
         <span>{{ blindText }} </span>
       </q-avatar>
@@ -23,11 +23,11 @@
         icon="timer"
         :label="countdownBetTimeoutText"
       />
-      <q-chip v-else rounded color="secondary" :label="player.state" />
-      <q-chip rounded color="secondary">
+      <q-chip dense v-else rounded color="secondary" :label="player.state" />
+      <q-chip v-if="!playerIsMe" dense rounded color="secondary">
         {{ player.name }}
       </q-chip>
-      <q-chip color="secondary">
+      <q-chip dense color="secondary">
         <AnimatedNumberUSD :number="player.balance" />
       </q-chip>
     </div>

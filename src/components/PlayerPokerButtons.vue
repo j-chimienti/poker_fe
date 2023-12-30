@@ -1,43 +1,50 @@
 <template>
-  <div class="row flex-center player-actions">
-    <q-btn
-      class="player-buttons"
-      v-if="canRaise"
-      :disabled="!myTurn"
-      @click="onRaise"
-      color="secondary"
-      label="raise"
-    />
-    <q-btn
-      class="player-buttons"
-      v-if="canBet"
-      :disabled="!myTurn"
-      @click="onBet"
-      color="secondary"
-      label="bet"
-    />
-    <q-btn
-      class="player-buttons"
-      :disabled="!myTurn || !canCheck"
-      @click="onCheck(table.id)"
-      color="secondary"
-      label="check"
-    />
-    <q-btn
-      class="player-buttons"
-      :disabled="!myTurn || !canCall"
-      @click="onCall(table.id)"
-      color="secondary"
-      label="call"
-    />
-    <q-btn
-      class="player-buttons"
-      :disabled="!myTurn"
-      @click="onFold(table.id)"
-      color="secondary"
-      label="fold"
-    />
-  </div>
+  <transition name="slide-fade">
+    <div class="row flex-center player-actions" v-if="joinedTable">
+      <q-btn
+        class="player-buttons"
+        v-if="canRaise"
+        :disabled="!myTurn"
+        @click="onRaise"
+        dense
+        color="secondary"
+        label="raise"
+      />
+      <q-btn
+        class="player-buttons"
+        v-if="canBet"
+        :disabled="!myTurn"
+        @click="onBet"
+        dense
+        color="secondary"
+        label="bet"
+      />
+      <q-btn
+        class="player-buttons"
+        :disabled="!myTurn || !canCheck"
+        @click="onCheck(table.id)"
+        dense
+        color="secondary"
+        label="check"
+      />
+      <q-btn
+        class="player-buttons"
+        :disabled="!myTurn || !canCall"
+        @click="onCall(table.id)"
+        dense
+        color="secondary"
+        label="call"
+      />
+      <q-btn
+        class="player-buttons"
+        :disabled="!myTurn"
+        @click="onFold(table.id)"
+        dense
+        color="secondary"
+        label="fold"
+      />
+    </div>
+  </transition>
 </template>
 
 <script setup>
@@ -54,6 +61,7 @@ const canCheck = computed(() => pokerStore.canCheck)
 const canCall = computed(() => pokerStore.canCall)
 const canRaise = computed(() => pokerStore.canRaise)
 const canBet = computed(() => pokerStore.canBet)
+const joinedTable = computed(() => pokerStore.joinedTable)
 
 const onCall = uiStore.onCall
 const onFold = uiStore.onFold
@@ -68,24 +76,6 @@ const onBet = uiStore.onBet
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-}
-
-.player-buttons {
-  /* Auto layout */
-
-  padding: 14px 20px;
-  gap: 10px;
-
-  width: 115px;
-  height: 48px;
-  /* Mango Orange */
-
-  /* Cartoon Shadow */
-
-  box-shadow: -3px 3px 0px 1px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-  margin-left: 5px;
-  margin-right: 5px;
 }
 
 .v-enter-active,
