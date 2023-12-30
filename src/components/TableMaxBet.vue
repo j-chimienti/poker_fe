@@ -1,18 +1,17 @@
 <template>
   <div class="max-bet flex justify-between">
     <div style="text-transform: capitalize">current bet:</div>
-    <div v-if="maxBet">{{ maxBetFormatted }}</div>
+    <AnimatedNumberUSD :number="maxBet" />
   </div>
 </template>
 
 <script setup>
-import {computed} from "vue"
-import {usePokerStore} from "stores/poker-store"
-import {formatToUSD} from "src/services/moneyUtils"
+import { usePokerStore } from "stores/poker-store"
+import AnimatedNumberUSD from "components/AnimatedNumberUSD.vue"
+import { computed } from "vue"
 
 const store = usePokerStore()
-const maxBet = store.maxBet
-const maxBetFormatted = computed(() => formatToUSD(store.maxBet))
+const maxBet = computed(() => store.maxBet)
 </script>
 
 <style scoped>

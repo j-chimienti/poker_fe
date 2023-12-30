@@ -1,6 +1,6 @@
 <template>
   <div class="my-cards">
-    <transition-group @enter="onEnterPlayerCards" @leave="onLeaveCards">
+    <transition-group @enter="onEnterMyCards" @leave="onLeaveCards">
       <q-img
         v-for="card in myCards"
         :src="card.image"
@@ -13,7 +13,7 @@
 <script setup>
 import { usePokerStore } from "stores/poker-store"
 import { computed } from "vue"
-import { onEnterPlayerCards, onLeaveCards } from "src/services/animationService"
+import { onEnterMyCards, onLeaveCards } from "src/services/animationService"
 
 const myCards = computed(() => usePokerStore().myCards)
 </script>

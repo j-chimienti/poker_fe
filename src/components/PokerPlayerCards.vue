@@ -1,7 +1,7 @@
 <template>
   <div :class="'player' + player.position + ' pokercards'">
     <TransitionGroup
-      @enter="onEnterPlayerCards"
+      @enter="onEnterDownCards"
       @leave="onLeaveCards"
       v-if="showCards.length"
     >
@@ -14,7 +14,7 @@
         <q-img :src="card.image" width="75px" />
       </div>
     </TransitionGroup>
-    <Transition v-else @leave="onLeaveDownCards" @enter="onEnterDownCards">
+    <Transition v-else @leave="onLeaveCards" @enter="onEnterDownCards">
       <q-img v-if="cards.length" src="../assets/down-cards.png" width="75px" />
     </Transition>
   </div>
@@ -22,13 +22,7 @@
 <script setup>
 import { computed } from "vue"
 import { get } from "lodash"
-import {
-  onEnterCards,
-  onEnterDownCards,
-  onEnterPlayerCards,
-  onLeaveCards,
-  onLeaveDownCards,
-} from "src/services/animationService"
+import { onEnterDownCards, onLeaveCards } from "src/services/animationService"
 
 const props = defineProps({
   player: Object,

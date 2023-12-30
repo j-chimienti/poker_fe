@@ -1,6 +1,6 @@
 <template>
   <div
-    class="player-avatar row flex-center"
+    class="player-avatar column"
     :class="playerClasses.concat(`player${player.position}`)"
   >
     <OpenSeat
@@ -8,24 +8,30 @@
       :table-id="tableId"
       :position="player.position"
     />
-    <div v-else class="column">
-      <q-chip rounded color="secondary">
-        <div v-if="blindText">
-          <span>{{ blindText }} </span>
-          <q-space />
-        </div>
-        {{ player.name }}
-        <q-space />
-        {{ formatToUSD(player.balance) }}
-      </q-chip>
-      <div v-if="playerIsMe" class="you-text">You</div>
+    <div v-else-if="player.state === status.FOLDED">
+      <q-chip color="secondary">folded</q-chip>
+      <q-chip rounded color="secondary">{{ player.name }}</q-chip>
+    </div>
+    <div v-else>
+      <q-avatar v-if="blindText" color="secondary">
+        <span>{{ blindText }} </span>
+      </q-avatar>
       <q-chip
         rounded
+        v-if="isMyTurn"
         color="secondary"
-        :icon="isMyTurn ? 'timer' : null"
-        :label="getStateLabel"
+        icon="timer"
+        :label="countdownBetTimeoutText"
       />
+      <q-chip v-else rounded color="secondary" :label="player.state" />
+      <q-chip rounded color="secondary">
+        {{ player.name }}
+      </q-chip>
+      <q-chip color="secondary">
+        <AnimatedNumberUSD :number="player.balance" />
+      </q-chip>
     </div>
+    <div v-if="playerIsMe" class="you-text">You</div>
   </div>
 </template>
 
@@ -33,22 +39,14 @@
 import { computed, onMounted, onUnmounted, ref } from "vue"
 import { usePokerStore } from "stores/poker-store"
 import { useAuthStore } from "src/auth/auth-store"
-import { playerStates, rounds } from "src/constants"
+import { playerStates, rounds, status } from "src/constants"
 import { secondsUntil } from "src/services/dateService"
 import { displayName } from "src/services/playerService"
 import OpenSeat from "components/OpenSeat.vue"
-import { formatToUSD } from "../services/moneyUtils"
+import AnimatedNumberUSD from "components/AnimatedNumberUSD.vue"
 
 const props = defineProps({
   player: { type: Object, required: true },
-})
-
-const getStateLabel = computed(() => {
-  if (isMyTurn.value) {
-    if (!countdownBetTimeoutText.value) return ""
-    return countdownBetTimeoutText.value + "s"
-  }
-  return props.player.state
 })
 
 const pokerStore = usePokerStore()
@@ -168,8 +166,8 @@ function updateCountdown() {
   color: #ffffff;
   text-transform: capitalize;
   position: absolute;
-  top: 0%;
-  left: 0%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
 
   @media (max-width: 768px) {
