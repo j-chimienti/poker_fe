@@ -17,10 +17,10 @@ watch(myTurn, function (n) {
   if (n) document.title = "your turn!"
   else {
     document.title = original
-    if (raiseModal) uiStore.closeModal("raiseModal")
-    if (betModal) uiStore.closeModal("betModal")
-    if (foldModal) uiStore.closeModal("foldModal")
-    if (callModal) uiStore.closeModal("callModal")
+    if (raiseModal.value) uiStore.closeModal("raiseModal")
+    if (betModal.value) uiStore.closeModal("betModal")
+    if (foldModal.value) uiStore.closeModal("foldModal")
+    if (callModal.value) uiStore.closeModal("callModal")
   }
 })
 </script>

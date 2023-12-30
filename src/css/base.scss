@@ -2,12 +2,17 @@
 @import url('https://fonts.cdnfonts.com/css/wonderbar');
 @import url('https://fonts.cdnfonts.com/css/mukta');
 
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; // Prevent scrolling
+}
 
 body {
   font-family: 'Wonderbar', serif;
   background-color: $teal; // assuming $teal is defined in variables
-  height: 100vh;
-  min-height: 500px;
   text-transform: lowercase;
   color: white; // assuming white is defined in variables
 }
