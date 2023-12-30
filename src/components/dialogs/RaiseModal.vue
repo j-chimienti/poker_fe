@@ -2,7 +2,14 @@
   <q-dialog v-model="raiseModal">
     <q-card>
       <q-card-section class="row justify-center">
-        <q-btn flat round dense icon="close" v-close-popup />
+        <q-btn
+          flat
+          round
+          dense
+          icon="close"
+          v-close-popup
+          class="close-button"
+        />
         <div class="player-action-title">Raise the bet</div>
       </q-card-section>
       <q-card-section>
@@ -127,41 +134,20 @@ const validateMinRaise = (amount) => {
 const myTurn = computed(() => pokerStore.myTurn)
 watch(myTurn, onMyTurnUpdate)
 
-function onMyTurnUpdate(n, o) {
-  if (raiseModal.value && !n && o) {
-    uiStore.toggleModal("raiseModal", false)
-  }
+function onMyTurnUpdate(n) {
+  if (raiseModal.value && !n) uiStore.toggleModal("raiseModal", false)
 }
 </script>
 
 <style scoped lang="scss">
-.account-popup {
-  width: 446px;
-  height: 351px;
-
-  /* Box Shadows / Dark */
-
-  box-shadow: 0px 0px 22px 5px rgba(0, 0, 0, 0.5);
-  border-radius: 22px;
-}
-.background-euc {
-  background: $Eucalyptus;
-}
-
-.amountFormWrapper {
-  width: 339px;
-  height: 49px;
-  font-size: 40px;
-}
-
 .amountRaiseText {
   font-size: 40px;
 }
 
 .eucalyptusButton {
-  background: $Eucalyptus;
-  font-family: "Mukta";
-  font-size: 40px;
-  border: #0d6757;
+  background: $Eucalyptus; // Ensure $Eucalyptus is defined in your SCSS variables
+  font-family: "Mukta", sans-serif; // Fallback to sans-serif if Mukta is not available
+  font-size: clamp(1.5rem, 4vw, 2.5rem); // Adjust as necessary
+  border: 1px solid #0d6757; // Specify border width and style
 }
 </style>

@@ -1,16 +1,22 @@
 <template>
   <q-dialog v-model="callModal">
     <q-card>
-      <q-card-section class="row justify justify-between">
-        <q-btn flat round dense icon="close" v-close-popup />
+      <q-card-section class="row justify justify-center">
+        <q-btn
+          flat
+          round
+          dense
+          icon="close"
+          v-close-popup
+          class="close-button"
+        />
         <span class="player-action-title">call the bet</span>
-        <q-space />
       </q-card-section>
       <q-card-section class="justify-center"
         >calling the bet will put {{ callAmountUSD }} into the
         pot</q-card-section
       >
-      <q-card-section class="column">
+      <q-card-section class="column justify-center">
         <q-btn
           color="secondary"
           class="player-action-button q-mb-sm"
@@ -32,9 +38,9 @@
 </template>
 
 <script setup>
-import {computed, watch} from "vue"
-import {usePokerStore} from "stores/poker-store"
-import {useUiStore} from "stores/ui-store"
+import { computed, watch } from "vue"
+import { usePokerStore } from "stores/poker-store"
+import { useUiStore } from "stores/ui-store"
 import * as apiService from "src/services/apiService"
 
 const pokerStore = usePokerStore()
@@ -55,10 +61,8 @@ const onCall = () => {
 
 watch(myTurn, onMyTurnUpdate)
 
-function onMyTurnUpdate(n, o) {
-  if (callModal.value && !n && o) {
-    uiStore.toggleModal("callModal", false)
-  }
+function onMyTurnUpdate(n) {
+  if (callModal.value && !n) uiStore.toggleModal("callModal", false)
 }
 </script>
 

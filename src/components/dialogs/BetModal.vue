@@ -1,9 +1,17 @@
 <template>
   <q-dialog v-model="betModal">
     <q-card class="bg-primary account-popup text-white">
-      <q-card-section class="player-action-title row justify-center"
-        >Bet</q-card-section
-      >
+      <q-card-section class="row justify justify-center">
+        <q-btn
+          flat
+          round
+          dense
+          icon="close"
+          v-close-popup
+          class="close-button"
+        />
+        <span class="player-action-title">bet</span>
+      </q-card-section>
       <q-card-section>
         <q-btn-group spread>
           <q-btn
@@ -111,8 +119,8 @@ const onBet = () => {
 const myTurn = computed(() => pokerStore.myTurn)
 watch(myTurn, onMyTurnUpdate)
 
-function onMyTurnUpdate(n, o) {
-  if (betModal.value && !n && o) {
+function onMyTurnUpdate(n) {
+  if (betModal.value && !n) {
     uiStore.toggleModal("betModal", false)
   }
 }

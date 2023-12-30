@@ -1,0 +1,22 @@
+button {
+  font-family: 'Lato', serif;
+}
+
+.join-btn {
+  background: #FF7A41;
+  color: #FFFFFF;
+  font-family: 'Mukta', serif;
+}
+
+.player-action-button {
+  width: 80%; // instead of a fixed width in pixels
+  max-width: 338px; // to ensure it doesn't get too wide on large screens
+  height: auto; // maintain aspect ratio
+  /* Mango Orange */
+
+  background: #FF7A41;
+  box-shadow: -3px 3px 0px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+

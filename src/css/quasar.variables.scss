@@ -1,41 +1,24 @@
 // Quasar SCSS (& Sass) Variables
-// --------------------------------------------------
-// To customize the look and feel of this app, you can override
-// the Sass/SCSS variables found in Quasar's source Sass/SCSS files.
-
-// Check documentation for full list of Quasar variables
-
-// Your own variables (that are declared here) and Quasar's own
-// ones will be available out of the box in your .vue/.scss/.sass files
-
-// It's highly recommended to change the default colors
-// to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
 
 $teal : #0D6757;
-
 $mango_orange: #FF7A41;
-
 $Eucalyptus: #248F5C;
-
 $Cocoa: #3E190A;
 
+$primary   : $teal;
+$secondary : $mango_orange;
+$accent    : $Cocoa;
+$dark      : #1D1D1D;
+$dark-page : #121212;
 
 
-// Variables for website branding
-$primary   : $teal; // a dark and rich teal color, creating a sense of depth and sophistication
-$secondary : $mango_orange; // a warm and vibrant coral color that complements the dark teal primary
-$accent    : $Cocoa; // a soft and elegant purple color that adds contrast to the primary and secondary colors
-$dark      : #1D1D1D; // a deep dark shade for text and UI elements
-$dark-page : #121212; // a slightly darker shade for page backgrounds
+$pill-bg   : #1F6A6A;
+$card-bg   : #1C5D5D;
 
-// Background colors for pill and card components
-$pill-bg   : #1F6A6A; // a lighter teal shade derived from the primary color, suitable for pill backgrounds
-$card-bg   : #1C5D5D; // a slightly lighter teal shade derived from the primary color, suitable for card backgrounds
 
-// Colors for different types of notifications and messages
-$positive  : #21BA45; // a bright green color for positive messages and success indicators
-$negative  : #C10015; // a bold red color for negative messages and error indicators
-$info      : #31CCEC; // a striking blue color for informational messages
-$warning   : #F2C037; // a vibrant yellow color for warning messages and alerts
+$positive  : #21BA45;
+$negative  : #C10015;
+$info      : #31CCEC;
+$warning   : #F2C037;

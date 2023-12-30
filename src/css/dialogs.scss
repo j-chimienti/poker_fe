@@ -1,0 +1,25 @@
+.close-button {
+  position: absolute;
+  left: 0;
+}
+.player-action-title {
+  font-family: 'Wonderbar', cursive;
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 4vw, 2.5rem); // Adjust the values as needed
+  line-height: 1.1; // Generally, 1.1 to 1.5 is a good line-height
+  color: #FFFFFF;
+}
+
+
+.player-action-text {
+  font-family: 'Mukta', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(1.2rem, 3vw, 2rem); // Adjust the values as needed
+  line-height: 1.2; // Adjust as per design needs
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #FFFFFF;
+}

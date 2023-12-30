@@ -1,0 +1,86 @@
+@for $i from 1 through 10 {
+  .object#{$i} {
+    position: absolute;
+  }
+
+}
+
+.object1, .object2 {
+  top: -15%;
+  &.pokercards {
+    top: -25%;
+  }
+}
+
+.object1 {
+  left: 25%;
+}
+
+.object2 {
+  right: 25%;
+}
+
+.object3 {
+  top: -5%;
+  right: 5%;
+  &.pokercards {
+    top: -25%;
+  }
+}
+
+.object4 {
+  top: 40%;
+  right: 0;
+  &.pokercards {
+    right: -10%;
+  }
+}
+
+.object5 {
+  bottom: -5%;
+  right: 5%;
+  &.pokercards {
+    right: 0;
+  }
+}
+
+.object6 {
+  bottom: -15%;
+  right: 25%;
+  &.pokercards {
+    bottom: -25%;
+  }
+}
+
+.object7 {
+  bottom: -15%;
+  left: 25%;
+  &.pokercards {
+    bottom: -25%;
+  }
+}
+
+
+.object8 {
+  bottom: -5%;
+  left: 5%;
+  &.pokercards {
+    left: -5%;
+  }
+}
+
+.object9 {
+  top: 40%;
+  left: 0;
+  &.pokercards {
+    left: -5%;
+  }
+}
+
+.object10 {
+  top: -5%;
+  left: 5%;
+  &.pokercards {
+    left: -5%;
+  }
+}

@@ -1,9 +1,17 @@
 <template>
   <q-dialog v-model="foldModal">
     <q-card class="bg-primary account-popup">
-      <q-card-section class="player-action-title flex-center"
-        >fold</q-card-section
-      >
+      <q-card-section class="row justify-center">
+        <q-btn
+          flat
+          round
+          dense
+          icon="close"
+          v-close-popup
+          class="close-button"
+        />
+        <div class="player-action-title">fold</div>
+      </q-card-section>
       <q-card-section class="player-action-text text-center"
         >are you sure you want to fold</q-card-section
       >
@@ -28,10 +36,10 @@
 </template>
 
 <script setup>
-import {computed, watch} from "vue"
-import {usePokerStore} from "stores/poker-store"
-import {useUiStore} from "stores/ui-store"
-import {fold} from "src/services/apiService"
+import { computed, watch } from "vue"
+import { usePokerStore } from "stores/poker-store"
+import { useUiStore } from "stores/ui-store"
+import { fold } from "src/services/apiService"
 
 const pokerStore = usePokerStore()
 const uiStore = useUiStore()
@@ -57,8 +65,8 @@ const onFold = () => {
 const myTurn = computed(() => pokerStore.myTurn)
 watch(myTurn, onMyTurnUpdate)
 
-function onMyTurnUpdate(n, o) {
-  if (foldModal.value && !n && o) {
+function onMyTurnUpdate(n) {
+  if (foldModal.value && !n) {
     uiStore.toggleModal("foldModal", false)
   }
 }
