@@ -2,6 +2,7 @@
   <q-form @submit.prevent="sendMessage">
     <q-input
       v-model.lazy="msg"
+      ref="messageInput"
       :error="hasError"
       placeholder="Say something..."
       :error-message="errorMsg"
@@ -29,6 +30,8 @@ import { Notify } from "quasar"
 
 const msg = ref("")
 const isDirty = ref(false) // Track if the user has interacted with the input
+const messageInput = ref(null) // Create a ref for the input
+
 let pokerStore = usePokerStore()
 const tableId = computed(() => pokerStore.room)
 
@@ -46,12 +49,15 @@ watch(msg, (newValue, oldValue) => {
 })
 
 const sendMessage = () => {
-  isDirty.value = true // Set isDirty when trying to send the message
+  isDirty.value = true
   if (!hasError.value) {
     chatMessage(msg.value, tableId.value)
     msg.value = ""
-    isDirty.value = false // Reset isDirty after message is sent
-  } else Notify.create("invalid " + msg.value.length)
+    isDirty.value = false
+    messageInput.value && messageInput.value.focus() // Focus the input field
+  } else {
+    Notify.create("invalid " + msg.value.length)
+  }
 }
 </script>
 

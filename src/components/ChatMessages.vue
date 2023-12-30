@@ -1,35 +1,37 @@
 <template>
-  <div class="chat-container" v-if="chatVisible">
-    <div class="card full-height">
-      <q-card-section class="row justify-center">
-        <q-btn
-          flat
-          round
-          dense
-          icon="close"
-          class="close-button"
-          @click="closeChat"
-        />
-        <div class="text-h3">chat</div>
-      </q-card-section>
+  <transition name="slide-fade">
+    <div class="chat-container" v-if="chatVisible">
+      <div class="card full-height-c">
+        <q-card-section class="row justify-center">
+          <q-btn
+            flat
+            round
+            dense
+            icon="close"
+            class="close-button"
+            @click="closeChat"
+          />
+          <div class="text-h3">chat</div>
+        </q-card-section>
 
-      <!-- Chat Messages Section -->
-      <q-card-section>
-        <q-chat-message
-          v-for="message in computedChatMessages"
-          :key="message.id"
-          :name="message.playerName"
-          :avatar="getPlayerInfo(message.playerName)"
-          :text="[message.message]"
-        />
-      </q-card-section>
+        <!-- Chat Messages Section -->
+        <q-card-section class="chat-messages">
+          <q-chat-message
+            v-for="message in computedChatMessages"
+            :key="message.id"
+            :name="message.playerName"
+            :avatar="getPlayerInfo(message.playerName)"
+            :text="[message.message]"
+          />
+        </q-card-section>
 
-      <!-- Chat Form Section -->
-      <q-card-section class="chat-form">
-        <SendMessageForm />
-      </q-card-section>
+        <!-- Chat Form Section -->
+        <q-card-section class="chat-form">
+          <SendMessageForm />
+        </q-card-section>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <!-- Rest of the script remains the same -->
@@ -73,28 +75,40 @@ const computedChatMessages = computed(() =>
 
 <style scoped>
 .chat-container {
-  position: fixed; /* Changed from absolute to fixed */
+  position: fixed;
   width: 435px;
   height: 673px;
-  right: 50px; /* Adjust to position the container from the right edge of the viewport */
-  bottom: 20px; /* Adjust to position the container from the bottom edge of the viewport */
-
+  right: 50px;
+  bottom: 20px;
   z-index: 1000;
   background: #0d6757;
   box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+}
+
+.full-height-c {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .chat-messages {
   overflow-y: auto;
-  flex-grow: 1; /* Makes the chat messages area take up the available space */
+  flex-grow: 1;
 }
 
 .chat-form {
-  position: sticky;
-  bottom: 0;
+  flex-shrink: 0;
+}
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
 }
 </style>

@@ -1,21 +1,5 @@
 <template>
-  <div>
-    <LoginModal />
-    <AccountInfoModal />
-    <div hidden>
-      <img
-        v-for="card in cardImages"
-        :key="card.name + 'loading'"
-        width="75"
-        :src="card.image"
-      />
-    </div>
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
-<script setup>
-import {cardImages} from "./services/cardImageService.js"
-import LoginModal from "src/auth/LoginModal.vue"
-import AccountInfoModal from "components/dialogs/AccountInfoModal.vue"
-</script>
+<script setup></script>
