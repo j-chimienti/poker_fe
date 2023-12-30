@@ -62,14 +62,6 @@ const onFold = () => {
     closeFoldModal()
   }
 }
-const myTurn = computed(() => pokerStore.myTurn)
-watch(myTurn, onMyTurnUpdate)
-
-function onMyTurnUpdate(n) {
-  if (foldModal.value && !n) {
-    uiStore.toggleModal("foldModal", false)
-  }
-}
 </script>
 
 <style scoped>

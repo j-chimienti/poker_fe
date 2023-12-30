@@ -8,6 +8,7 @@ export const useUiStore = defineStore("ui", {
   state: () => ({
     loginModalVisible: false,
     accountModalVisible: false,
+    confirmLeaveTableModalVisible: false,
     raiseModal: false,
     betModal: false,
     foldModal: false,
@@ -15,9 +16,7 @@ export const useUiStore = defineStore("ui", {
     callModal: false,
     dontAskCall: false,
     dontAskFold: false,
-    playAnotherHandModalVisible: false,
     dismissYourTurnNotification: null,
-    confirmLeaveTableModalVisible: false,
   }),
   actions: {
     openLoginModal() {
@@ -27,6 +26,9 @@ export const useUiStore = defineStore("ui", {
       if (this[modalName] !== undefined) {
         this[modalName] = value
       }
+    },
+    closeModal(name) {
+      return this.toggleModal(name, false)
     },
     onCall(tableId) {
       if (this.dontAskCall) return call(tableId)

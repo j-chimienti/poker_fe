@@ -31,11 +31,17 @@ function dontLeave() {
   <q-dialog v-model="confirmLeaveTableModalVisible">
     <q-card>
       <q-card-section class="row justify-center">
-        <q-btn flat round dense icon="close" v-close-popup />
-        <q-space />
-        <div class="player-action-title">Leave the table</div>
+        <q-btn
+          flat
+          round
+          dense
+          icon="close"
+          v-close-popup
+          class="close-button"
+        />
+        <div class="player-action-title">Leave</div>
       </q-card-section>
-      <p class="text-center">You sure you want to leave the table?</p>
+      <p class="text-center">Are you sure you want to leave?</p>
       <q-card-section class="column justify-center">
         <q-btn
           label="confirm"

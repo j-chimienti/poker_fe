@@ -45,11 +45,11 @@
 </template>
 
 <script setup>
-import {computed, onBeforeUnmount, onMounted, ref} from "vue"
-import {usePokerStore} from "stores/poker-store"
-import {useRouter} from "vue-router"
-import {formatToUSD} from "src/services/moneyUtils"
-import {get as _get} from "lodash"
+import { computed, onBeforeUnmount, onMounted, ref } from "vue"
+import { usePokerStore } from "stores/poker-store"
+import { useRouter } from "vue-router"
+import { formatToUSD } from "src/services/moneyUtils"
+import { get as _get } from "lodash"
 
 // Components
 import PokerTable from "components/PokerTable.vue"
@@ -63,9 +63,9 @@ import CallModal from "components/dialogs/CallModal.vue"
 import FoldModal from "components/dialogs/FoldModal.vue"
 import BetModal from "components/dialogs/BetModal.vue"
 import ConfirmLeaveTableModal from "components/dialogs/ConfirmLeaveTableModal.vue"
-import {useUiStore} from "stores/ui-store"
-import {pages} from "src/constants"
-import PageTitle from "components/PageTitle.vue"
+import { useUiStore } from "stores/ui-store"
+import { pages } from "src/constants"
+import PageTitle from "components/MyTurnWatcher.vue"
 
 const pokerStore = usePokerStore()
 const router = useRouter()

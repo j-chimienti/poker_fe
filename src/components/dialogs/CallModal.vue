@@ -52,17 +52,10 @@ const callModal = computed({
 })
 const tableId = computed(() => pokerStore.tableId)
 const callAmountUSD = computed(() => pokerStore.callAmountUSD)
-const myTurn = computed(() => pokerStore.myTurn)
 
 const onCall = () => {
   apiService.call(tableId.value)
   uiStore.toggleModal("callModal", false)
-}
-
-watch(myTurn, onMyTurnUpdate)
-
-function onMyTurnUpdate(n) {
-  if (callModal.value && !n) uiStore.toggleModal("callModal", false)
 }
 </script>
 

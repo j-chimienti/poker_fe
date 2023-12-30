@@ -131,12 +131,6 @@ const validateMinRaise = (amount) => {
   const minRaise = canRaise.value || smallBlindBetAmount.value
   return minRaise < amount
 }
-const myTurn = computed(() => pokerStore.myTurn)
-watch(myTurn, onMyTurnUpdate)
-
-function onMyTurnUpdate(n) {
-  if (raiseModal.value && !n) uiStore.toggleModal("raiseModal", false)
-}
 </script>
 
 <style scoped lang="scss">
