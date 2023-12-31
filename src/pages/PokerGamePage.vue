@@ -29,7 +29,9 @@
     <PokerTable />
   </div>
 
-  <div class="table-pot row flex-center">Pot: {{ formattedPot }}</div>
+  <div class="table-pot row flex-center">
+    Pot: <AnimatedNumberUSD :number="pot" />
+  </div>
   <div class="row flex-center small q-my-sm" v-if="countdown">
     next hand: {{ countdown }}s
   </div>
@@ -48,9 +50,7 @@
 import { computed, onBeforeUnmount, onMounted, ref } from "vue"
 import { usePokerStore } from "stores/poker-store"
 import { useRouter } from "vue-router"
-import { formatToUSD } from "src/services/moneyUtils"
-import { get as _get } from "lodash"
-
+import _get from "lodash.get"
 // Components
 import PokerTable from "components/PokerTable.vue"
 import ChatMessages from "components/ChatMessages.vue"
@@ -66,6 +66,7 @@ import ConfirmLeaveTableModal from "components/dialogs/ConfirmLeaveTableModal.vu
 import { useUiStore } from "stores/ui-store"
 import { pages } from "src/constants"
 import PageTitle from "components/MyTurnWatcher.vue"
+import AnimatedNumberUSD from "components/AnimatedNumberUSD.vue"
 
 const pokerStore = usePokerStore()
 const router = useRouter()
@@ -75,7 +76,6 @@ const joinedTable = computed(() => pokerStore.joinedTable)
 const pot = computed(() => pokerStore.pot)
 const tableId = computed(() => pokerStore.tableId)
 
-const formattedPot = computed(() => formatToUSD(pot.value))
 const countdown = ref(null)
 let timer = null
 

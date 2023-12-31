@@ -41,7 +41,7 @@ import { computed } from "vue"
 import { usePokerStore } from "stores/poker-store"
 import { getAvatar } from "src/services/avatarService"
 import SendMessageForm from "components/SendMessageForm.vue"
-import { get } from "lodash"
+import get from "lodash.get"
 
 // Define props
 const props = defineProps({

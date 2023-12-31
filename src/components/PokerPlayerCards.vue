@@ -21,7 +21,7 @@
 </template>
 <script setup>
 import { computed } from "vue"
-import { get } from "lodash"
+import get from "lodash.get"
 import { onEnterDownCards, onLeaveCards } from "src/services/animationService"
 
 const props = defineProps({
