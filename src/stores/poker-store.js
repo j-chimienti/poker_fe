@@ -29,7 +29,6 @@ export const usePokerStore = defineStore("poker", {
       this.chatVisible = !this.chatVisible
     },
     mapToTable(t) {
-      // Helper function to map cards
       const mapCards = (cards) => cards.map((c) => new Card(c))
 
       // Update table cards

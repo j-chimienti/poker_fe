@@ -1,47 +1,62 @@
 <template>
-  <q-card class="q-px-lg">
-    <div class="login-header text-center">{{ loginType }}</div>
+  <q-card class="q-px-lg loginCard">
+    <q-card-section class="row flex-center">
+      <q-btn flat round dense icon="close" class="close-button" v-close-popup />
+      <div class="text-h3">{{ loginType }}</div>
+    </q-card-section>
     <SocialAuth />
-    <div class="row flex-center">
-      <q-form
-        dark
-        @submit.prevent="onSubmitForm"
-        class="q-my-lg text-center text-white"
-        ref="loginForm"
-        data-cy="loginForm"
-        style="max-width: 700px"
+    <q-form
+      ref="loginForm"
+      class="q-my-lg text-center"
+      data-cy="loginForm"
+      @submit.prevent="onSubmitForm"
+    >
+      <q-input
+        v-model="form.email"
+        type="email"
+        placeholder="email"
+        lazy-rules
+        :rules="[(val) => emailIsValid(val) || 'Invalid email']"
+      />
+      <q-input
+        v-model="form.password"
+        :type="passwordVisible ? 'text' : 'password'"
+        name="password"
+        placeholder="Password"
+        data-cy="password"
+        lazy-rules
+        label="password"
+        :rules="[
+          (val) =>
+            (val && val.length >= 8) ||
+            'Password must be more than 8 characters',
+        ]"
       >
-        <div class="email-text">Email</div>
-        <q-input type="email" v-model="email" lazy-rules :rules="[emailRule]" />
-        <q-input
-          :type="passwordVisible ? 'text' : 'password'"
-          name="password"
-          class="text-white"
-          data-cy="password"
-          v-model="password"
-          lazy-rules
-          label="password"
-          :rules="[passwordRule]"
-        >
-          <template v-slot:append>
-            <q-icon
-              :name="passwordVisible ? 'visibility_off' : 'visibility'"
-              class="cursor-pointer"
-              @click="passwordVisible = !passwordVisible"
-            />
-          </template>
-        </q-input>
+        <template #append>
+          <q-icon
+            :name="passwordVisible ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="passwordVisible = !passwordVisible"
+          />
+        </template>
+      </q-input>
+      <div class="fixed-height-input">
         <q-input
           v-if="loginType === 'signup'"
+          v-model="form.passwordVerify"
           type="password"
           name="passwordVerify"
           data-cy="passwordVerify"
-          v-model="passwordVerify"
+          placeholder="Verify Password"
           label="password"
           lazy-rules
-          :rules="[passwordVerifyRule]"
+          :rules="[
+            (val) =>
+              (loginType === 'signup' ? val === form.password : true) ||
+              'Password verification failed',
+          ]"
         >
-          <template v-slot:append>
+          <template #append>
             <q-icon
               :name="passwordVisibleVerify ? 'visibility_off' : 'visibility'"
               class="cursor-pointer"
@@ -49,133 +64,134 @@
             />
           </template>
         </q-input>
+        <div v-else class="input-placeholder"></div>
+      </div>
 
-        <q-btn
-          type="submit"
-          :label="loginType"
-          class="submit-login-btn"
-          :loading="loadingLogin"
-        />
+      <q-btn
+        type="submit"
+        :label="loginType"
+        icon="login"
+        color="primary"
+        :loading="loadingLogin"
+        class="auth-btn"
+      />
 
-        <div class="q-mt-md pointer switch-login-type-text">
-          <p @click="loginType = 'login'" v-if="loginType === 'signup'">
-            Already have an account? sign in
-          </p>
-          <p @click="loginType = 'signup'" v-else data-cy="goToSignup">
-            Don't have an account? sign up
-          </p>
-        </div>
-      </q-form>
-    </div>
+      <div class="q-mt-md pointer">
+        <p v-if="loginType === 'signup'" @click="loginType = 'login'">
+          Already have an account? sign in
+        </p>
+        <p v-else data-cy="goToSignup" @click="loginType = 'signup'">
+          Don't have an account? sign up
+        </p>
+      </div>
+    </q-form>
   </q-card>
 </template>
 
 <script setup>
-import {ref} from "vue"
 import SocialAuth from "./SocialAuth.vue"
-import {useQuasar} from "quasar"
-import {useAuthStore} from "src/auth/auth-store"
+import { useAuthStore } from "src/auth/auth-store"
+import { computed, ref } from "vue"
+import { useQuasar } from "quasar"
 
 const $q = useQuasar()
 
-// Reactive states
-const email = ref("")
-const password = ref("")
-const passwordVerify = ref("")
+const loginForm = ref(null)
+
+const form = ref({
+  password: "",
+  email: "",
+  passwordVerify: "",
+})
+
 const loginType = ref("login")
+const loadingLogin = ref(false)
 const passwordVisible = ref(false)
 const passwordVisibleVerify = ref(false)
-const loadingLogin = ref(false)
 
-// Validation rules
-const emailRule = (val) => /\S+@\S+\.\S+/.test(val) || "Invalid email"
-const passwordRule = (val) =>
-  (val && val.length >= 8) || "Password must be more than 8 characters"
-const passwordVerifyRule = (val) =>
-  loginType.value === "signup"
-    ? val === password.value || "Password verification failed"
-    : true
+const loginModalVisible = computed({
+  get: () => useAuthStore().loginModalVisible,
+  set: (v) => (useAuthStore().loginModalVisible = v),
+})
 
-const onSubmitForm = async () => {
-  loadingLogin.value = true
-  try {
-    if (loginType.value === "signup") {
-      await useAuthStore().signup({
-        email: email.value,
-        password: password.value,
-      })
-      // Handle successful signup
+const emailIsValid = (email) => /\S+@\S+\.\S+/.test(email)
+
+const onSubmitForm = () => {
+  const { password, email } = form.value
+
+  loginForm.value.validate().then((success) => {
+    if (success) {
+      loadingLogin.value = true
+      if (loginType.value === "signup")
+        return useAuthStore()
+          .signup({ password, email })
+          .then((f) => (loginModalVisible.value = false))
+          .finally(() => {
+            loadingLogin.value = false
+          })
+      else
+        return useAuthStore()
+          .login({ password, email })
+          .then((f) => {
+            if (f) loginModalVisible.value = false
+            loadingLogin.value = false
+          })
     } else {
-      await useAuthStore().login({
-        email: email.value,
-        password: password.value,
+      loadingLogin.value = false
+      $q.notify({
+        message: "Invalid request",
+        type: "negative",
       })
-      // Handle successful login
-      $q.notify("logged in " + email.value)
     }
-  } catch (error) {
-    $q.notify({
-      message: "Invalid request",
-      type: "negative",
-    })
-  } finally {
-    loadingLogin.value = false
-  }
+  })
 }
 </script>
 
 <style lang="scss" scoped>
+@import "../css/quasar.variables";
+.signup-link {
+  border-bottom: 4px solid transparent;
+  transition: all 0.1s ease-in-out;
+  font-size: 1.75rem;
+  cursor: pointer;
+}
+.signup-link:hover {
+  border-bottom: 4px solid $primary;
+}
+
+.active {
+  border-bottom: 4px solid $primary;
+}
+.loginCard {
+  width: 400px;
+  border: 0.5rem solid $primary;
+}
+
 input,
 label {
   color: white !important;
+  font-size: 1.25rem;
 }
 
 svg {
   cursor: pointer;
 }
 
-.submit-login-btn {
-  width: 336px;
-  height: 48px;
-
-  /* Mango Orange */
-
-  background: #ff7a41;
-  box-shadow: -3px 3px 0px 1px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+.login-btn {
+  width: 150px;
 }
 
-.login-header {
-  font-family: "Wonderbar";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 78px;
-  line-height: 100px;
-  /* identical to box height, or 128% */
-
-  color: #ffffff;
+.fixed-height-input {
+  height: 5rem; // Set this to the height of your q-input
+  overflow: hidden;
 }
 
-.email-text {
-  font-family: "Mukta";
-  font-style: normal;
-  font-weight: 800;
-  font-size: 32px;
-  line-height: 36px;
-  /* identical to box height, or 112% */
-  color: #ffffff;
+.input-placeholder {
+  height: 100%;
+  visibility: hidden;
 }
 
-.switch-login-type-text {
-  font-family: "Mukta";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 28px;
-  /* identical to box height, or 117% */
-
-  text-align: center;
-
-  color: #ffffff;
+.auth-btn {
+  width: 200px;
 }
 </style>

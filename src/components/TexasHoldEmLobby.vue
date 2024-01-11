@@ -2,33 +2,12 @@
   <NavBar />
   <ChatMessages table-id="lobby" />
   <div class="q-container">
-    <div class="row justify-start wrap">
-      <div
-        v-for="table in rows"
-        :key="table.id"
-        class="game-card q-pa-md q-ma-md"
-      >
-        <div class="text-title text-center q-mb-lg">{{ table.name }}</div>
-        <div class="row justify-between q-my-lg">
-          <div class="game-text">
-            <div class="row full-height text-secondary">
-              {{ table.playersCount }} players online
-            </div>
-            <div class="row full-height">
-              <span>{{ table.players }}</span>
-              <q-space />
-              <q-space />
-              <span>{{ table.stakes }}</span>
-            </div>
-          </div>
-          <q-btn
-            @click="goToTable(table.id)"
-            label="join"
-            class="join-btn"
-            size="lg"
-          />
+    <div class="row justify-start wrap q-ma-md">
+      <TransitionGroup @enter="enterAnimation">
+        <div v-for="table in rows" :key="table.id">
+          <TableCard :table="table" />
         </div>
-      </div>
+      </TransitionGroup>
     </div>
   </div>
 </template>
@@ -40,7 +19,7 @@ import NavBar from "components/NavBar.vue"
 import ChatMessages from "components/ChatMessages.vue"
 import { useRouter } from "vue-router"
 import { computed } from "vue"
-import { pages } from "src/constants"
+import TableCard from "components/TableCard.vue"
 
 const pokerStore = usePokerStore()
 const router = useRouter()
@@ -57,30 +36,15 @@ const rows = computed(() =>
   }))
 )
 
-const goToTable = (id) => {
-  router.push({ name: pages.table, params: { id } })
+import { gsap } from "gsap"
+
+function enterAnimation(el, done) {
+  gsap.fromTo(
+    el,
+    { opacity: 0, y: -30 },
+    { opacity: 1, y: 0, duration: 0.5, onComplete: done }
+  )
 }
 </script>
 
-<style scoped>
-.text-title {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 40px;
-  line-height: 52px;
-}
-
-.game-card {
-  width: 413px;
-  /* Box Shadows / Dark */
-  box-shadow: 0px 0px 22px 5px rgba(0, 0, 0, 0.5);
-}
-
-.game-text {
-  font-family: "Lato";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 18px;
-}
-</style>
+<style scoped></style>

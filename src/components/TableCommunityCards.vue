@@ -29,18 +29,6 @@ const cards = computed(() => pokerStore.cards)
 </script>
 
 <style scoped lang="scss">
-//:root {
-//  --card-width: 7.625rem; /* 122px equivalent if 1rem = 16px */
-//  --card-height: 11rem; /* 176px equivalent if 1rem = 16px */
-//}
-//
-//@media (max-width: 600px) {
-//  :root {
-//    --card-width: 5rem; /* Smaller width for mobile screens */
-//    --card-height: 7rem; /* Smaller height for mobile screens */
-//  }
-//}
-
 .card-row {
   display: flex;
   justify-content: flex-start; /* Center cards horizontally */
@@ -51,9 +39,4 @@ const cards = computed(() => pokerStore.cards)
   flex-wrap: nowrap; /* Wrap cards on smaller screens */
   gap: 0.5rem; /* Space between cards */
 }
-
-//.card-row .q-img {
-//  width: var(--card-width);
-//  height: var(--card-height);
-//}
 </style>
